@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ProHelp AI — Command Center</title>
+<style>
+  :root {
+    --bg: #0d0f14; --card: #161920; --border: #1e2330;
+    --accent: #6c63ff; --accent2: #00d4aa; --warn: #f59e0b; --danger: #ef4444;
+    --text: #e2e8f0; --muted: #64748b; --green: #10b981;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: 'Inter', system-ui, sans-serif; min-height: 100vh; }
+  .header { background: var(--card); border-bottom: 1px solid var(--border); padding: 16px 32px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; }
+  .logo { display: flex; align-items: center; gap: 10px; font-size: 1.2rem; font-weight: 700; }
+  .logo-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--accent); animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
+  .header-right { display: flex; align-items: center; gap: 16px; font-size: .85rem; color: var(--muted); }
+  .status-badge { padding: 4px 12px; border-radius: 20px; font-size: .75rem; font-weight: 600; }
+  .status-online { background: rgba(16,185,129,.15); color: #10b981; border: 1px solid rgba(16,185,129,.3); }
+  .container { max-width: 1400px; margin: 0 auto; padding: 32px; }
+  .stats-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 32px; }
+  .stat-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 20px; }
+  .stat-label { font-size: .75rem; color: var(--muted); text-transform: uppercase; letter-spacing: .5px; margin-bottom: 8px; }
+  .stat-value { font-size: 2rem; font-weight: 700; }
+  .stat-sub { font-size: .8rem; color: var(--muted); margin-top: 4px; }
+  .c-purple { color: var(--accent); } .c-green { color: var(--green); } .c-amber { color: var(--warn); } .c-blue { color: #60a5fa; }
+  .main-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 24px; }
+  @media(max-width:900px){ .main-grid { grid-template-columns: 1fr; } }
+  .panel { background: var(--card); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+  .panel-header { padding: 16px 20px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+  .panel-title { font-size: .9rem; font-weight: 600; }
+  .panel-body { padding: 0; max-height: 360px; overflow-y: auto; }
+  .item { padding: 14px 20px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
+  .item:last-child { border-bottom: none; }
+  .item-left { flex: 1; }
+  .item-title { font-size: .88rem; font-weight: 500; margin-bottom: 3px; }
+  .item-sub { font-size: .75rem; color: var(--muted); }
+  .item-right { text-align: right; flex-shrink: 0; }
+  .badge { display: inline-flex; align-items: center; padding: 3px 9px; border-radius: 10px; font-size: .7rem; font-weight: 600; white-space: nowrap; }
+  .badge-pending { background: rgba(245,158,11,.15); color: var(--warn); }
+  .badge-active { background: rgba(16,185,129,.15); color: var(--green); }
+  .badge-completed { background: rgba(96,165,250,.15); color: #60a5fa; }
+  .badge-failed { background: rgba(239,68,68,.15); color: var(--danger); }
+  .badge-hitl { background: rgba(108,99,255,.15); color: var(--accent); }
+  .badge-running { background: rgba(0,212,170,.15); color: var(--accent2); animation: pulse 1.5s infinite; }
+  .hitl-item { padding: 16px 20px; border-bottom: 1px solid var(--border); }
+  .hitl-type { font-size: .7rem; font-weight: 700; text-transform: uppercase; color: var(--accent); margin-bottom: 6px; }
+  .hitl-title { font-size: .88rem; font-weight: 500; margin-bottom: 8px; }
+  .hitl-preview { font-size: .78rem; color: var(--muted); margin-bottom: 12px; background: rgba(0,0,0,.3); padding: 8px; border-radius: 6px; }
+  .hitl-actions { display: flex; gap: 8px; }
+  .btn { padding: 7px 16px; border-radius: 8px; font-size: .8rem; font-weight: 600; cursor: pointer; border: none; }
+  .btn-approve { background: #10b981; color: #fff; }
+  .btn-reject { background: var(--border); color: var(--muted); }
+  .report-item { padding: 14px 20px; border-bottom: 1px solid var(--border); }
+  .report-meta { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+  .report-agent { font-size: .72rem; font-weight: 700; color: var(--accent2); text-transform: uppercase; }
+  .report-time { font-size: .72rem; color: var(--muted); }
+  .report-title { font-size: .85rem; font-weight: 600; margin-bottom: 4px; }
+  .report-content { font-size: .78rem; color: var(--muted); line-height: 1.5; }
+  .service-row { display: flex; align-items: center; justify-content: space-between; padding: 12px 20px; border-bottom: 1px solid var(--border); }
+  .service-name { font-size: .85rem; }
+  .service-url { font-size: .73rem; color: var(--muted); }
+  .dot { width: 8px; height: 8px; border-radius: 50%; }
+  .dot-green { background: #10b981; box-shadow: 0 0 6px #10b981; }
+  .api-link { display: inline-flex; align-items: center; gap: 6px; font-size: .75rem; color: var(--accent); text-decoration: none; padding: 4px 10px; border: 1px solid rgba(108,99,255,.3); border-radius: 6px; }
+  .model-chip { padding: 6px 14px; background: rgba(108,99,255,.1); border: 1px solid rgba(108,99,255,.2); border-radius: 20px; font-size: .75rem; color: var(--accent); }
+  .models-row { display: flex; flex-wrap: wrap; gap: 10px; padding: 16px 20px; }
+  .toast { position: fixed; bottom: 24px; right: 24px; background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 12px 18px; font-size: .85rem; z-index: 1000; opacity: 0; transition: all .3s; }
+  .toast.show { opacity: 1; }
+  .empty { padding: 32px 20px; text-align: center; color: var(--muted); font-size: .85rem; }
+  .refresh-btn { padding: 6px 12px; background: transparent; border: 1px solid var(--border); border-radius: 8px; color: var(--muted); font-size: .75rem; cursor: pointer; }
+</style>
+</head>
+<body>
+<div class="header">
+  <div class="logo"><div class="logo-dot"></div><span>ProHelp AI</span><span style="color:var(--muted);font-size:.8rem;font-weight:400"> — Command Center</span></div>
+  <div class="header-right">
+    <span id="last-updated">Loading...</span>
+    <span class="status-badge status-online" id="api-status">● Connecting...</span>
+    <a href="http://49.12.234.219:8000/docs" target="_blank" class="api-link">API Docs ↗</a>
+    <a href="http://49.12.234.219:5678" target="_blank" class="api-link">n8n ↗</a>
+    <a href="http://49.12.234.219:3000" target="_blank" class="api-link">Chat ↗</a>
+  </div>
+</div>
+<div class="container">
+  <div class="stats-row">
+    <div class="stat-card"><div class="stat-label">Active Projects</div><div class="stat-value c-purple" id="stat-projects">—</div><div class="stat-sub">Workspaces</div></div>
+    <div class="stat-card"><div class="stat-label">Tasks Today</div><div class="stat-value c-green" id="stat-tasks">—</div><div class="stat-sub">Done / Total</div></div>
+    <div class="stat-card"><div class="stat-label">Pending Approval</div><div class="stat-value c-amber" id="stat-hitl">—</div><div class="stat-sub">HITL queue</div></div>
+    <div class="stat-card"><div class="stat-label">Active Agents</div><div class="stat-value c-blue" id="stat-agents">—</div><div class="stat-sub">Across projects</div></div>
+    <div class="stat-card"><div class="stat-label">Reports</div><div class="stat-value" id="stat-reports">—</div><div class="stat-sub">Submitted</div></div>
+  </div>
+  <div class="main-grid">
+    <div class="panel">
+      <div class="panel-header"><span class="panel-title">🗂 Projects</span><button class="refresh-btn" onclick="loadAll()">&#8635; Refresh</button></div>
+      <div class="panel-body" id="projects-list"><div class="empty">Loading...</div></div>
+    </div>
+    <div class="panel">
+      <div class="panel-header"><span class="panel-title">⚡ Approval Queue <span id="hitl-count" style="color:var(--warn)"></span></span></div>
+      <div class="panel-body" id="hitl-list"><div class="empty">No pending approvals</div></div>
+    </div>
+    <div class="panel">
+      <div class="panel-header"><span class="panel-title">✅ Recent Tasks</span></div>
+      <div class="panel-body" id="tasks-list"><div class="empty">Loading tasks...</div></div>
+    </div>
+    <div class="panel">
+      <div class="panel-header"><span class="panel-title">📋 Agent Reports</span></div>
+      <div class="panel-body" id="reports-list"><div class="empty">No reports yet</div></div>
+    </div>
+  </div>
+  <div class="main-grid">
+    <div class="panel">
+      <div class="panel-header"><span class="panel-title">🖥 Infrastructure</span></div>
+      <div class="service-row"><div><div class="service-name">Orchestrator API</div><div class="service-url">49.12.234.219:8000</div></div><div class="dot dot-green"></div></div>
+      <div class="service-row"><div><div class="service-name">Chat Interface (Open WebUI)</div><div class="service-url">49.12.234.219:3000</div></div><div class="dot dot-green"></div></div>
+      <div class="service-row"><div><div class="service-name">Workflow Engine (n8n)</div><div class="service-url">49.12.234.219:5678</div></div><div class="dot dot-green"></div></div>
+      <div class="service-row"><div><div class="service-name">LLM Gateway (LiteLLM)</div><div class="service-url">49.12.234.219:4000</div></div><div class="dot dot-green"></div></div>
+      <div class="service-row"><div><div class="service-name">Vector Memory (Qdrant)</div><div class="service-url">49.12.234.219:6333</div></div><div class="dot dot-green"></div></div>
+      <div class="service-row"><div><div class="service-name">Web Search (SearXNG)</div><div class="service-url">49.12.234.219:8888</div></div><div class="dot dot-green"></div></div>
+    </div>
+    <div class="panel">
+      <div class="panel-header"><span class="panel-title">🧠 AI Models + Functions</span></div>
+      <div class="models-row">
+        <div class="model-chip">🔥 kimi-k2</div><div class="model-chip">⚡ deepseek-pro</div>
+        <div class="model-chip">💨 deepseek-flash</div><div class="model-chip">🌐 qwen-multilingual</div>
+        <div class="model-chip">🆓 free-gpt-oss</div><div class="model-chip">🆓 free-nemotron</div>
+      </div>
+      <div style="padding:0 20px 16px;margin-top:8px">
+        <div style="font-size:.75rem;color:var(--muted);margin-bottom:10px">Active Functions:</div>
+        <div style="display:flex;flex-wrap:wrap;gap:6px">
+          <span class="badge badge-active">✓ Chat</span><span class="badge badge-active">✓ Projects</span>
+          <span class="badge badge-active">✓ Agents</span><span class="badge badge-active">✓ Tasks</span>
+          <span class="badge badge-active">✓ Memory</span><span class="badge badge-active">✓ HITL</span>
+          <span class="badge badge-active">✓ Email AI</span><span class="badge badge-active">✓ Research</span>
+          <span class="badge badge-active">✓ Reports</span><span class="badge badge-pending">⏳ n8n Flows</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+<script>
+const API='http://49.12.234.219:8000';
+let allProjects=[];
+function showToast(msg,color){const t=document.getElementById('toast');t.textContent=msg;t.style.borderColor=color||'var(--accent)';t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3000);}
+function ago(ts){const d=new Date(ts),now=new Date(),s=Math.floor((now-d)/1000);if(s<60)return s+'s ago';if(s<3600)return Math.floor(s/60)+'m ago';if(s<86400)return Math.floor(s/3600)+'h ago';return d.toLocaleDateString();}
+function statusBadge(s){const map={pending:'badge-pending',in_progress:'badge-running',completed:'badge-completed',failed:'badge-failed',awaiting_user_action:'badge-hitl',active:'badge-active',skipped:'badge-completed'};return`<span class="badge ${map[s]||'badge-pending'}">${(s||'').replace(/_/g,' ')}</span>`;}
+async function apiFetch(path){const r=await fetch(API+path,{headers:{'Accept':'application/json'}});if(!r.ok)throw new Error(r.status);return r.json();}
+async function loadProjects(){try{const data=await apiFetch('/projects');allProjects=data.projects||[];const el=document.getElementById('projects-list');document.getElementById('stat-projects').textContent=allProjects.length;if(!allProjects.length){el.innerHTML='<div class="empty">No projects yet. Create via API.</div>';return;}el.innerHTML=allProjects.map(p=>`<div class="item"><div class="item-left"><div class="item-title">${p.name}</div><div class="item-sub">${p.description||''}\u00b7 ${p.agent_count||0} agents \u00b7 ${p.task_count||0} tasks</div></div><div class="item-right">${statusBadge(p.status)}<div class="item-sub">${ago(p.created_at)}</div></div></div>`).join('');}catch(e){document.getElementById('projects-list').innerHTML='<div class="empty">⚠️ API unreachable — check server</div>';}}
+async function loadTasks(){try{const data=await apiFetch('/tasks');const tasks=data.tasks||[];const el=document.getElementById('tasks-list');const completed=tasks.filter(t=>t.status==='completed').length;document.getElementById('stat-tasks').textContent=completed+'/'+tasks.length;document.getElementById('stat-hitl').textContent=tasks.filter(t=>t.status==='awaiting_user_action').length;if(!tasks.length){el.innerHTML='<div class="empty">No tasks yet</div>';return;}el.innerHTML=tasks.slice(0,15).map(t=>`<div class="item"><div class="item-left"><div class="item-title">${t.title}</div><div class="item-sub">${t.agent_name?'\ud83e\udd16 '+t.agent_name+' \u00b7 ':''}${ago(t.created_at)}</div></div><div class="item-right">${statusBadge(t.status)}</div></div>`).join('');}catch(e){}}
+async function loadHITL(){try{const data=await apiFetch('/tasks?status=awaiting_user_action');const tasks=data.tasks||[];const el=document.getElementById('hitl-list');const count=document.getElementById('hitl-count');if(!tasks.length){el.innerHTML='<div class="empty">✓ No pending approvals</div>';count.textContent='';return;}count.textContent='('+tasks.length+')';el.innerHTML=tasks.map(t=>`<div class="hitl-item"><div class="hitl-type">${t.executor==='human'?'\ud83d\udc64 Human Review':'\ud83e\udd16 AI Draft'} \u00b7 ${t.trigger_type||'manual'}</div><div class="hitl-title">${t.title}</div><div class="hitl-preview">${(t.why_human||t.action||'Awaiting review...').slice(0,150)}</div><div class="hitl-actions"><button class="btn btn-approve" onclick="approveTask('${t.id}',this)">✓ Approve</button><button class="btn btn-reject" onclick="rejectTask(this)">✗ Reject</button></div></div>`).join('');}catch(e){}}
+async function loadReports(){try{let all=[];for(const p of allProjects.slice(0,5)){try{const d=await apiFetch('/reports/'+p.id);all=all.concat((d.reports||[]).map(r=>({...r,pname:p.name})));}catch(e){}}document.getElementById('stat-reports').textContent=all.length;const el=document.getElementById('reports-list');if(!all.length){el.innerHTML='<div class="empty">Agents will post reports here</div>';return;}all.sort((a,b)=>new Date(b.created_at)-new Date(a.created_at));el.innerHTML=all.slice(0,10).map(r=>`<div class="report-item"><div class="report-meta"><span class="report-agent">${r.agent_name||r.pname}</span><span class="report-time">${ago(r.created_at)}</span><span class="badge badge-active" style="font-size:.65rem">${r.report_type}</span></div><div class="report-title">${r.title}</div><div class="report-content">${(r.content||'').slice(0,200)}</div></div>`).join('');}catch(e){}}
+async function loadAgents(){try{let total=0;for(const p of allProjects.slice(0,5)){const d=await apiFetch('/agents/'+p.id);total+=(d.agents||[]).length;}document.getElementById('stat-agents').textContent=total;}catch(e){}}
+async function approveTask(id,btn){btn.disabled=true;btn.textContent='...';showToast('\u2713 Approved','var(--green)');await loadAll();}
+async function rejectTask(btn){btn.disabled=true;btn.textContent='...';showToast('Rejected');await loadAll();}
+async function checkHealth(){try{const h=await apiFetch('/health');const badge=document.getElementById('api-status');badge.textContent=h.status==='healthy'?'\u25cf Online':'\u25cf Degraded';badge.className='status-badge '+(h.status==='healthy'?'status-online':'');}catch(e){document.getElementById('api-status').textContent='\u25cf Offline';document.getElementById('api-status').style.color='var(--danger)';}}
+async function loadAll(){document.getElementById('last-updated').textContent='Refreshing...';await checkHealth();await loadProjects();await Promise.all([loadTasks(),loadReports()]);await Promise.all([loadAgents(),loadHITL()]);document.getElementById('last-updated').textContent='Updated '+new Date().toLocaleTimeString();}
+loadAll();setInterval(loadAll,30000);
+</script>
+</body>
+</html>
