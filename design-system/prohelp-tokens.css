@@ -1,1 +1,605 @@
-TOKENS_PLACEHOLDER
+/**
+ * ProHelp Design System — Tokens v2.0
+ * Modern · Minimalist · Intuitive
+ *
+ * Repo:    ArturHmet/analog-ai-dashboard
+ * Path:    design-system/prohelp-tokens.css
+ * Updated: 2026-05-21 by Brand & Visual Designer (SureThing)
+ *
+ * Import:
+ *   @import url('./design-system/prohelp-tokens.css');
+ *   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap');
+ *
+ * Usage:
+ *   background: var(--bg);
+ *   color: var(--text-primary);
+ *   border: 1px solid var(--border);
+ */
+
+/* ─────────────────────────────────────────────
+   TYPOGRAPHY IMPORT
+   ───────────────────────────────────────────── */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+:root {
+
+  /* ─────────────────────────────────────────
+     BRAND COLORS
+     ───────────────────────────────────────── */
+
+  /* Gold — primary accent. Use sparingly: CTAs, stars, key highlights only */
+  --gold:              #F59E0B;
+  --gold-hover:        #FBBF24;   /* Lighter on hover — more contrast */
+  --gold-active:       #D97706;   /* Pressed state */
+  --gold-muted:        rgba(245, 158, 11, 0.10);  /* Soft badge bg */
+  --gold-border:       rgba(245, 158, 11, 0.25);  /* Bordered accents */
+  --gold-glow:         0 0 0 3px rgba(245, 158, 11, 0.20);  /* Focus ring */
+  --gold-gradient:     linear-gradient(135deg, #FBBF24 0%, #F59E0B 100%);
+
+  /* ─────────────────────────────────────────
+     BACKGROUNDS — Pure Black variant (default)
+     Deep, clean, premium. No grey muddiness.
+     ───────────────────────────────────────── */
+
+  --bg:                #0A0A0A;   /* Page root — pure black */
+  --bg-surface:        #0F0F0F;   /* Subtle elevation above root */
+  --bg-card:           #141414;   /* Cards, nav */
+  --bg-elevated:       #1C1C1C;   /* Modals, dropdowns, popovers */
+  --bg-overlay:        rgba(0, 0, 0, 0.72);  /* Scrim behind modals */
+  --bg-hover:          rgba(255, 255, 255, 0.035);  /* Hover on dark bg */
+  --bg-active:         rgba(255, 255, 255, 0.06);   /* Active/selected */
+
+  /* ─────────────────────────────────────────
+     BACKGROUNDS — Deep Navy variant
+     Apply [data-bg="navy"] on <html> to switch
+     ───────────────────────────────────────── */
+
+  --navy:              #0D0F17;
+  --navy-surface:      #12141F;
+  --navy-card:         #181B28;
+  --navy-elevated:     #20243A;
+
+  /* ─────────────────────────────────────────
+     BORDERS — Hairline, not structural
+     1px borders only. No thick dividers.
+     ───────────────────────────────────────── */
+
+  --border:            rgba(255, 255, 255, 0.08);   /* Default card border */
+  --border-strong:     rgba(255, 255, 255, 0.14);   /* Focused / hover */
+  --border-gold:       rgba(245, 158, 11, 0.30);    /* Gold-accented border */
+  --border-error:      rgba(239, 68, 68, 0.40);
+  --border-success:    rgba(16, 185, 129, 0.35);
+
+  /* ─────────────────────────────────────────
+     TEXT
+     ───────────────────────────────────────── */
+
+  --text-primary:      #F0F0F0;   /* Headings, primary body */
+  --text-secondary:    #8A8A8A;   /* Labels, meta, muted text */
+  --text-tertiary:     #555555;   /* Placeholders, disabled */
+  --text-inverse:      #0A0A0A;   /* Text on gold/white bg */
+  --text-gold:         #F59E0B;   /* Accent text */
+  --text-error:        #F87171;
+  --text-success:      #34D399;
+  --text-link:         #F59E0B;   /* Links use gold */
+
+  /* ─────────────────────────────────────────
+     SEMANTIC COLORS
+     ───────────────────────────────────────── */
+
+  --color-error:       #EF4444;
+  --color-error-muted: rgba(239, 68, 68, 0.10);
+  --color-success:     #10B981;
+  --color-success-muted: rgba(16, 185, 129, 0.10);
+  --color-warning:     #F59E0B;
+  --color-info:        #3B82F6;
+  --color-info-muted:  rgba(59, 130, 246, 0.10);
+
+  /* Online/verified status dot */
+  --status-online:     #22C55E;
+  --status-busy:       #F59E0B;
+  --status-offline:    #555555;
+
+  /* ─────────────────────────────────────────
+     TYPOGRAPHY
+     Minimum 3 weights: 400 (regular), 600 (semibold), 800 (extrabold)
+     ───────────────────────────────────────── */
+
+  --font-sans:   'Inter', system-ui, -apple-system, sans-serif;
+  --font-mono:   'JetBrains Mono', 'Fira Code', ui-monospace, monospace;
+
+  /* Scale — tight and intentional */
+  --text-2xs:  0.6875rem;  /* 11px — badges, timestamps */
+  --text-xs:   0.75rem;    /* 12px — captions, labels */
+  --text-sm:   0.8125rem;  /* 13px — secondary body */
+  --text-base: 0.9375rem;  /* 15px — primary body */
+  --text-md:   1rem;       /* 16px — slightly larger body */
+  --text-lg:   1.125rem;   /* 18px — lead, intro text */
+  --text-xl:   1.375rem;   /* 22px — card headings */
+  --text-2xl:  1.75rem;    /* 28px — section titles */
+  --text-3xl:  2.25rem;    /* 36px — page titles */
+  --text-hero: clamp(2.75rem, 5.5vw, 4.5rem); /* H1 — responsive */
+
+  /* Weights */
+  --font-regular:    400;
+  --font-medium:     500;
+  --font-semibold:   600;
+  --font-bold:       700;
+  --font-extrabold:  800;
+
+  /* Tracking (letter-spacing) */
+  --tracking-tightest: -2px;    /* Hero H1 only */
+  --tracking-tight:    -1px;    /* H2, H3 */
+  --tracking-snug:     -0.4px;  /* Subheadings */
+  --tracking-normal:   0;
+  --tracking-wide:     0.4px;   /* Labels, caps */
+  --tracking-widest:   1.5px;   /* UPPERCASE badges */
+
+  /* Line heights */
+  --leading-none:    1;
+  --leading-tight:   1.15;
+  --leading-snug:    1.35;
+  --leading-normal:  1.6;
+  --leading-relaxed: 1.75;
+
+  /* ─────────────────────────────────────────
+     SPACING — Generous. Whitespace-first.
+     ───────────────────────────────────────── */
+
+  --sp-1:   0.25rem;    /*  4px */
+  --sp-2:   0.5rem;     /*  8px */
+  --sp-3:   0.75rem;    /* 12px */
+  --sp-4:   1rem;       /* 16px */
+  --sp-5:   1.25rem;    /* 20px */
+  --sp-6:   1.5rem;     /* 24px */
+  --sp-8:   2rem;       /* 32px */
+  --sp-10:  2.5rem;     /* 40px */
+  --sp-12:  3rem;       /* 48px */
+  --sp-16:  4rem;       /* 64px */
+  --sp-20:  5rem;       /* 80px */
+  --sp-24:  6rem;       /* 96px */
+  --sp-32:  8rem;       /* 128px */
+
+  /* Section padding — more air */
+  --section-y:  clamp(5rem, 8vw, 8rem);
+  --section-x:  clamp(1.5rem, 6vw, 7rem);
+
+  /* ─────────────────────────────────────────
+     BORDER RADIUS — Minimal, clean
+     No pill-everything. Reserved shapes.
+     ───────────────────────────────────────── */
+
+  --radius-xs:    3px;      /* Tags, tiny chips */
+  --radius-sm:    5px;      /* Inline code, small badges */
+  --radius-md:    8px;      /* Buttons (standard) */
+  --radius-lg:    10px;     /* Input fields */
+  --radius-xl:    14px;     /* Cards */
+  --radius-2xl:   18px;     /* Large cards, modals */
+  --radius-3xl:   24px;     /* CTA banners */
+  --radius-full:  9999px;   /* Pills, avatars, toggles only */
+
+  /* ─────────────────────────────────────────
+     SHADOWS — Subtle, depth-only
+     No colored glows on cards. Gold glow = buttons/focus only.
+     ───────────────────────────────────────── */
+
+  /* Structural depth (neutral) */
+  --shadow-xs:     0 1px 3px rgba(0, 0, 0, 0.30);
+  --shadow-sm:     0 2px 8px rgba(0, 0, 0, 0.35);
+  --shadow-md:     0 4px 16px rgba(0, 0, 0, 0.40);
+  --shadow-lg:     0 8px 32px rgba(0, 0, 0, 0.50);
+  --shadow-xl:     0 16px 48px rgba(0, 0, 0, 0.60);
+
+  /* Gold — reserved for primary CTA button only */
+  --shadow-gold-btn: 0 4px 20px rgba(245, 158, 11, 0.30);
+
+  /* Focus rings */
+  --ring-gold:     0 0 0 3px rgba(245, 158, 11, 0.22);
+  --ring-error:    0 0 0 3px rgba(239, 68, 68, 0.20);
+  --ring-neutral:  0 0 0 3px rgba(255, 255, 255, 0.08);
+
+  /* ─────────────────────────────────────────
+     TRANSITIONS
+     ───────────────────────────────────────── */
+
+  --ease-default:  cubic-bezier(0.16, 1, 0.3, 1);  /* Snappy */
+  --ease-in:       cubic-bezier(0.4, 0, 1, 1);
+  --ease-out:      cubic-bezier(0, 0, 0.2, 1);
+  --ease-spring:   cubic-bezier(0.34, 1.56, 0.64, 1);  /* Slight bounce */
+
+  --duration-fast:   120ms;
+  --duration-base:   180ms;
+  --duration-slow:   280ms;
+  --duration-enter:  220ms;
+  --duration-exit:   160ms;
+
+  --transition-colors: color var(--duration-base) var(--ease-out),
+                       background-color var(--duration-base) var(--ease-out),
+                       border-color var(--duration-base) var(--ease-out);
+
+  --transition-transform: transform var(--duration-base) var(--ease-default);
+
+  /* ─────────────────────────────────────────
+     Z-INDEX
+     ───────────────────────────────────────── */
+
+  --z-base:     0;
+  --z-raised:   10;
+  --z-dropdown: 50;
+  --z-sticky:   100;
+  --z-fixed:    150;
+  --z-modal:    200;
+  --z-toast:    300;
+  --z-max:      9999;
+
+  /* ─────────────────────────────────────────
+     COMPONENT TOKENS
+     Pre-composed values for common components.
+     Use these directly in component CSS.
+     ───────────────────────────────────────── */
+
+  /* --- Buttons ------------------------------------------- */
+  /* Primary — Gold. No gradient, flat fill. Glow on hover only. */
+  --btn-primary-bg:          var(--gold);
+  --btn-primary-bg-hover:    var(--gold-hover);
+  --btn-primary-bg-active:   var(--gold-active);
+  --btn-primary-text:        #000000;
+  --btn-primary-shadow:      none;                     /* Flat by default */
+  --btn-primary-shadow-hover:var(--shadow-gold-btn);   /* Glow on hover only */
+  --btn-primary-radius:      var(--radius-md);
+  --btn-primary-h:           40px;
+  --btn-primary-px:          1.375rem;
+  --btn-primary-font:        var(--font-semibold);
+  --btn-primary-size:        var(--text-sm);
+
+  /* Ghost — outlined, no fill */
+  --btn-ghost-bg:            transparent;
+  --btn-ghost-bg-hover:      var(--bg-hover);
+  --btn-ghost-border:        var(--border-strong);
+  --btn-ghost-border-hover:  var(--border-gold);
+  --btn-ghost-text:          var(--text-primary);
+  --btn-ghost-text-hover:    var(--gold);
+  --btn-ghost-radius:        var(--radius-md);
+
+  /* Danger */
+  --btn-danger-bg:           var(--color-error-muted);
+  --btn-danger-border:       var(--border-error);
+  --btn-danger-text:         var(--text-error);
+
+  /* --- Cards ---------------------------------------------- */
+  /* Whitespace-first. 1px border only. No filled bg overlay. */
+  --card-bg:                 var(--bg-card);
+  --card-border:             1px solid var(--border);
+  --card-border-hover:       1px solid var(--border-strong);
+  --card-radius:             var(--radius-xl);
+  --card-padding:            var(--sp-6);
+  --card-padding-sm:         var(--sp-4);
+  --card-shadow:             none;                     /* No shadow by default */
+  --card-shadow-hover:       var(--shadow-sm);         /* Subtle on hover */
+  --card-transition:         border-color var(--duration-base) var(--ease-out),
+                             box-shadow var(--duration-base) var(--ease-out);
+
+  /* --- Inputs --------------------------------------------- */
+  --input-bg:                var(--bg-surface);
+  --input-border:            1px solid var(--border);
+  --input-border-focus:      1px solid var(--border-gold);
+  --input-border-error:      1px solid var(--border-error);
+  --input-radius:            var(--radius-lg);
+  --input-h:                 44px;
+  --input-px:                var(--sp-4);
+  --input-text:              var(--text-primary);
+  --input-placeholder:       var(--text-tertiary);
+  --input-ring-focus:        var(--ring-gold);
+  --input-ring-error:        var(--ring-error);
+
+  /* --- Badges / Tags -------------------------------------- */
+  --badge-gold-bg:           var(--gold-muted);
+  --badge-gold-border:       var(--gold-border);
+  --badge-gold-text:         var(--gold);
+  --badge-success-bg:        var(--color-success-muted);
+  --badge-success-text:      var(--text-success);
+  --badge-error-bg:          var(--color-error-muted);
+  --badge-error-text:        var(--text-error);
+  --badge-neutral-bg:        var(--bg-elevated);
+  --badge-neutral-text:      var(--text-secondary);
+  --badge-radius:            var(--radius-full);
+  --badge-px:                var(--sp-3);
+  --badge-py:                var(--sp-1);
+  --badge-font:              var(--text-2xs);
+  --badge-weight:            var(--font-semibold);
+  --badge-tracking:          var(--tracking-wide);
+
+  /* --- Icons ---------------------------------------------- */
+  /* Stroke icons only. No fill icons. */
+  --icon-stroke:             1.5px;           /* Default stroke width */
+  --icon-stroke-heavy:       2px;             /* Emphasis */
+  --icon-size-sm:            16px;
+  --icon-size-md:            20px;
+  --icon-size-lg:            24px;
+  --icon-color:              var(--text-secondary);
+  --icon-color-active:       var(--text-primary);
+  --icon-color-gold:         var(--gold);
+
+  /* --- Navigation ----------------------------------------- */
+  --nav-h:                   60px;
+  --nav-bg:                  rgba(10, 10, 10, 0.92);
+  --nav-border:              1px solid var(--border);
+  --nav-blur:                saturate(180%) blur(16px);
+
+  /* --- Gold Accent Line (section decorator) --------------- */
+  --accent-line-w:           40px;
+  --accent-line-h:           2px;
+  --accent-line-color:       var(--gold);
+  --accent-line-radius:      var(--radius-full);
+
+  /* --- Avatar --------------------------------------------- */
+  --avatar-sm:               32px;
+  --avatar-md:               44px;
+  --avatar-lg:               56px;
+  --avatar-border:           1px solid var(--border);
+
+  /* --- Search bar ----------------------------------------- */
+  --search-bg:               var(--bg-card);
+  --search-border:           1px solid var(--border);
+  --search-border-focus:     1px solid var(--border-gold);
+  --search-radius:           var(--radius-xl);
+  --search-h:                52px;
+  --search-ring:             var(--ring-gold);
+}
+
+/* ─────────────────────────────────────────────
+   DEEP NAVY VARIANT
+   Apply data-bg="navy" on <html>
+   ───────────────────────────────────────────── */
+[data-bg="navy"] {
+  --bg:           var(--navy);
+  --bg-surface:   var(--navy-surface);
+  --bg-card:      var(--navy-card);
+  --bg-elevated:  var(--navy-elevated);
+  --nav-bg:       rgba(13, 15, 23, 0.92);
+}
+
+/* ─────────────────────────────────────────────
+   LIGHT MODE OVERRIDES
+   Apply data-theme="light" on <html>
+   ───────────────────────────────────────────── */
+[data-theme="light"] {
+  --bg:                #F8F8F8;
+  --bg-surface:        #FFFFFF;
+  --bg-card:           #FFFFFF;
+  --bg-elevated:       #F0F0F0;
+  --bg-hover:          rgba(0, 0, 0, 0.03);
+  --bg-active:         rgba(0, 0, 0, 0.06);
+
+  --border:            rgba(0, 0, 0, 0.09);
+  --border-strong:     rgba(0, 0, 0, 0.16);
+
+  --text-primary:      #111111;
+  --text-secondary:    #666666;
+  --text-tertiary:     #AAAAAA;
+  --text-inverse:      #FFFFFF;
+
+  --gold:              #D97706;   /* Darker on light for contrast */
+  --gold-hover:        #F59E0B;
+  --gold-muted:        rgba(217, 119, 6, 0.08);
+  --gold-border:       rgba(217, 119, 6, 0.25);
+
+  --nav-bg:            rgba(248, 248, 248, 0.92);
+  --shadow-sm:         0 2px 8px rgba(0, 0, 0, 0.08);
+  --shadow-md:         0 4px 16px rgba(0, 0, 0, 0.10);
+  --shadow-lg:         0 8px 32px rgba(0, 0, 0, 0.12);
+}
+
+/* ─────────────────────────────────────────────
+   BASE RESETS — Apply once in root stylesheet
+   ───────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: var(--font-sans);
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text-primary);
+  line-height: var(--leading-normal);
+}
+
+/* Focus visible — gold ring */
+:focus-visible {
+  outline: none;
+  box-shadow: var(--ring-gold);
+}
+
+/* ─────────────────────────────────────────────
+   UTILITY CLASSES — Ready-to-use components
+   ───────────────────────────────────────────── */
+
+/* Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-2);
+  height: var(--btn-primary-h);
+  padding: 0 var(--btn-primary-px);
+  font-family: var(--font-sans);
+  font-size: var(--btn-primary-size);
+  font-weight: var(--btn-primary-font);
+  border-radius: var(--btn-primary-radius);
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: var(--transition-colors), box-shadow var(--duration-base) var(--ease-out);
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.btn-primary {
+  background: var(--btn-primary-bg);
+  color: var(--btn-primary-text);
+  box-shadow: var(--btn-primary-shadow);
+}
+.btn-primary:hover {
+  background: var(--btn-primary-bg-hover);
+  box-shadow: var(--btn-primary-shadow-hover);
+}
+.btn-primary:active {
+  background: var(--btn-primary-bg-active);
+  box-shadow: none;
+}
+
+.btn-ghost {
+  background: var(--btn-ghost-bg);
+  color: var(--btn-ghost-text);
+  border: 1px solid var(--btn-ghost-border);
+  box-shadow: none;
+}
+.btn-ghost:hover {
+  background: var(--btn-ghost-bg-hover);
+  border-color: var(--btn-ghost-border-hover);
+  color: var(--btn-ghost-text-hover);
+}
+
+/* Cards */
+.card {
+  background: var(--card-bg);
+  border: var(--card-border);
+  border-radius: var(--card-radius);
+  padding: var(--card-padding);
+  transition: var(--card-transition);
+}
+.card:hover {
+  border: var(--card-border-hover);
+  box-shadow: var(--card-shadow-hover);
+}
+.card-sm { padding: var(--card-padding-sm); }
+
+/* Inputs */
+.input {
+  width: 100%;
+  height: var(--input-h);
+  padding: 0 var(--input-px);
+  background: var(--input-bg);
+  border: var(--input-border);
+  border-radius: var(--input-radius);
+  color: var(--input-text);
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  outline: none;
+  transition: var(--transition-colors), box-shadow var(--duration-base) var(--ease-out);
+}
+.input::placeholder {
+  color: var(--input-placeholder);
+}
+.input:focus {
+  border: var(--input-border-focus);
+  box-shadow: var(--input-ring-focus);
+}
+.input.error {
+  border: var(--input-border-error);
+  box-shadow: var(--input-ring-error);
+}
+
+/* Error message — below input */
+.field-error {
+  display: block;
+  color: var(--text-error);
+  font-size: var(--text-xs);
+  font-weight: var(--font-medium);
+  margin-top: var(--sp-2);
+  line-height: var(--leading-snug);
+}
+
+/* Badges */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-1);
+  padding: var(--badge-py) var(--badge-px);
+  border-radius: var(--badge-radius);
+  font-size: var(--badge-font);
+  font-weight: var(--badge-weight);
+  letter-spacing: var(--badge-tracking);
+  border: 1px solid transparent;
+  line-height: 1;
+}
+.badge-gold    { background: var(--badge-gold-bg);    border-color: var(--badge-gold-border);    color: var(--badge-gold-text); }
+.badge-success { background: var(--badge-success-bg); color: var(--badge-success-text); }
+.badge-error   { background: var(--badge-error-bg);   color: var(--badge-error-text); }
+.badge-neutral { background: var(--badge-neutral-bg); color: var(--badge-neutral-text); }
+
+/* Gold accent line */
+.accent-line {
+  display: block;
+  width: var(--accent-line-w);
+  height: var(--accent-line-h);
+  background: var(--accent-line-color);
+  border-radius: var(--accent-line-radius);
+  margin: var(--sp-3) auto 0;
+}
+
+/* Nav */
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: var(--z-sticky);
+  height: var(--nav-h);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--section-x);
+  background: var(--nav-bg);
+  backdrop-filter: var(--nav-blur);
+  -webkit-backdrop-filter: var(--nav-blur);
+  border-bottom: var(--nav-border);
+}
+
+/* Wordmark */
+.wordmark { font-size: 1.35rem; font-weight: var(--font-extrabold); letter-spacing: -0.5px; }
+.wordmark .accent { color: var(--gold); }
+.wordmark .base   { color: var(--text-primary); }
+
+/* Section wrapper */
+.section {
+  padding: var(--section-y) var(--section-x);
+}
+
+/* Section title */
+.section-header {
+  text-align: center;
+  margin-bottom: var(--sp-12);
+}
+.section-header h2 {
+  font-size: var(--text-2xl);
+  font-weight: var(--font-extrabold);
+  letter-spacing: var(--tracking-tight);
+  line-height: var(--leading-tight);
+  color: var(--text-primary);
+  margin: 0 0 var(--sp-3);
+}
+.section-header p {
+  font-size: var(--text-base);
+  color: var(--text-secondary);
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+/* Status dot */
+.status-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: var(--radius-full);
+  background: var(--status-offline);
+}
+.status-dot.online  { background: var(--status-online); }
+.status-dot.busy    { background: var(--status-busy); }
+.status-dot.offline { background: var(--status-offline); }
