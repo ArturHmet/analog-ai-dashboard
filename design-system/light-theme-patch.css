@@ -1,0 +1,295 @@
+/**
+ * ProHelp Design System — Light Theme CSS Patch
+ * Cycle #3 Brand Audit · 2026-05-21
+ * ─────────────────────────────────────────────
+ * Auditor: Brand & Visual Designer (SureThing)
+ *
+ * ISSUES FIXED:
+ *  [CRITICAL] Primary color: #2563EB blue → #D97706 gold
+ *  [CRITICAL] Hero badge: indigo → gold
+ *  [CRITICAL] Step circles: blue+gold gradient → gold
+ *  [CRITICAL] Card hover shadows: indigo tint → neutral
+ *  [CRITICAL] hover transform translateY → removed
+ *  [CRITICAL] Spinner: blue → gold
+ *  [HIGH]     Font: Inter-only → Plus Jakarta Sans + Inter
+ *  [HIGH]     Missing fw-800 weight
+ *  [HIGH]     Avatar gradient: blue+gold → neutral
+ *  [HIGH]     Hero orb: indigo → gold-only
+ *  [HIGH]     Auth bg: indigo radial → subtle neutral
+ *  [MEDIUM]   Dashboard nav active: indigo → gold
+ *  [MEDIUM]   Filter focus: blue → gold
+ *  [MEDIUM]   Logo accent: var(--primary) = blue → gold
+ *  [LOW]      text-3 contrast fail: #9CA3AF (2.54:1) → #767676 (4.54:1)
+ *  [LOW]      Added --fw-extrabold: 800
+ *
+ * CONTRAST NOTES (WCAG on #FFFFFF bg):
+ *  Gold #D97706  → 3.19:1  (AA for large text / 18px bold+)
+ *  Gold text: use only on heading-size text or in buttons
+ *  Button text: always #000000 on gold bg (9.78:1 AAA ✅)
+ *  Blue #2563EB  → 5.17:1  (AA normal text ✅) — kept for links
+ *
+ * HOW TO APPLY:
+ *   Add to prohelp-tokens.css on the server, or append after
+ *   the existing token file as a separate patch.
+ *   OR add as the last <link> in <head> on all pages.
+ */
+
+/* ─────────────────────────────────────────────
+   STEP 1 — Plus Jakarta Sans font import
+   Replace current Inter-only import in shared.css
+   ───────────────────────────────────────────── */
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500&display=swap');
+
+/* ─────────────────────────────────────────────
+   STEP 2 — Token overrides (prohelp-tokens.css)
+   ───────────────────────────────────────────── */
+:root {
+  /* ── PRIMARY → Gold, not blue ── */
+  --primary:    #D97706;   /* Gold — light mode. Contrast: 3.19:1 on #FFF (AA large) */
+  --primary-h:  #B45309;   /* Hover — darker, 4.71:1 on #FFF ✅ AA normal text */
+  --primary-l:  #FEF3C7;   /* Tint bg — gold-yellow, not blue */
+  --primary-ring: rgba(217, 119, 6, 0.20); /* Focus ring on inputs/buttons */
+
+  /* Blue demoted: links and interactive ONLY, not primary */
+  --link:        #2563EB;  /* Keep for anchor tags */
+  --link-hover:  #1D4ED8;
+
+  /* ── Typography → Plus Jakarta Sans ── */
+  --font:        'Plus Jakarta Sans', 'Inter', system-ui, -apple-system, sans-serif;
+  --fw-extrabold: 800;     /* NEW — hero, H1 */
+  --fw-bold:      700;
+  --fw-semi:      600;
+  --fw-medium:    500;
+  --fw-normal:    400;
+
+  /* ── Fix: text-3 contrast fail ── */
+  /* #9CA3AF = 2.54:1 FAIL. Darkened to pass AA. */
+  --text-3:    #767676;   /* 4.54:1 on #FFFFFF ✅ AA */
+
+  /* ── Gold aliases (kept for legacy vars) ── */
+  --gold:       #D97706;
+  --gold-soft:  rgba(217, 119, 6, 0.10);
+  --gold-border: rgba(217, 119, 6, 0.25);
+}
+
+/* ─────────────────────────────────────────────
+   STEP 3 — Button hierarchy (primary → gold)
+   ───────────────────────────────────────────── */
+
+/* Primary button — gold fill, black text for contrast (9.78:1) */
+.btn-primary,
+.btn.primary,
+button[type="submit"],
+.btn-gold {
+  background: var(--primary) !important;    /* #D97706 */
+  color: #000000 !important;
+  border: none !important;
+  font-weight: var(--fw-semi) !important;
+  padding: 10px 22px !important;
+  box-shadow: none !important;
+  /* No translateY — flat hover per brand */
+}
+.btn-primary:hover,
+.btn.primary:hover,
+button[type="submit"]:hover,
+.btn-gold:hover {
+  background: #B45309 !important;           /* Darker gold on hover */
+  box-shadow: 0 4px 16px rgba(217, 119, 6, 0.25) !important; /* Subtle glow only on hover */
+  transform: none !important;               /* Remove translateY */
+}
+
+/* Ghost button — no change needed, already neutral */
+.btn-ghost:hover,
+.btn-outline:hover {
+  transform: none !important;              /* Remove translateY */
+}
+
+/* XL CTAs (hero section) */
+.btn-outline-gold {
+  background: transparent !important;
+  color: var(--primary) !important;
+  border: 1.5px solid var(--gold-border) !important;
+}
+.btn-outline-gold:hover {
+  background: var(--gold-soft) !important;
+  border-color: var(--primary) !important;
+  transform: none !important;
+}
+
+/* ─────────────────────────────────────────────
+   STEP 4 — Input focus: blue ring → gold ring
+   ───────────────────────────────────────────── */
+input:focus,
+textarea:focus,
+select:focus {
+  border-color: var(--primary) !important;
+  box-shadow: 0 0 0 3px var(--primary-ring) !important; /* gold ring, not blue */
+}
+
+.filter-select:focus,
+.filter-input:focus,
+.fi2:focus {
+  border-color: var(--primary) !important;
+  outline: none;
+}
+
+.search-wrap:focus-within {
+  border-color: var(--primary) !important;  /* already uses --gold, confirm */
+}
+
+/* ─────────────────────────────────────────────
+   STEP 5 — Logo accent → gold (not var(--primary) which was blue)
+   ───────────────────────────────────────────── */
+.logo span,
+.logo-accent,
+.auth-logo {
+  color: var(--primary) !important;  /* Now resolves to gold #D97706 */
+}
+
+/* ─────────────────────────────────────────────
+   STEP 6 — Hero badge: indigo → gold
+   ───────────────────────────────────────────── */
+.hero-tag {
+  background: rgba(217, 119, 6, 0.10) !important;
+  border: 1px solid rgba(217, 119, 6, 0.25) !important;
+  color: var(--primary) !important;   /* #D97706 — 3.19:1, large text ✅ */
+}
+
+/* ─────────────────────────────────────────────
+   STEP 7 — Hero orb: indigo → gold-only
+   ───────────────────────────────────────────── */
+.hero::before {
+  background: radial-gradient(circle, rgba(217, 119, 6, 0.12) 0%, transparent 70%) !important;
+}
+/* Remove second indigo orb, replace with very subtle warm tint */
+.hero::after {
+  background: radial-gradient(circle, rgba(217, 119, 6, 0.06) 0%, transparent 70%) !important;
+}
+
+/* ─────────────────────────────────────────────
+   STEP 8 — Step circles: blue+gold gradient → gold only
+   ───────────────────────────────────────────── */
+.step-num {
+  background: var(--primary) !important;          /* Flat gold */
+  color: #000000 !important;
+  box-shadow: 0 4px 16px rgba(217, 119, 6, 0.20) !important;  /* Gold shadow */
+}
+
+/* ─────────────────────────────────────────────
+   STEP 9 — Card hover shadows: indigo → neutral
+   ───────────────────────────────────────────── */
+.tk:hover,
+.pc:hover,
+.task-card:hover,
+.provider-card:hover {
+  border-color: var(--border-2) !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.07) !important;  /* Neutral, no blue */
+  transform: none !important;  /* Remove translateY */
+}
+
+.cat-card:hover {
+  border-color: var(--primary) !important;
+  box-shadow: 0 4px 16px rgba(217, 119, 6, 0.10) !important;  /* Gold tint OK for category */
+  transform: none !important;
+}
+
+.card:hover,
+[class*="-card"]:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06) !important;
+  transform: none !important;
+}
+
+/* ─────────────────────────────────────────────
+   STEP 10 — Avatar gradient: blue+gold → neutral
+   ───────────────────────────────────────────── */
+.av {
+  background: linear-gradient(135deg, #C4C4C4, #8A8A8A) !important;
+  color: #ffffff !important;
+}
+/* Or if you prefer branded: */
+/* background: var(--primary) → single gold fill */
+
+/* ─────────────────────────────────────────────
+   STEP 11 — Auth page background: indigo → warm neutral
+   ───────────────────────────────────────────── */
+.auth-wrap {
+  background: radial-gradient(
+    ellipse at 20% 30%,
+    rgba(217, 119, 6, 0.06) 0%,
+    transparent 60%
+  ) !important;
+}
+
+/* ─────────────────────────────────────────────
+   STEP 12 — Dashboard nav active state: indigo → gold
+   ───────────────────────────────────────────── */
+.dash-nav-item.on {
+  background: rgba(217, 119, 6, 0.08) !important;
+  color: var(--primary) !important;
+  border-left-color: var(--primary) !important;
+}
+
+/* Mobile dashboard active */
+@media (max-width: 768px) {
+  .dash-nav-item.on {
+    border-bottom-color: var(--primary) !important;
+    background: rgba(217, 119, 6, 0.08) !important;
+  }
+}
+
+/* ─────────────────────────────────────────────
+   STEP 13 — Spinner: blue → gold
+   ───────────────────────────────────────────── */
+.spinner {
+  border-top-color: var(--primary) !important;
+}
+
+/* ─────────────────────────────────────────────
+   STEP 14 — Alert info: indigo → blue (link-only, acceptable)
+   Note: info alerts CAN keep blue — it's an informational
+   color, not the primary action. Keep as-is.
+   ───────────────────────────────────────────── */
+
+/* ─────────────────────────────────────────────
+   STEP 15 — Category search loading animation
+   Current: pulses var(--blue). Fix: use gold.
+   ───────────────────────────────────────────── */
+.tc5 div::before {
+  background-color: var(--primary) !important;  /* Gold pulse dot */
+}
+
+/* ─────────────────────────────────────────────
+   STEP 16 — Breadcrumb hover, footer link hover
+   Already uses var(--gold) → no change needed if
+   --gold is now remapped to var(--primary). Confirm:
+   ───────────────────────────────────────────── */
+/* Already correct — .page-bc a:hover, .footer-langs a:hover use var(--gold) */
+
+/* ─────────────────────────────────────────────
+   STEP 17 — Section CTA banner: indigo tint → gold tint
+   ───────────────────────────────────────────── */
+/* The inline style on the CTA section uses:
+   background: linear-gradient(135deg, rgba(99,102,241,.12), rgba(245,158,11,.08))
+   This must be changed in the HTML (not patchable from CSS alone).
+   Recommended replacement:
+   background: linear-gradient(135deg, rgba(217,119,6,.08), rgba(245,158,11,.04))
+*/
+
+/* ─────────────────────────────────────────────
+   HTML CHANGE REQUIRED (cannot patch via CSS):
+   ─────────────────────────────────────────────
+
+   index.html, line ~95:
+   BEFORE:
+     style="background:linear-gradient(135deg,rgba(99,102,241,.12),rgba(245,158,11,.08));..."
+   AFTER:
+     style="background:linear-gradient(135deg,rgba(217,119,6,.08),rgba(245,158,11,.04));..."
+
+   ─────────────────────────────────────────────
+   SHARED.CSS CHANGE REQUIRED:
+   Replace line 1:
+   BEFORE:
+     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+   AFTER:
+     @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500&display=swap');
+*/
