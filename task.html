@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Task Detail — ProHelp</title>
+<link rel="icon" type="image/png" href="/assets/prohelp-favicon.png">
+<link rel="apple-touch-icon" href="/assets/prohelp-favicon.png">
+<link rel="stylesheet" href="/shared.css"><!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-PROHELP001"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("js",new Date());gtag("config","G-PROHELP001");</script>
+</head>
+<body>
+<script>window._PG='';</script>
+<header class="site-header" id="sh"></header>
+
+<main class="con-sm" style="padding:32px 0 72px">
+  <div id="tc2" class="sp"><div class="spinner"></div></div>
+</main>
+<div id="fc2"></div>
+<script src="/shared.js"></script>
+<script>
+
+const TID=new URLSearchParams(location.search).get('id');
+if(!TID)location.href='/orders.html';
+async function loadTask(){
+  const el=document.getElementById('tc2');
+  try{
+    const orders=await API.get('/orders?limit=500');
+    const t=orders.find(o=>String(o.id)===String(TID));
+    if(!t){el.innerHTML='<div class="empty-state"><p>Task not found.</p></div>';return;}
+    document.title=t.title+' — ProHelp';
+    const u=Auth.get(),isProv=Auth.isP();
+    let h=`<div class="page-bc" style="margin-bottom:20px">
+      <a href="/">Home</a><span>/</span><a href="/orders.html">Tasks</a><span>/</span><span>${esc(t.title.slice(0,40))}${t.title.length>40?'...':''}</span></div>
+    <div class="card" style="margin-bottom:20px">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:16px;margin-bottom:20px">
+        <div style="flex:1;min-width:200px">
+          <div style="display:flex;gap:8px;margin-bottom:12px">
+            <span class="bdg bdg-blue">${catIcon(t.category)} ${catName(t.category)}</span>
+            <span class="bdg ${t.status==='open'?'bdg-gr':'bdg-muted'}">${t.status}</span>
+          </div>
+          <h1 style="font-size:1.6rem;font-weight:900;margin-bottom:10px;line-height:1.2">${esc(t.title)}</h1>
+          <div style="display:flex;gap:16px;color:var(--tx2);font-size:.875rem;flex-wrap:wrap">
+            <span>📍 ${esc(t.location||'Remote')}</span>
+            <span>🕐 ${timeAgo(t.created_at)}</span>
+            <span>👤 ${esc(t.client_name||'Client')}</span>
+          </div>
+        </div>
+        <div style="text-align:right;flex-shrink:0">
+          <div style="font-size:2.4rem;font-weight:900;color:var(--gold)">${fmtPrice(t.budget)}</div>
+          <div style="font-size:.8rem;color:var(--mu2)">Client budget</div>
+          <div style="margin-top:8px"><span class="bdg bdg-or">${t.applications||0} offers received</span></div>
+        </div>
+      </div>
+      ${t.description?`<div style="background:var(--c2);border-radius:12px;padding:20px;color:var(--tx2);line-height:1.75;font-size:.95rem">${esc(t.description)}</div>`:''}
+    </div>`;
+    if(isProv && t.status==='open'){
+      h+=`<div class="card" style="margin-bottom:20px;border-color:rgba(99,102,241,.3)">
+        <h3 style="font-size:1.1rem;font-weight:800;margin-bottom:6px">💼 Submit Your Offer</h3>
+        <p style="font-size:.875rem;color:var(--tx2);margin-bottom:20px">Stand out with a competitive price and a personal message</p>
+        <div class="frow">
+          <div class="fi"><label class="fl">Your price (€) *</label>
+            <input id="ap" class="fi2" type="number" min="1" placeholder="Enter your price">
+            <div class="fi-hint">Client budget: ${fmtPrice(t.budget)}</div></div>
+          <div class="fi"><label class="fl">Completion time</label>
+            <select id="atime" class="fi2">
+              <option value="">Not specified</option>
+              <option>Same day</option><option>1-2 days</option><option>3-5 days</option>
+              <option>1 week</option><option>2 weeks</option><option>Custom</option>
+            </select></div>
+        </div>
+        <div class="fi"><label class="fl">Message to client *</label>
+          <textarea id="am" class="fi2" rows="4" placeholder="Introduce yourself, describe your experience, and explain why you're the best fit for this task..."></textarea></div>
+        <button class="btn btn-gold btn-full" onclick="sendOffer(${t.id})">Send Offer →</button>
+      </div>`;
+    }
+    if(!u){
+      h+=`<div class="card" style="text-align:center;padding:36px;border-color:rgba(245,158,11,.2)">
+        <div style="font-size:2rem;margin-bottom:12px">🔒</div>
+        <h3 style="font-size:1.1rem;font-weight:800;margin-bottom:8px">Sign in to apply for this task</h3>
+        <p style="color:var(--tx2);font-size:.875rem;margin-bottom:20px">Create a free provider account and start earning today</p>
+        <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
+          <a href="/login.html"><button class="btn btn-ghost">Log in</button></a>
+          <a href="/register.html?role=provider"><button class="btn btn-gold">Join as Provider — Free</button></a>
+        </div></div>`;
+    }
+    if(u && !isProv){
+      h+=`<div class="alert alert-info"><span>ℹ</span><span>You're logged in as a client. <a href="/orders.html" style="color:var(--blue3)">Browse tasks</a> or <a href="/post-task.html" style="color:var(--blue3)">post your own</a>.</span></div>`;
+    }
+    el.innerHTML=h;
+  }catch(e){el.innerHTML='<div class="empty-state"><p style="color:var(--rd)">'+esc(e.message)+'</p></div>';}
+}
+async function sendOffer(oid){
+  const u=Auth.get();
+  const price=parseFloat(document.getElementById('ap').value);
+  const msg=document.getElementById('am').value.trim();
+  if(!price||price<=0){toast('Enter a valid price','err');return;}
+  if(!msg||msg.length<20){toast('Write a message (min 20 characters)','err');return;}
+  const btn=document.querySelector('[onclick*="sendOffer"]');
+  btn.disabled=true;btn.textContent='Sending...';
+  try{
+    await API.post('/orders/'+oid+'/apply',{provider_id:u.id,price,message:msg});
+    toast('Offer sent! The client will be in touch 🎉','ok');
+    btn.textContent='✓ Offer Sent';btn.className='btn btn-gr btn-full';
+  }catch(e){toast(esc(e.message),'err');btn.disabled=false;btn.textContent='Send Offer →';}
+}
+loadTask();
+
+</script>
+<script src="/chatbot.js"></script>
+
+
+</body></html>
