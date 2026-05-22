@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://prohelp.work/</loc><changefreq>daily</changefreq><priority>1.0</priority><lastmod>2026-05-22</lastmod></url>
+  <url><loc>https://prohelp.work/marketplace/</loc><changefreq>daily</changefreq><priority>0.9</priority><lastmod>2026-05-22</lastmod></url>
+  <url><loc>https://prohelp.work/register.html</loc><changefreq>monthly</changefreq><priority>0.8</priority><lastmod>2026-05-22</lastmod></url>
+  <url><loc>https://prohelp.work/login.html</loc><changefreq>monthly</changefreq><priority>0.6</priority><lastmod>2026-05-22</lastmod></url>
+  <url><loc>https://prohelp.work/providers.html</loc><changefreq>daily</changefreq><priority>0.9</priority><lastmod>2026-05-22</lastmod></url>
+  <url><loc>https://prohelp.work/orders.html</loc><changefreq>daily</changefreq><priority>0.8</priority><lastmod>2026-05-22</lastmod></url>
+  <url><loc>https://prohelp.work/post-task.html</loc><changefreq>weekly</changefreq><priority>0.7</priority><lastmod>2026-05-22</lastmod></url>
+  <url><loc>https://prohelp.work/task.html</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2026-05-22</lastmod></url>
+</urlset>
