@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Create Account — ProHelp</title>
+<link rel="icon" type="image/png" href="/assets/prohelp-favicon.png">
+<link rel="apple-touch-icon" href="/assets/prohelp-favicon.png">
+<link rel="stylesheet" href="/shared.css"><!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-PROHELP001"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("js",new Date());gtag("config","G-PROHELP001");</script>
+</head>
+<body>
+<script>window._PG='';</script>
+<header class="site-header" id="sh"></header>
+
+<div class="auth-wrap" style="padding:40px 20px">
+<div class="auth-card" style="max-width:520px">
+  <div class="auth-logo"><span class="logo-wordmark logo-wordmark--auth">ProHelp</span></div>
+  <h2 class="auth-title">Create your account</h2>
+  <p class="auth-sub">Free to join — no subscription needed</p>
+  <div class="step-indicator" id="step-indicator">
+  <div class="step-dot active" data-step="1"><span>1</span><small>Role</small></div>
+  <div class="step-line"></div>
+  <div class="step-dot" data-step="2"><span>2</span><small>Details</small></div>
+  <div class="step-line"></div>
+  <div class="step-dot" data-step="3"><span>3</span><small>Confirm</small></div>
+</div>
+<div id="step-panel-1" class="step-panel">
+  <div class="role-tabs">
+    <button class="role-tab" id="tab-c" onclick="setRole('client')">
+      <div class="role-tab-icon">🏠</div>
+  <button class="btn btn-gold btn-full" style="margin-top:20px" onclick="nextStep()">Continue →</button>
+</div>
+<div id="step-panel-2" class="step-panel" style="display:none">
+  <div class="role-tab-title">I Need Help</div>
+      <div class="role-tab-desc">Post tasks, hire professionals</div>
+    </button>
+    <button class="role-tab" id="tab-p" onclick="setRole('provider')">
+      <div class="role-tab-icon">🔧</div>
+      <div class="role-tab-title">I Offer Services</div>
+      <div class="role-tab-desc">Find jobs, earn money</div>
+    </button>
+  </div>
+  <div class="frow">
+    <div class="fi"><label class="fl">Full Name *</label><input id="rn2" class="fi2" placeholder="Your full name"></div>
+    <div class="fi"><label class="fl">Phone *</label><input id="rph2" class="fi2" placeholder="+356 ..."></div>
+  </div>
+  <div class="fi"><label class="fl">Email *</label><input id="re2" class="fi2" type="email" placeholder="your@email.com"></div>
+  <div class="fi"><label class="fl">Password *</label>
+    <input id="rp2" class="fi2" type="password" placeholder="At least 6 characters">
+    <div class="fi-hint">Min 6 characters, use a mix of letters and numbers</div>
+  </div>
+  <div id="prov-extra" style="display:none">
+    <div class="frow">
+      <div class="fi"><label class="fl">Your Category *</label><select id="rcat2" class="fi2"><option value="">Select your specialty</option></select></div>
+      <div class="fi"><label class="fl">Hourly Rate (€)</label><input id="rrate2" class="fi2" type="number" min="5" placeholder="e.g. 25"></div>
+    </div>
+    <div class="fi"><label class="fl">Years of Experience</label><input id="rexp2" class="fi2" type="number" min="0" placeholder="e.g. 3"></div>
+    <div class="fi"><label class="fl">About You</label>
+      <textarea id="rbio2" class="fi2" rows="3" placeholder="Describe your skills, experience, and what makes you stand out..."></textarea></div>
+  </div>
+  <div style="display:flex;gap:10px;margin-top:16px">
+    <button class="btn btn-outline" style="flex:1" onclick="prevStep()">← Back</button>
+    <button class="btn btn-gold" style="flex:2" onclick="nextStep()">Review →</button>
+  </div>
+</div>
+<div id="step-panel-3" class="step-panel" style="display:none">
+  <div id="review-summary" style="background:var(--gold-soft,rgba(217,119,6,.07));border:1px solid var(--gold-border,rgba(217,119,6,.2));border-radius:10px;padding:16px;margin-bottom:20px;font-size:0.9rem;line-height:1.8"></div>
+  <div style="display:flex;gap:10px">
+    <button class="btn btn-outline" style="flex:1" onclick="prevStep()">← Back</button>
+    <button id="rb2" class="btn btn-gold btn-full" style="flex:2" onclick="doRegister()">Create Account — Free →</button>
+  </div>
+</div>
+  <div class="divider">or</div>
+  <p style="text-align:center;font-size:.875rem;color:var(--tx2)">
+    Already have an account? <a href="/login.html" style="color:var(--gold);font-weight:600">Log in</a>
+  </p>
+</div></div>
+<div id="fc2"></div>
+<script src="/shared.js"></script>
+<script>
+
+CATS.forEach(c=>{document.getElementById('rcat2').innerHTML+=`<option value="${c.id}">${c.icon} ${c.name}</option>`;});
+const UP3=new URLSearchParams(location.search);
+let curRole=UP3.get('role')||'client';
+setRole(curRole);
+function setRole(role){
+  curRole=role;
+  document.getElementById('tab-c').classList.toggle('on',role==='client');
+  document.getElementById('tab-p').classList.toggle('on',role==='provider');
+  document.getElementById('prov-extra').style.display=role==='provider'?'block':'none';
+}
+if(Auth.get()){const u=Auth.get();location.href=u.role==='client'?'/dashboard-client.html':'/dashboard-provider.html';}
+async function doRegister(){
+  const name=document.getElementById('rn2').value.trim();
+  const phone=document.getElementById('rph2').value.trim();
+  const email=document.getElementById('re2').value.trim();
+  const pass=document.getElementById('rp2').value;
+  if(!name){toast('Enter your full name','err');return;}
+  if(!phone){toast('Enter your phone number','err');return;}
+  if(!email||!email.includes('@')){toast('Enter a valid email','err');return;}
+  if(!pass||pass.length<6){toast('Password must be at least 6 characters','err');return;}
+  if(curRole==='provider'&&!document.getElementById('rcat2').value){toast('Select your service category','err');return;}
+  const body={name,phone,email,password:pass,role:curRole};
+  if(curRole==='provider'){
+    body.category=document.getElementById('rcat2').value;
+    const rate=parseFloat(document.getElementById('rrate2').value);if(rate>0)body.hourly_rate=rate;
+    const exp=parseInt(document.getElementById('rexp2').value);if(exp>=0)body.experience=exp;
+    const bio=document.getElementById('rbio2').value.trim();if(bio)body.bio=bio;
+  }
+  const btn=document.getElementById('rb2');btn.disabled=true;btn.textContent='Creating account...';
+  try{
+    const r=await API.post('/register',body);
+    Auth.set({id:r.id,name:r.name,email:r.email,role:r.role},r.token);
+    toast('Welcome to ProHelp, '+r.name.split(' ')[0]+'! 🎉','ok');
+    const next=UP3.get('next');
+    setTimeout(()=>location.href=next||(r.role==='client'?'/dashboard-client.html':'/dashboard-provider.html'),1100);
+  }catch(e){toast(esc(e.message),'err');btn.disabled=false;btn.textContent='Create Account — Free →';}
+}
+
+</script>
+<script src="/chatbot.js">
+let _step=1;
+function showStep(n){
+  _step=n;
+  [1,2,3].forEach(i=>{
+    const p=document.getElementById('step-panel-'+i);
+    const d=document.querySelector('.step-dot[data-step="'+i+'"]');
+    if(p)p.style.display=(i===n)?'':'none';
+    if(d){d.classList.toggle('active',i===n);d.classList.toggle('done',i<n);}
+  });
+}
+function nextStep(){
+  if(_step===2){
+    const email=document.getElementById('re2');
+    const pass=document.getElementById('rp2');
+    const name=document.getElementById('rn2');
+    if(name&&!name.value.trim()){name.focus();name.style.borderColor='#ef4444';return;}
+    if(email&&!email.value.includes('@')){email.focus();email.style.borderColor='#ef4444';return;}
+    if(pass&&pass.value.length<6){pass.focus();pass.style.borderColor='#ef4444';return;}
+    // Populate review
+    const role=document.querySelector('.role-tab.active');
+    let s='<strong>Role:</strong> '+(role?role.querySelector('.role-tab-title').textContent.trim():'—')+'<br>';
+    const map=[['rn2','Name'],['re2','Email'],['rph2','Phone'],['rp2','Password']];
+    map.forEach(([id,lbl])=>{const el=document.getElementById(id);if(el&&el.value)s+='<strong>'+lbl+':</strong> '+(lbl==='Password'?'••••••••':el.value)+'<br>';});
+    const sum=document.getElementById('review-summary');if(sum)sum.innerHTML=s;
+  }
+  if(_step<3)showStep(_step+1);
+}
+function prevStep(){if(_step>1)showStep(_step-1);}
+</script>
+
+
+</body></html>
