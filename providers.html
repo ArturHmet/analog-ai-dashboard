@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Browse Providers — ProHelp</title>
+<link rel="icon" type="image/png" href="/assets/prohelp-favicon.png">
+<link rel="apple-touch-icon" href="/assets/prohelp-favicon.png">
+<link rel="stylesheet" href="/shared.css"><!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-PROHELP001"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("js",new Date());gtag("config","G-PROHELP001");</script>
+</head>
+<body>
+<script>window._PG='providers';</script>
+<header class="site-header" id="sh"></header>
+
+<div class="page-hdr">
+<div class="con">
+  <div class="page-bc"><a href="/">Home</a><span>/</span><span>Providers</span></div>
+  <h1 class="page-title">Service Providers</h1>
+  <p class="page-sub">Browse verified professionals — filter by category, rating, or price</p>
+</div></div>
+<main class="con" style="padding:28px 0 72px">
+  <div class="filters">
+    <select class="filter-select" id="pcat2" onchange="lp2()"><option value="">All Categories</option></select>
+    <span class="filters-count" id="pcount"></span>
+    <a href="/register.html?role=provider" style="margin-left:auto"><button class="btn btn-gold btn-sm">Join as Provider</button></a>
+  </div>
+  <div id="pgrid2" class="sp"><div class="spinner"></div></div>
+</main>
+<div id="fc2"></div>
+<script src="/shared.js"></script>
+<script>
+
+CATS.forEach(c=>{document.getElementById('pcat2').innerHTML+=`<option value="${c.id}">${c.icon} ${c.name}</option>`;});
+async function lp2(){
+  const g=document.getElementById('pgrid2');
+  g.innerHTML='<div class="sp"><div class="spinner"></div></div>';
+  const cat=document.getElementById('pcat2').value;
+  const p=new URLSearchParams({limit:100});if(cat)p.set('category',cat);
+  try{
+    const prov=await API.get('/providers?'+p);
+    document.getElementById('pcount').textContent=prov.length+' provider'+(prov.length===1?'':'s');
+    if(!prov.length){
+      g.innerHTML='<div class="empty-state"><div class="empty-icon">👤</div><p>No providers yet.<br><a href="/register.html?role=provider" style="color:var(--gold)">Be the first to join!</a></p></div>';
+      return;
+    }
+    let h='<div class="g3">';
+    prov.forEach(p=>{
+      h+=`<div class="pc"><div class="pc-head">
+        <div class="av av-md">${(p.name||'P')[0]}</div>
+        <div class="pc-info">
+          <div class="pc-name">${esc(p.name)} ${p.verified?'<span class="verified">✓</span>':''}</div>
+          <div class="pc-cat">${catIcon(p.category)} ${catName(p.category)}</div>
+        </div>
+        <div class="pc-rate">${p.hourly_rate?fmtPrice(p.hourly_rate)+'/h':'Ask'}</div>
+      </div>
+      ${p.bio?`<p class="pc-bio">${esc(p.bio)}</p>`:'<p class="pc-bio" style="color:var(--mu)">No bio yet.</p>'}
+      <div class="pc-stats">
+        <div class="pc-stat">${starsHtml(p.rating,'sm')} <span>${(p.rating||5).toFixed(1)}</span></div>
+        ${p.experience?`<div class="pc-stat">📅 <span>${p.experience}y exp</span></div>`:''}
+      </div>
+      <div class="pc-foot">
+        <span class="bdg bdg-gr">Available</span>
+        <a href="/orders.html"><button class="btn btn-ghost btn-sm">Browse Tasks</button></a>
+      </div></div>`;
+    });
+    g.innerHTML=h+'</div>';
+  }catch(e){g.innerHTML='<div class="empty-state"><p style="color:var(--rd)">'+esc(e.message)+'</p></div>';}
+}
+lp2();
+
+</script>
+<script src="/chatbot.js"></script>
+
+
+</body></html>
