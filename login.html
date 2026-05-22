@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Log In — ProHelp</title>
+<link rel="icon" type="image/png" href="/assets/prohelp-favicon.png">
+<link rel="apple-touch-icon" href="/assets/prohelp-favicon.png">
+<link rel="stylesheet" href="/shared.css"><!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-PROHELP001"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("js",new Date());gtag("config","G-PROHELP001");</script>
+</head>
+<body>
+<script>window._PG='';</script>
+<header class="site-header" id="sh"></header>
+
+<div class="auth-wrap">
+<div class="auth-card">
+  <div class="auth-logo"><span class="logo-wordmark logo-wordmark--auth">ProHelp</span></div>
+  <h2 class="auth-title">Welcome back</h2>
+  <p class="auth-sub">Log in to your account</p>
+  <div class="fi"><label class="fl">Email address</label>
+    <input id="le" class="fi2" type="email" placeholder="your@email.com" autofocus></div>
+  <div class="fi"><label class="fl">Password</label>
+    <input id="lp2" class="fi2" type="password" placeholder="Your password" onkeydown="if(event.key==='Enter')doLogin()"></div>
+  <button id="lb2" class="btn btn-gold btn-full" style="margin-top:8px" onclick="doLogin()">Log In →</button>
+  <div class="divider">or</div>
+  <p style="text-align:center;font-size:.875rem;color:var(--tx2)">
+    New to ProHelp? <a href="/register.html" style="color:var(--gold);font-weight:600">Create free account</a>
+  </p>
+</div></div>
+<div id="fc2"></div>
+<script src="/shared.js"></script>
+<script>
+
+if(Auth.get()){const u=Auth.get();location.href=u.role==='client'?'/dashboard-client.html':'/dashboard-provider.html';}
+async function doLogin(){
+  const email=document.getElementById('le').value.trim();
+  const pass=document.getElementById('lp2').value;
+  if(!email||!pass){toast('Enter email and password','err');return;}
+  const btn=document.getElementById('lb2');btn.disabled=true;btn.textContent='Logging in...';
+  try{
+    const r=await API.post('/login',{email,password:pass});
+    Auth.set({id:r.id,name:r.name,email:r.email,role:r.role},r.token);
+    toast('Welcome back, '+r.name.split(' ')[0]+'! 👋','ok');
+    const next=new URLSearchParams(location.search).get('next');
+    setTimeout(()=>location.href=next||(r.role==='client'?'/dashboard-client.html':'/dashboard-provider.html'),900);
+  }catch(e){toast(esc(e.message),'err');btn.disabled=false;btn.textContent='Log In →';}
+}
+
+</script>
+<script src="/chatbot.js"></script>
+
+
+</body></html>
