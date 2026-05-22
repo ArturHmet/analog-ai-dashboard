@@ -1,1 +1,675 @@
-INDEX_PLACEHOLDER
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ProHelp — International Services Marketplace</title>
+<link rel="icon" href="/assets/prohelp-favicon.png"><link rel="apple-touch-icon" href="/assets/prohelp-favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --gold:#F5A623;--gold-light:#FFD080;--gold-dark:#D4880A;
+  --bg:#080810;--bg-2:#0D0D1A;--card:#111120;--card-2:#16162A;
+  --border:rgba(255,255,255,0.07);--border-gold:rgba(245,166,35,0.25);
+  --text:#F0F0FF;--text-2:#A0A0C0;--text-3:#606080;
+  --radius:14px;--radius-lg:20px;
+  --glow:0 0 40px rgba(245,166,35,0.12);
+}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+button{cursor:pointer;font-family:inherit}
+input,select,textarea{font-family:inherit}
+
+::-webkit-scrollbar{width:6px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--border-gold);border-radius:3px}
+
+@keyframes fadeInUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+@keyframes shimmer{0%{background-position:-200% center}100%{background-position:200% center}}
+@keyframes pulseRing{0%,100%{transform:scale(1);opacity:.6}50%{transform:scale(1.15);opacity:.2}}
+@keyframes chatIn{from{opacity:0;transform:translateY(8px) scale(.97)}to{opacity:1;transform:translateY(0) scale(1)}}
+@keyframes typing{0%,80%,100%{transform:scale(0);opacity:.3}40%{transform:scale(1);opacity:1}}
+
+/* NAV */
+nav{position:sticky;top:0;z-index:200;display:flex;align-items:center;justify-content:space-between;
+  padding:0 clamp(1.5rem,5vw,4rem);height:68px;
+  background:rgba(8,8,16,.9);backdrop-filter:blur(20px) saturate(1.5);
+  border-bottom:1px solid var(--border)}
+.logo{display:flex;align-items:center;gap:10px;font-size:1.35rem;font-weight:800;letter-spacing:-.5px}
+.logo-icon{width:36px;height:36px;background:linear-gradient(135deg,var(--gold),var(--gold-dark));
+  border-radius:10px;display:flex;align-items:center;justify-content:center;
+  font-size:1rem;font-weight:900;color:#000;box-shadow:0 4px 16px rgba(245,166,35,.35)}
+.logo span{color:var(--gold)}
+.nav-links{display:flex;gap:2rem;font-size:.875rem;font-weight:500;color:var(--text-2)}
+.nav-links a{transition:color .2s}.nav-links a:hover{color:var(--text)}
+.nav-actions{display:flex;gap:.625rem;align-items:center}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.4rem;
+  padding:.5rem 1.25rem;border-radius:10px;border:none;font-size:.875rem;font-weight:600;
+  transition:all .2s ease;white-space:nowrap;cursor:pointer}
+.btn-ghost{background:transparent;color:var(--text-2);border:1px solid var(--border)}
+.btn-ghost:hover{border-color:var(--border-gold);color:var(--text)}
+.btn-gold{background:linear-gradient(135deg,var(--gold),var(--gold-dark));color:#000;
+  box-shadow:0 4px 20px rgba(245,166,35,.25)}
+.btn-gold:hover{transform:translateY(-1px);box-shadow:0 6px 28px rgba(245,166,35,.4)}
+.nav-toggle{display:none;background:none;border:1px solid var(--border);
+  border-radius:8px;padding:.4rem .6rem;color:var(--text-2);font-size:1.1rem}
+
+/* MOBILE NAV */
+.mobile-nav{display:none;position:fixed;inset:0;z-index:300;background:var(--bg);
+  flex-direction:column;padding:1.5rem}
+.mobile-nav.open{display:flex}
+.mobile-nav-close{align-self:flex-end;background:none;border:none;color:var(--text-2);font-size:1.5rem;margin-bottom:2rem}
+.mobile-nav a{padding:1rem 0;font-size:1.15rem;font-weight:600;color:var(--text);border-bottom:1px solid var(--border);transition:color .2s}
+.mobile-nav a:hover{color:var(--gold)}
+.mobile-nav-actions{margin-top:auto;display:flex;flex-direction:column;gap:.875rem}
+
+/* HERO */
+.hero{position:relative;padding:clamp(5rem,10vw,9rem) clamp(1.5rem,5vw,4rem) clamp(4rem,8vw,7rem);
+  text-align:center;overflow:hidden}
+.hero::after{content:'';position:absolute;top:-20%;left:50%;transform:translateX(-50%);
+  width:900px;height:600px;
+  background:radial-gradient(ellipse,rgba(245,166,35,.07) 0%,transparent 70%);
+  pointer-events:none;z-index:-1}
+.hero-badge{display:inline-flex;align-items:center;gap:.5rem;
+  background:rgba(245,166,35,.08);border:1px solid var(--border-gold);color:var(--gold);
+  padding:.35rem 1rem;border-radius:50px;font-size:.8rem;font-weight:600;letter-spacing:.3px;
+  margin-bottom:2rem;animation:fadeInUp .5s ease both}
+.badge-dot{width:6px;height:6px;background:var(--gold);border-radius:50%;animation:pulseRing 2s infinite}
+.hero h1{font-size:clamp(2.4rem,5.5vw,4.2rem);font-weight:900;line-height:1.1;
+  letter-spacing:-2px;margin-bottom:1.5rem;animation:fadeInUp .5s .1s ease both}
+.highlight{background:linear-gradient(90deg,var(--gold),var(--gold-light),var(--gold));
+  background-size:200% auto;-webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-clip:text;animation:shimmer 3s linear infinite}
+.hero-sub{font-size:clamp(1rem,2vw,1.2rem);color:var(--text-2);max-width:580px;
+  margin:0 auto 2.5rem;line-height:1.7;animation:fadeInUp .5s .2s ease both}
+
+/* SEARCH */
+.search-wrap{max-width:680px;margin:0 auto 1.5rem;animation:fadeInUp .5s .3s ease both}
+.search-bar{display:flex;background:var(--card);border:1px solid var(--border);
+  border-radius:var(--radius-lg);overflow:hidden;transition:border-color .25s,box-shadow .25s}
+.search-bar:focus-within{border-color:var(--border-gold);
+  box-shadow:0 0 0 3px rgba(245,166,35,.08),var(--glow)}
+.search-bar input{flex:1;background:none;border:none;padding:1rem 1.25rem;
+  color:var(--text);font-size:1rem;outline:none}
+.search-bar input::placeholder{color:var(--text-3)}
+.search-bar select{background:rgba(255,255,255,.04);border:none;border-left:1px solid var(--border);
+  color:var(--text-2);padding:0 1rem;font-size:.85rem;outline:none;cursor:pointer;min-width:130px}
+.search-bar select option{background:var(--card-2)}
+.btn-search{background:linear-gradient(135deg,var(--gold),var(--gold-dark));color:#000;border:none;
+  padding:0 1.75rem;font-weight:700;font-size:.9rem;transition:all .2s;
+  border-radius:0 var(--radius-lg) var(--radius-lg) 0;cursor:pointer}
+.btn-search:hover{filter:brightness(1.1)}
+.search-tags{display:flex;gap:.5rem;justify-content:center;flex-wrap:wrap;font-size:.8rem;color:var(--text-3)}
+.search-tags span{cursor:pointer;transition:color .2s}.search-tags span:hover{color:var(--gold)}
+
+/* STATS */
+.hero-stats{display:flex;justify-content:center;gap:clamp(1.5rem,4vw,4rem);margin-top:3.5rem;
+  animation:fadeInUp .5s .4s ease both}
+.stat-item{text-align:center}
+.stat-num{font-size:clamp(1.5rem,3vw,2rem);font-weight:800;color:var(--gold);letter-spacing:-1px}
+.stat-label{font-size:.78rem;color:var(--text-3);margin-top:.2rem;text-transform:uppercase;letter-spacing:.5px}
+.stat-div{width:1px;background:var(--border);align-self:stretch;margin:.25rem 0}
+
+/* TRUST STRIP */
+.trust-strip{padding:1.25rem 0;background:var(--bg-2);
+  border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.trust-inner{display:flex;align-items:center;justify-content:center;
+  gap:clamp(1.5rem,4vw,3.5rem);flex-wrap:wrap;padding:0 clamp(1.5rem,4vw,3rem)}
+.trust-item{display:flex;align-items:center;gap:.5rem;font-size:.82rem;font-weight:500;
+  color:var(--text-2);white-space:nowrap}
+.trust-item .ti{color:var(--gold);font-size:1rem}
+
+/* SECTIONS */
+section{position:relative;z-index:1}
+.container{max-width:1140px;margin:0 auto;padding:0 clamp(1.5rem,4vw,3rem)}
+.section-head{text-align:center;margin-bottom:3rem}
+.section-head h2{font-size:clamp(1.6rem,3vw,2.2rem);font-weight:800;letter-spacing:-.75px;margin-bottom:.5rem}
+.section-head p{color:var(--text-2);font-size:1rem}
+.gold-bar{width:40px;height:3px;background:linear-gradient(90deg,var(--gold),var(--gold-light));
+  border-radius:2px;margin:.875rem auto 0}
+
+/* CATEGORIES */
+.categories-section{padding:5rem 0;background:var(--bg-2)}
+.categories-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:.875rem}
+.cat-card{display:flex;flex-direction:column;align-items:center;gap:.625rem;
+  padding:1.5rem .75rem 1.25rem;background:var(--card);border:1px solid var(--border);
+  border-radius:var(--radius);cursor:pointer;transition:all .25s;text-align:center;
+  position:relative;overflow:hidden}
+.cat-card::before{content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,rgba(245,166,35,.06),transparent);opacity:0;transition:opacity .25s}
+.cat-card:hover{border-color:var(--border-gold);transform:translateY(-4px);
+  box-shadow:0 12px 32px rgba(0,0,0,.4),0 0 0 1px rgba(245,166,35,.1)}
+.cat-card:hover::before{opacity:1}
+.cat-icon{font-size:1.75rem;line-height:1}
+.cat-name{font-size:.82rem;font-weight:600;color:var(--text)}
+.cat-count{font-size:.72rem;color:var(--text-3)}
+
+/* HOW IT WORKS */
+.how-section{padding:5.5rem 0}
+.steps-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.5rem;position:relative}
+.steps-grid::before{content:'';position:absolute;top:26px;left:10%;right:10%;height:1px;
+  background:linear-gradient(90deg,transparent,var(--border-gold),transparent)}
+.step-card{text-align:center;padding:2rem 1.5rem;background:var(--card);
+  border:1px solid var(--border);border-radius:var(--radius-lg);transition:all .25s}
+.step-card:hover{border-color:var(--border-gold);transform:translateY(-3px);box-shadow:var(--glow)}
+.step-num{width:54px;height:54px;border-radius:50%;background:rgba(245,166,35,.08);
+  border:2px solid var(--border-gold);color:var(--gold);font-size:1.25rem;font-weight:800;
+  display:flex;align-items:center;justify-content:center;margin:0 auto 1.25rem;position:relative;z-index:1}
+.step-card h3{font-size:1rem;font-weight:700;margin-bottom:.5rem}
+.step-card p{font-size:.875rem;color:var(--text-2);line-height:1.6}
+
+/* PROVIDERS */
+.providers-section{padding:5rem 0;background:var(--bg-2)}
+.providers-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1.25rem}
+.provider-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);
+  padding:1.5rem;transition:all .25s;position:relative;overflow:hidden}
+.provider-card::after{content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,var(--gold),var(--gold-light));opacity:0;transition:opacity .25s}
+.provider-card:hover{border-color:var(--border-gold);transform:translateY(-3px);
+  box-shadow:0 16px 40px rgba(0,0,0,.4)}
+.provider-card:hover::after{opacity:1}
+.prov-top{display:flex;gap:.875rem;align-items:flex-start;margin-bottom:1rem}
+.prov-avatar{width:50px;height:50px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  font-size:1.15rem;font-weight:700;color:#000;flex-shrink:0;position:relative}
+.prov-verified{position:absolute;bottom:0;right:-2px;width:16px;height:16px;background:#22C55E;
+  border-radius:50%;border:2px solid var(--card);display:flex;align-items:center;justify-content:center;
+  font-size:.55rem;color:#fff}
+.prov-name{font-size:.95rem;font-weight:700}
+.prov-cat{font-size:.75rem;color:var(--gold);font-weight:600;margin-top:.15rem}
+.prov-stars{font-size:.8rem;color:var(--gold);margin-top:.2rem}
+.prov-stars span{color:var(--text-3);margin-left:.25rem}
+.prov-bio{font-size:.83rem;color:var(--text-2);margin-bottom:1rem;line-height:1.55}
+.prov-footer{display:flex;justify-content:space-between;align-items:center}
+.prov-rate{font-size:1rem;font-weight:700;color:var(--gold)}
+.prov-loc{font-size:.75rem;color:var(--text-3);margin-top:.1rem}
+.btn-outline-sm{padding:.45rem 1rem;border-radius:8px;background:rgba(245,166,35,.08);
+  color:var(--gold);border:1px solid var(--border-gold);font-size:.78rem;font-weight:600;transition:all .2s}
+.btn-outline-sm:hover{background:var(--gold);color:#000}
+
+/* CTA */
+.cta-section{padding:5rem 0}
+.cta-card{background:linear-gradient(135deg,rgba(245,166,35,.07),rgba(245,166,35,.02));
+  border:1px solid var(--border-gold);border-radius:24px;
+  padding:clamp(2.5rem,5vw,4rem) clamp(1.5rem,4vw,3rem);text-align:center;position:relative;overflow:hidden}
+.cta-card::before{content:'';position:absolute;top:-50%;left:50%;transform:translateX(-50%);
+  width:600px;height:400px;background:radial-gradient(ellipse,rgba(245,166,35,.06),transparent 70%)}
+.cta-card h2{font-size:clamp(1.6rem,3vw,2.2rem);font-weight:800;letter-spacing:-.75px;margin-bottom:.875rem}
+.cta-card p{color:var(--text-2);max-width:520px;margin:0 auto 2rem}
+.cta-btns{display:flex;gap:.875rem;justify-content:center;flex-wrap:wrap}
+.btn-lg{padding:.875rem 2.25rem;font-size:1rem;border-radius:12px}
+
+/* FOOTER */
+footer{background:var(--bg-2);border-top:1px solid var(--border);
+  padding:clamp(2.5rem,5vw,4rem) clamp(1.5rem,4vw,3rem) 2rem}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:2.5rem;
+  max-width:1140px;margin:0 auto 2rem}
+.footer-brand p{color:var(--text-3);font-size:.875rem;margin-top:.75rem;line-height:1.7}
+.footer-col h4{font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;
+  color:var(--gold);margin-bottom:1rem}
+.footer-col a{display:block;color:var(--text-3);font-size:.875rem;margin-bottom:.5rem;transition:color .2s}
+.footer-col a:hover{color:var(--text)}
+.footer-bottom{border-top:1px solid var(--border);padding-top:1.5rem;
+  text-align:center;color:var(--text-3);font-size:.78rem;max-width:1140px;margin:0 auto}
+
+/* CHATBOT */
+#chat-widget{position:fixed;bottom:1.5rem;right:1.5rem;z-index:9999;
+  display:flex;flex-direction:column;align-items:flex-end}
+#chat-btn{width:58px;height:58px;border-radius:50%;
+  background:linear-gradient(135deg,var(--gold),var(--gold-dark));
+  border:none;color:#000;font-size:1.5rem;display:flex;align-items:center;justify-content:center;
+  box-shadow:0 8px 30px rgba(245,166,35,.45);transition:all .25s;position:relative}
+#chat-btn:hover{transform:scale(1.08);box-shadow:0 10px 36px rgba(245,166,35,.55)}
+.pulse{position:absolute;inset:-4px;border-radius:50%;border:2px solid var(--gold);
+  opacity:.4;animation:pulseRing 2.5s infinite;pointer-events:none}
+#chat-badge{position:absolute;top:-4px;right:-4px;width:18px;height:18px;border-radius:50%;
+  background:#EF4444;color:#fff;font-size:.65rem;font-weight:700;
+  display:flex;align-items:center;justify-content:center;border:2px solid var(--bg)}
+#chat-window{width:360px;height:520px;background:var(--card);border:1px solid var(--border);
+  border-radius:20px;display:flex;flex-direction:column;overflow:hidden;
+  margin-bottom:.875rem;box-shadow:0 24px 64px rgba(0,0,0,.6),0 0 0 1px rgba(245,166,35,.08);
+  animation:chatIn .3s ease both;transform-origin:bottom right}
+#chat-window.hidden{display:none}
+.chat-header{padding:1rem 1.25rem;
+  background:linear-gradient(135deg,rgba(245,166,35,.12),rgba(245,166,35,.04));
+  border-bottom:1px solid var(--border);display:flex;align-items:center;gap:.75rem}
+.chat-avatar{width:38px;height:38px;border-radius:50%;
+  background:linear-gradient(135deg,var(--gold),var(--gold-dark));
+  display:flex;align-items:center;justify-content:center;font-size:1.1rem;color:#000;flex-shrink:0;
+  box-shadow:0 4px 12px rgba(245,166,35,.3)}
+.chat-header-info{flex:1}
+.chat-header-info h4{font-size:.9rem;font-weight:700}
+.chat-online{display:flex;align-items:center;gap:.35rem;font-size:.72rem;color:#22C55E;margin-top:.1rem}
+.chat-online-dot{width:7px;height:7px;border-radius:50%;background:#22C55E;animation:pulseRing 2s infinite}
+.chat-close{background:none;border:none;color:var(--text-3);font-size:1.2rem;padding:.2rem;
+  transition:color .2s;line-height:1;cursor:pointer}
+.chat-close:hover{color:var(--text)}
+.chat-messages{flex:1;overflow-y:auto;padding:1rem;display:flex;flex-direction:column;
+  gap:.75rem;scroll-behavior:smooth}
+.chat-messages::-webkit-scrollbar{width:4px}
+.chat-messages::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
+.msg{max-width:85%;padding:.65rem .9rem;border-radius:14px;font-size:.855rem;line-height:1.5;
+  animation:chatIn .25s ease both}
+.msg-bot{align-self:flex-start;background:var(--card-2);border:1px solid var(--border);
+  border-bottom-left-radius:4px;color:var(--text)}
+.msg-user{align-self:flex-end;background:linear-gradient(135deg,var(--gold),var(--gold-dark));
+  color:#000;font-weight:500;border-bottom-right-radius:4px}
+.quick-replies{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.5rem}
+.qr-btn{padding:.3rem .75rem;border-radius:20px;background:rgba(245,166,35,.08);
+  border:1px solid var(--border-gold);color:var(--gold);font-size:.77rem;font-weight:600;
+  cursor:pointer;transition:all .2s}
+.qr-btn:hover{background:var(--gold);color:#000}
+.typing-indicator{display:flex;gap:4px;align-items:center;padding:.5rem .75rem}
+.typing-indicator span{width:7px;height:7px;border-radius:50%;background:var(--text-3);
+  animation:typing 1.2s infinite}
+.typing-indicator span:nth-child(2){animation-delay:.2s}
+.typing-indicator span:nth-child(3){animation-delay:.4s}
+.chat-input-row{padding:.875rem;border-top:1px solid var(--border);
+  display:flex;gap:.5rem;align-items:flex-end}
+#chat-input{flex:1;background:var(--bg-2);border:1px solid var(--border);border-radius:10px;
+  color:var(--text);padding:.6rem .875rem;font-size:.875rem;outline:none;resize:none;
+  max-height:100px;min-height:40px;transition:border-color .2s}
+#chat-input:focus{border-color:var(--border-gold)}
+#chat-input::placeholder{color:var(--text-3)}
+#chat-send{width:38px;height:38px;border-radius:10px;
+  background:linear-gradient(135deg,var(--gold),var(--gold-dark));
+  border:none;color:#000;font-size:.9rem;display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;transition:all .2s;cursor:pointer}
+#chat-send:hover{transform:scale(1.05)}
+
+/* RESPONSIVE */
+@media(max-width:900px){.footer-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:768px){
+  .nav-links{display:none}.nav-toggle{display:block}
+  .stat-div{display:none}.hero-stats{gap:1.5rem;flex-wrap:wrap}
+  .steps-grid::before{display:none}
+  .footer-grid{grid-template-columns:1fr}
+  .search-bar select{display:none}
+  #chat-window{width:calc(100vw - 2rem)}
+}
+@media(max-width:480px){
+  .categories-grid{grid-template-columns:repeat(3,1fr)}
+  .cta-btns{flex-direction:column;align-items:stretch}
+}
+</style>
+</head>
+<body>
+
+<!-- MOBILE NAV -->
+<div class="mobile-nav" id="mobileNav">
+  <button class="mobile-nav-close" onclick="closeMobileNav()">✕</button>
+  <a href="orders.html">Find Jobs</a>
+  <a href="#categories">Services</a>
+  <a href="#providers">Providers</a>
+  <a href="#how-it-works">How it Works</a>
+  <div class="mobile-nav-actions">
+    <a href="register.html"><button class="btn btn-ghost" style="width:100%;justify-content:center;padding:.875rem;">Sign In</button></a>
+    <a href="register.html?role=client"><button class="btn btn-gold" style="width:100%;justify-content:center;padding:.875rem;">Get Started Free</button></a>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">
+    <div class="logo-icon">P</div>
+    Pro<span>Help</span>
+  </div>
+  <div class="nav-links">
+    <a href="orders.html">Find Jobs</a>
+    <a href="#categories">Services</a>
+    <a href="#providers">Providers</a>
+    <a href="#how-it-works">How it Works</a>
+  </div>
+  <div class="nav-actions">
+    <a href="register.html"><button class="btn btn-ghost">Sign In</button></a>
+    <a href="register.html?role=client"><button class="btn btn-gold">Get Started &rarr;</button></a>
+    <button class="nav-toggle" onclick="openMobileNav()">&#9776;</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-badge">
+    <span class="badge-dot"></span>
+    International Services Marketplace &middot; 50+ Countries
+  </div>
+  <h1>Find <span class="highlight">Trusted Local</span><br>Professionals, Fast</h1>
+  <p class="hero-sub">Connect with verified service providers for any task &mdash; cleaning, repairs, beauty, IT and more. Fast, safe, and always nearby.</p>
+  <div class="search-wrap">
+    <div class="search-bar">
+      <input type="text" id="searchInput" placeholder="What service do you need?" />
+      <select id="locationSelect">
+        <option value="">&#128205; All Locations</option>
+        <option value="valletta">Valletta, Malta</option>
+        <option value="sliema">Sliema, Malta</option>
+        <option value="stjulians">St. Julian&apos;s, Malta</option>
+        <option value="msida">Msida, Malta</option>
+        <option value="birkirkara">Birkirkara, Malta</option>
+      </select>
+      <button class="btn-search" onclick="handleSearch()">Search</button>
+    </div>
+    <div class="search-tags" style="margin-top:.75rem;">
+      <strong>Popular:</strong>
+      <span onclick="quickSearch(&apos;House cleaning&apos;)">House cleaning</span> &middot;
+      <span onclick="quickSearch(&apos;Plumber&apos;)">Plumber</span> &middot;
+      <span onclick="quickSearch(&apos;IT support&apos;)">IT support</span> &middot;
+      <span onclick="quickSearch(&apos;Moving help&apos;)">Moving help</span> &middot;
+      <span onclick="quickSearch(&apos;Tutoring&apos;)">Tutoring</span>
+    </div>
+  </div>
+  <div class="hero-stats">
+    <div class="stat-item"><div class="stat-num">500+</div><div class="stat-label">Verified Providers</div></div>
+    <div class="stat-div"></div>
+    <div class="stat-item"><div class="stat-num">2K+</div><div class="stat-label">Jobs Completed</div></div>
+    <div class="stat-div"></div>
+    <div class="stat-item"><div class="stat-num">4.9&#9733;</div><div class="stat-label">Average Rating</div></div>
+    <div class="stat-div"></div>
+    <div class="stat-item"><div class="stat-num">50+</div><div class="stat-label">Countries</div></div>
+  </div>
+</section>
+
+<!-- TRUST STRIP -->
+<div class="trust-strip">
+  <div class="trust-inner">
+    <div class="trust-item"><span class="ti">&#10003;</span> Verified Professionals</div>
+    <div class="trust-item"><span class="ti">&#128274;</span> Secure Payments</div>
+    <div class="trust-item"><span class="ti">&#9889;</span> Fast Response &mdash; Avg 2h</div>
+    <div class="trust-item"><span class="ti">&#128737;&#65039;</span> Money-Back Guarantee</div>
+    <div class="trust-item"><span class="ti">&#129302;</span> AI-Powered Matching</div>
+  </div>
+</div>
+
+<!-- CATEGORIES -->
+<section class="categories-section" id="categories">
+  <div class="container">
+    <div class="section-head">
+      <h2>Browse by Service</h2>
+      <p>From home repairs to personal care &mdash; we have it all</p>
+      <div class="gold-bar"></div>
+    </div>
+    <div class="categories-grid">
+      <div class="cat-card" onclick="location.href='orders.html?cat=cleaning'"><div class="cat-icon">&#129529;</div><div class="cat-name">Cleaning</div><div class="cat-count">87 providers</div></div>
+      <div class="cat-card" onclick="location.href='orders.html?cat=repairs'"><div class="cat-icon">&#128295;</div><div class="cat-name">Repairs</div><div class="cat-count">64 providers</div></div>
+      <div class="cat-card" onclick="location.href='orders.html?cat=beauty'"><div class="cat-icon">&#128135;</div><div class="cat-name">Beauty</div><div class="cat-count">52 providers</div></div>
+      <div class="cat-card" onclick="location.href='orders.html?cat=moving'"><div class="cat-icon">&#128667;</div><div class="cat-name">Moving</div><div class="cat-count">38 providers</div></div>
+      <div class="cat-card" onclick="location.href='orders.html?cat=restaurant'"><div class="cat-icon">&#127869;&#65039;</div><div class="cat-name">Restaurant Staff</div><div class="cat-count">41 providers</div></div>
+      <div class="cat-card" onclick="location.href='orders.html?cat=it'"><div class="cat-icon">&#128187;</div><div class="cat-name">IT &amp; Tech</div><div class="cat-count">33 providers</div></div>
+      <div class="cat-card" onclick="location.href='orders.html?cat=gardening'"><div class="cat-icon">&#127807;</div><div class="cat-name">Gardening</div><div class="cat-count">29 providers</div></div>
+      <div class="cat-card" onclick="location.href='orders.html?cat=tutoring'"><div class="cat-icon">&#128218;</div><div class="cat-name">Tutoring</div><div class="cat-count">47 providers</div></div>
+      <div class="cat-card" onclick="location.href='orders.html?cat=events'"><div class="cat-icon">&#127881;</div><div class="cat-name">Events</div><div class="cat-count">22 providers</div></div>
+      <div class="cat-card" onclick="location.href='orders.html?cat=pet'"><div class="cat-icon">&#128062;</div><div class="cat-name">Pet Care</div><div class="cat-count">18 providers</div></div>
+      <div class="cat-card" onclick="location.href='orders.html?cat=photography'"><div class="cat-icon">&#128248;</div><div class="cat-name">Photography</div><div class="cat-count">25 providers</div></div>
+      <div class="cat-card" onclick="location.href='orders.html?cat=fitness'"><div class="cat-icon">&#128170;</div><div class="cat-name">Fitness</div><div class="cat-count">16 providers</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how-section" id="how-it-works">
+  <div class="container">
+    <div class="section-head">
+      <h2>How It Works</h2>
+      <p>Hire a professional in 3 simple steps</p>
+      <div class="gold-bar"></div>
+    </div>
+    <div class="steps-grid">
+      <div class="step-card">
+        <div class="step-num">1</div>
+        <h3>Post Your Task</h3>
+        <p>Describe what you need, set your budget and location. Takes less than 2 minutes.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">2</div>
+        <h3>Get Offers</h3>
+        <p>Verified providers send you offers with their price and timeline. Compare profiles and reviews.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">3</div>
+        <h3>Done &amp; Paid Securely</h3>
+        <p>Choose your professional, track progress, and pay safely only after the job is complete.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROVIDERS -->
+<section class="providers-section" id="providers">
+  <div class="container">
+    <div class="section-head">
+      <h2>Featured Providers</h2>
+      <p>Top-rated professionals ready to help you</p>
+      <div class="gold-bar"></div>
+    </div>
+    <div class="providers-grid">
+      <div class="provider-card">
+        <div class="prov-top">
+          <div class="prov-avatar" style="background:#F59E0B;">MB<div class="prov-verified">&#10003;</div></div>
+          <div><div class="prov-name">Maria Borg</div><div class="prov-cat">&#129529; Cleaning</div><div class="prov-stars">&#9733;&#9733;&#9733;&#9733;&#9733; <span>(4.9 &middot; 127 reviews)</span></div></div>
+        </div>
+        <p class="prov-bio">Professional cleaner with 8 years experience. Deep cleaning, move-in/out, offices. Available 7 days across Valletta &amp; Sliema.</p>
+        <div class="prov-footer"><div><div class="prov-rate">&euro;18/hr</div><div class="prov-loc">&#128205; Valletta</div></div><button class="btn-outline-sm">View Profile</button></div>
+      </div>
+      <div class="provider-card">
+        <div class="prov-top">
+          <div class="prov-avatar" style="background:#10B981;">JV<div class="prov-verified">&#10003;</div></div>
+          <div><div class="prov-name">John Vella</div><div class="prov-cat">&#128295; Repairs &amp; Plumbing</div><div class="prov-stars">&#9733;&#9733;&#9733;&#9733;&#9733; <span>(4.8 &middot; 89 reviews)</span></div></div>
+        </div>
+        <p class="prov-bio">Licensed plumber &amp; handyman. Fast response, fair pricing. Available 7 days. Serving St. Julian&apos;s, Msida, Gzira.</p>
+        <div class="prov-footer"><div><div class="prov-rate">&euro;25/hr</div><div class="prov-loc">&#128205; St. Julian&apos;s</div></div><button class="btn-outline-sm">View Profile</button></div>
+      </div>
+      <div class="provider-card">
+        <div class="prov-top">
+          <div class="prov-avatar" style="background:#8B5CF6;">SR<div class="prov-verified">&#10003;</div></div>
+          <div><div class="prov-name">Sara Rizzo</div><div class="prov-cat">&#128135; Beauty &amp; Hair</div><div class="prov-stars">&#9733;&#9733;&#9733;&#9733;&#9733; <span>(5.0 &middot; 214 reviews)</span></div></div>
+        </div>
+        <p class="prov-bio">Mobile hairstylist &amp; beauty therapist. I come to you! Weddings, events, everyday styling. Sliema &amp; surroundings.</p>
+        <div class="prov-footer"><div><div class="prov-rate">&euro;35/hr</div><div class="prov-loc">&#128205; Sliema</div></div><button class="btn-outline-sm">View Profile</button></div>
+      </div>
+      <div class="provider-card">
+        <div class="prov-top">
+          <div class="prov-avatar" style="background:#EF4444;">AC<div class="prov-verified">&#10003;</div></div>
+          <div><div class="prov-name">Alex Camilleri</div><div class="prov-cat">&#128187; IT &amp; Tech</div><div class="prov-stars">&#9733;&#9733;&#9733;&#9733;&#9734; <span>(4.7 &middot; 56 reviews)</span></div></div>
+        </div>
+        <p class="prov-bio">Senior IT professional. Laptop repair, networking, smart home setup, website fixes. Fast and reliable response.</p>
+        <div class="prov-footer"><div><div class="prov-rate">&euro;40/hr</div><div class="prov-loc">&#128205; Birkirkara</div></div><button class="btn-outline-sm">View Profile</button></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <div class="container">
+    <div class="cta-card">
+      <h2>Ready to get started?</h2>
+      <p>Join 500+ providers earning on ProHelp, or find the professional help you need today.</p>
+      <div class="cta-btns">
+        <a href="register.html?role=client"><button class="btn btn-gold btn-lg">I Need Help &rarr;</button></a>
+        <a href="register.html?role=provider"><button class="btn btn-ghost btn-lg">I&apos;m a Provider</button></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="logo" style="font-size:1.15rem;">
+        <div class="logo-icon" style="width:30px;height:30px;font-size:.85rem;">P</div>
+        Pro<span>Help</span>
+      </div>
+      <p>International marketplace for local services. Connecting skilled professionals with people who need help &mdash; powered by AI.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Services</h4>
+      <a href="#">Cleaning</a><a href="#">Repairs</a><a href="#">Beauty</a><a href="#">Moving</a><a href="#">Tutoring</a>
+    </div>
+    <div class="footer-col">
+      <h4>Company</h4>
+      <a href="#">About Us</a><a href="#">Blog</a><a href="#">Careers</a><a href="#">Press</a>
+    </div>
+    <div class="footer-col">
+      <h4>Support</h4>
+      <a href="#">Help Center</a><a href="#">Safety</a><a href="#">Terms</a><a href="#">Privacy</a>
+    </div>
+  </div>
+  <div class="footer-bottom">&copy; 2025 ProHelp AI Ltd. All rights reserved. &middot; &#127757; International Services Marketplace</div>
+</footer>
+
+<!-- AI CHATBOT -->
+<div id="chat-widget">
+  <div id="chat-window" class="hidden">
+    <div class="chat-header">
+      <div class="chat-avatar">&#129302;</div>
+      <div class="chat-header-info">
+        <h4>ProHelp AI Assistant</h4>
+        <div class="chat-online"><div class="chat-online-dot"></div>Online &middot; Powered by AI</div>
+      </div>
+      <button class="chat-close" onclick="toggleChat()">&#10005;</button>
+    </div>
+    <div class="chat-messages" id="chatMessages"></div>
+    <div class="chat-input-row">
+      <textarea id="chat-input" placeholder="Ask me anything..." rows="1"
+        onkeydown="handleChatKey(event)" oninput="autoResize(this)"></textarea>
+      <button id="chat-send" onclick="sendMessage()">&#10148;</button>
+    </div>
+  </div>
+  <button id="chat-btn" onclick="toggleChat()">
+    <div class="pulse"></div>
+    <span id="chatBtnIcon">&#128172;</span>
+    <div id="chat-badge">1</div>
+  </button>
+</div>
+
+<script>
+var API_CHAT = '/api/chatbot/message';
+var chatOpen = false, chatHistory = [], isTyping = false, initialized = false;
+
+function openMobileNav()  { document.getElementById('mobileNav').classList.add('open'); }
+function closeMobileNav() { document.getElementById('mobileNav').classList.remove('open'); }
+
+function quickSearch(term) { document.getElementById('searchInput').value = term; handleSearch(); }
+function handleSearch() {
+  var q = document.getElementById('searchInput').value.trim();
+  var loc = document.getElementById('locationSelect').value;
+  if (!q) return;
+  var url = 'orders.html?q=' + encodeURIComponent(q);
+  if (loc) url += '&location=' + loc;
+  location.href = url;
+}
+document.getElementById('searchInput').addEventListener('keydown', function(e) { if (e.key === 'Enter') handleSearch(); });
+
+function toggleChat() {
+  chatOpen = !chatOpen;
+  var win = document.getElementById('chat-window');
+  var icon = document.getElementById('chatBtnIcon');
+  var badge = document.getElementById('chat-badge');
+  if (chatOpen) {
+    win.classList.remove('hidden');
+    icon.innerHTML = '&#10005;';
+    badge.style.display = 'none';
+    if (!initialized) initChat();
+    setTimeout(function() { document.getElementById('chat-input').focus(); }, 100);
+  } else {
+    win.classList.add('hidden');
+    icon.innerHTML = '&#128172;';
+  }
+}
+
+function initChat() {
+  initialized = true;
+  appendBotMessage('Hi! I'm the <strong>ProHelp AI Assistant</strong>.<br><br>I can help you find the right professional, explain how the marketplace works, or guide you through posting a task.<br><br>What do you need help with?',
+    ['Find a cleaner', 'How does it work?', 'Post a task', 'Pricing info']);
+}
+
+function appendBotMessage(html, quickReplies) {
+  var c = document.getElementById('chatMessages');
+  var d = document.createElement('div');
+  d.className = 'msg msg-bot';
+  d.innerHTML = html;
+  if (quickReplies && quickReplies.length) {
+    var qr = document.createElement('div');
+    qr.className = 'quick-replies';
+    quickReplies.forEach(function(txt) {
+      var b = document.createElement('button');
+      b.className = 'qr-btn';
+      b.textContent = txt;
+      b.onclick = function() { sendWithText(txt); };
+      qr.appendChild(b);
+    });
+    d.appendChild(qr);
+  }
+  c.appendChild(d);
+  scrollBottom();
+}
+
+function appendUserMessage(text) {
+  var c = document.getElementById('chatMessages');
+  var d = document.createElement('div');
+  d.className = 'msg msg-user';
+  d.textContent = text;
+  c.appendChild(d);
+  scrollBottom();
+}
+
+function showTyping() {
+  var c = document.getElementById('chatMessages');
+  var d = document.createElement('div');
+  d.className = 'msg msg-bot'; d.id = 'typing-bubble';
+  d.innerHTML = '<div class="typing-indicator"><span></span><span></span><span></span></div>';
+  c.appendChild(d); scrollBottom();
+}
+function hideTyping() { var e = document.getElementById('typing-bubble'); if (e) e.remove(); }
+function scrollBottom() { var c = document.getElementById('chatMessages'); setTimeout(function(){ c.scrollTop = c.scrollHeight; }, 50); }
+
+function sendWithText(text) { document.getElementById('chat-input').value = text; sendMessage(); }
+
+function sendMessage() {
+  if (isTyping) return;
+  var input = document.getElementById('chat-input');
+  var text = input.value.trim();
+  if (!text) return;
+  input.value = ''; input.style.height = 'auto';
+  appendUserMessage(text);
+  chatHistory.push({ role: 'user', content: text });
+  isTyping = true; showTyping();
+
+  fetch(API_CHAT, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ message: text, history: chatHistory.slice(-10) })
+  }).then(function(r) {
+    hideTyping();
+    if (!r.ok) throw new Error('api');
+    return r.json();
+  }).then(function(data) {
+    var reply = data.response || data.message || data.reply || data.text || JSON.stringify(data);
+    chatHistory.push({ role: 'assistant', content: reply });
+    appendBotMessage(reply.replace(/\n/g,'<br>').replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>'));
+  }).catch(function() {
+    hideTyping();
+    var fb = getFallback(text);
+    chatHistory.push({ role: 'assistant', content: fb });
+    appendBotMessage(fb);
+  }).finally(function() { isTyping = false; });
+}
+
+function getFallback(msg) {
+  var m = msg.toLowerCase();
+  if (m.indexOf('clean') > -1) return '&#129529; We have 87+ professional cleaners available. Use the search above or post a task to get offers!';
+  if (m.indexOf('repair') > -1 || m.indexOf('plumb') > -1) return '&#128295; 64+ verified repair professionals available. Post a task for free and get multiple offers within hours!';
+  if (m.indexOf('price') > -1 || m.indexOf('cost') > -1 || m.indexOf('how much') > -1) return '&#128176; Pricing varies: cleaners ~&euro;15-25/hr, repairs ~&euro;20-40/hr, IT support ~&euro;30-50/hr. Post a task and get competitive offers!';
+  if ((m.indexOf('how') > -1) && (m.indexOf('work') > -1 || m.indexOf('start') > -1)) return '&#129351; It's simple: 1&#65039;&#8419; Post your task free &rarr; 2&#65039;&#8419; Receive offers from verified providers &rarr; 3&#65039;&#8419; Pay securely after the job is done!';
+  if (m.indexOf('post') > -1 || m.indexOf('task') > -1) return '&#128221; Click <strong>Get Started</strong> at the top of the page. Posting is free and takes under 2 minutes!';
+  if (m.indexOf('register') > -1 || m.indexOf('sign') > -1 || m.indexOf('account') > -1) return 'Creating an account is free! Click <strong>Get Started</strong> in the navigation to register as a client or provider.';
+  return 'I'm here to help you find the right professional on ProHelp! Browse services, post a task, or search for a specific provider. What would you like to do?';
+}
+
+function handleChatKey(e) { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); } }
+function autoResize(el) { el.style.height = 'auto'; el.style.height = Math.min(el.scrollHeight, 100) + 'px'; }
+</script>
+</body>
+</html>
