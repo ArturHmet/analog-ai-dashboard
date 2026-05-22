@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Provider Dashboard — ProHelp</title>
+<link rel="icon" type="image/png" href="/assets/prohelp-favicon.png">
+<link rel="apple-touch-icon" href="/assets/prohelp-favicon.png">
+<link rel="stylesheet" href="/shared.css"><!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-PROHELP001"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("js",new Date());gtag("config","G-PROHELP001");</script>
+</head>
+<body>
+<script>window._PG='';</script>
+<header class="site-header" id="sh"></header>
+
+<div class="page-hdr">
+<div class="con">
+  <div class="page-bc"><a href="/">Home</a><span>/</span><span>Provider Dashboard</span></div>
+  <h1 class="page-title" id="dname4">Provider Dashboard</h1>
+  <p class="page-sub">Browse jobs, send offers, manage your work</p>
+</div></div>
+<main class="con">
+<div class="dash-wrap">
+  <div class="dash-nav">
+    <button class="dash-nav-item on" onclick="pSw('jobs',this)">🔍 Browse Jobs</button>
+    <button class="dash-nav-item" onclick="pSw('profile',this)">👤 My Profile</button>
+    <button class="dash-nav-item" onclick="Auth.clear();location.href='/'">← Logout</button>
+  </div>
+  <div>
+    <div class="dash-sec on" id="ps-jobs">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:10px">
+        <h2 style="font-size:1.2rem;font-weight:800">Available Jobs</h2>
+        <select class="filter-select" id="j-cat" onchange="loadJobs2()"><option value="">All Categories</option></select>
+      </div>
+      <div id="jobs2" class="sp"><div class="spinner"></div></div>
+    </div>
+    <div class="dash-sec" id="ps-profile">
+      <h2 style="font-size:1.2rem;font-weight:800;margin-bottom:20px">My Profile</h2>
+      <div class="card" style="max-width:500px" id="p-prof2">Loading...</div>
+    </div>
+  </div>
+</div>
+</main>
+<div id="fc2"></div>
+<script src="/shared.js"></script>
+<script>
+
+const PU=Auth.get();
+if(!PU||PU.role!=='provider'){location.href='/login.html?next=/dashboard-provider.html';}
+else{document.getElementById('dname4').textContent='Hello, '+PU.name.split(' ')[0]+'! 👋';}
+CATS.forEach(c=>{document.getElementById('j-cat').innerHTML+=`<option value="${c.id}">${c.icon} ${c.name}</option>`;});
+function pSw(sec,btn){
+  document.querySelectorAll('.dash-sec').forEach(s=>s.classList.remove('on'));
+  document.querySelectorAll('.dash-nav-item').forEach(b=>b.classList.remove('on'));
+  document.getElementById('ps-'+sec).classList.add('on');btn.classList.add('on');
+  if(sec==='jobs')loadJobs2();
+  if(sec==='profile')loadProvProfile();
+}
+async function loadJobs2(){
+  const g=document.getElementById('jobs2');
+  g.innerHTML='<div class="sp"><div class="spinner"></div></div>';
+  const cat=document.getElementById('j-cat').value;
+  const p=new URLSearchParams({status:'open',limit:100});if(cat)p.set('category',cat);
+  try{
+    const orders=await API.get('/orders?'+p);
+    if(!orders.length){g.innerHTML='<div class="empty-state"><div class="empty-icon">📋</div><p>No open jobs right now. Check back soon!</p></div>';return;}
+    let h='<div style="display:flex;flex-direction:column;gap:12px">';
+    orders.forEach(t=>{
+      h+=`<div class="tk" onclick="location.href='/task.html?id=${t.id}'">
+        <div class="tk-head"><div class="tk-title">${esc(t.title)}</div><div class="tk-price">${fmtPrice(t.budget)}</div></div>
+        <div class="tk-meta">
+          <span class="bdg bdg-blue">${catIcon(t.category)} ${catName(t.category)}</span>
+          <span class="bdg bdg-muted">📍 ${esc(t.location||'Remote')}</span>
+          <span class="bdg bdg-gr">open</span>
+          ${t.applications>0?`<span class="tk-apps">${t.applications} offers</span>`:'<span class="bdg bdg-gold">Be first!</span>'}
+        </div>
+        ${t.description?`<p class="tk-desc">${esc(t.description)}</p>`:''}
+        <div class="tk-foot">
+          <div class="tk-user"><div class="av av-xs">${(t.client_name||'C')[0]}</div>${esc(t.client_name||'Client')}</div>
+          <span class="tk-time">${timeAgo(t.created_at)}</span>
+        </div></div>`;
+    });
+    g.innerHTML=h+'</div>';
+  }catch(e){g.innerHTML='<div class="empty-state"><p style="color:var(--rd)">'+esc(e.message)+'</p></div>';}
+}
+function loadProvProfile(){
+  const el=document.getElementById('p-prof2');
+  el.innerHTML=`<div style="display:flex;align-items:center;gap:16px;margin-bottom:20px">
+    <div class="av av-lg">${PU.name[0]}</div>
+    <div><div style="font-size:1.2rem;font-weight:800">${esc(PU.name)}</div>
+      <div style="color:var(--tx2);font-size:.875rem">${esc(PU.email)}</div>
+      <span class="bdg bdg-blue" style="margin-top:6px;display:inline-flex">Provider Account</span></div></div>
+  <div class="alert alert-ok"><span>✓</span><span>Your profile is live. Browse open tasks and send offers to start earning.</span></div>
+  <a href="/orders.html"><button class="btn btn-gold btn-full">Browse All Open Tasks →</button></a>`;
+}
+loadJobs2();
+
+</script>
+<script src="/chatbot.js"></script>
+
+
+</body></html>
