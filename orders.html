@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Browse Tasks — ProHelp</title>
+<link rel="icon" type="image/png" href="/assets/prohelp-favicon.png">
+<link rel="apple-touch-icon" href="/assets/prohelp-favicon.png">
+<link rel="stylesheet" href="/shared.css"><!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-PROHELP001"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("js",new Date());gtag("config","G-PROHELP001");</script>
+</head>
+<body>
+<script>window._PG='orders';</script>
+<header class="site-header" id="sh"></header>
+
+<div class="page-hdr">
+<div class="con">
+  <div class="page-bc"><a href="/">Home</a><span>/</span><span>Browse Tasks</span></div>
+  <h1 class="page-title">Browse Tasks</h1>
+  <p class="page-sub">Find jobs, send offers, get paid</p>
+</div></div>
+<main class="con" style="padding:28px 0 72px">
+  <div class="search-wrap" style="margin-bottom:20px">
+    <span style="font-size:1.2rem">🔍</span>
+    <input id="sq2" type="text" placeholder="Search tasks..." onkeydown="if(event.key==='Enter')lo()">
+    <button class="btn btn-gold btn-sm" onclick="lo()">Search</button>
+  </div>
+  <div class="filters">
+    <select class="filter-select" id="fc3" onchange="lo()"><option value="">All Categories</option></select>
+    <select class="filter-select" id="fs3" onchange="lo()">
+      <option value="open">Open</option>
+      <option value="in_progress">In Progress</option>
+      <option value="">All Statuses</option>
+    </select>
+    <input class="filter-input" id="fl3" placeholder="📍 City..." oninput="clearTimeout(window._dt);window._dt=setTimeout(lo,600)">
+    <span class="filters-count" id="fcount"></span>
+    <a href="/post-task.html" style="margin-left:auto"><button class="btn btn-gold btn-sm">+ Post a Task</button></a>
+  </div>
+  <div id="grid3" class="sp"><div class="spinner"></div></div>
+</main>
+<div id="fc2"></div>
+<script src="/shared.js"></script>
+<script>
+
+CATS.forEach(c=>{document.getElementById('fc3').innerHTML+=`<option value="${c.id}">${c.icon} ${c.name}</option>`;});
+const UP=new URLSearchParams(location.search);
+if(UP.get('cat'))document.getElementById('fc3').value=UP.get('cat');
+if(UP.get('q'))document.getElementById('sq2').value=UP.get('q');
+async function lo(){
+  const g=document.getElementById('grid3');
+  g.innerHTML='<div class="sp"><div class="spinner"></div></div>';
+  const p=new URLSearchParams();
+  const cat=document.getElementById('fc3').value;
+  const st=document.getElementById('fs3').value;
+  const loc=document.getElementById('fl3').value.trim();
+  const q=document.getElementById('sq2').value.trim()||UP.get('q')||'';
+  if(cat)p.set('category',cat);if(st)p.set('status',st);if(loc)p.set('location',loc);p.set('limit','100');
+  try{
+    let orders=await API.get('/orders?'+p);
+    if(q)orders=orders.filter(o=>(o.title+' '+o.description+' '+o.location).toLowerCase().includes(q.toLowerCase()));
+    document.getElementById('fcount').textContent=orders.length+' task'+(orders.length===1?'':'s');
+    if(!orders.length){
+      g.innerHTML='<div class="empty-state"><div class="empty-icon">📋</div><p>No tasks found.<br><a href="/post-task.html" style="color:var(--gold)">Post the first one!</a></p></div>';
+      return;
+    }
+    let h='<div class="g2">';
+    orders.forEach(t=>{
+      h+=`<div class="tk" onclick="location.href='/task.html?id=${t.id}'">
+        <div class="tk-head"><div class="tk-title">${esc(t.title)}</div><div class="tk-price">${fmtPrice(t.budget)}</div></div>
+        <div class="tk-meta">
+          <span class="bdg bdg-blue">${catIcon(t.category)} ${catName(t.category)}</span>
+          <span class="bdg bdg-muted">📍 ${esc(t.location||'Remote')}</span>
+          ${t.applications>0?`<span class="tk-apps">${t.applications} offers</span>`:''}
+          <span class="bdg ${t.status==='open'?'bdg-gr':'bdg-muted'}">${t.status}</span>
+        </div>
+        ${t.description?`<p class="tk-desc">${esc(t.description)}</p>`:''}
+        <div class="tk-foot">
+          <div class="tk-user"><div class="av av-xs">${(t.client_name||'C')[0]}</div>${esc(t.client_name||'Client')}</div>
+          <span class="tk-time">${timeAgo(t.created_at)}</span>
+        </div></div>`;
+    });
+    g.innerHTML=h+'</div>';
+  }catch(e){g.innerHTML='<div class="empty-state"><p style="color:var(--rd)">'+esc(e.message)+'</p></div>';}
+}
+lo();
+
+</script>
+<script src="/chatbot.js"></script>
+
+
+</body></html>
