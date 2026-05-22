@@ -1,163 +1,331 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <meta name="theme-color" content="#FFFFFF">
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ProHelp AI — Command Center</title>
-<style>
-  :root {
-    --bg: #0d0f14; --card: #161920; --border: #1e2330;
-    --accent: #6c63ff; --accent2: #00d4aa; --warn: #f59e0b; --danger: #ef4444;
-    --text: #e2e8f0; --muted: #64748b; --green: #10b981;
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Find Local Services Worldwide — ProHelp</title>
+<meta name="description" content="ProHelp — the fastest way to find trusted local service professionals in Malta and beyond. Plumbers, cleaners, electricians, AC technicians — hire in minutes.">
+<meta name="keywords" content="local services Malta, hire plumber Malta, cleaning services Malta, handyman Malta, service marketplace">
+<meta property="og:title" content="ProHelp — Find Local Services in Malta">
+<meta property="og:description" content="Hire trusted professionals in Malta. Plumbers, cleaners, electricians and more. Free to use for clients.">
+<meta property="og:url" content="https://prohelp.work">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://prohelp.work/assets/prohelp-og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="ProHelp — Malta Local Services Marketplace">
+<meta name="twitter:description" content="Find and hire local professionals instantly. Malta's fastest growing service marketplace.">
+<link rel="canonical" href="https://prohelp.work">
+<link rel="icon" type="image/png" href="/assets/prohelp-favicon.png">
+<link rel="apple-touch-icon" href="/assets/prohelp-favicon.png">
+<link rel="stylesheet" href="/shared.css"><!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-PROHELP001"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("js",new Date());gtag("config","G-PROHELP001");</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "ProHelp",
+  "url": "https://prohelp.work",
+  "description": "Malta's AI-powered local services marketplace. Hire trusted plumbers, cleaners, electricians and more.",
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": "https://prohelp.work/marketplace/?q={search_term_string}",
+    "query-input": "required name=search_term_string"
   }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { background: var(--bg); color: var(--text); font-family: 'Inter', system-ui, sans-serif; min-height: 100vh; }
-  .header { background: var(--card); border-bottom: 1px solid var(--border); padding: 16px 32px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; }
-  .logo { display: flex; align-items: center; gap: 10px; font-size: 1.2rem; font-weight: 700; }
-  .logo-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--accent); animation: pulse 2s infinite; }
-  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
-  .header-right { display: flex; align-items: center; gap: 16px; font-size: .85rem; color: var(--muted); }
-  .status-badge { padding: 4px 12px; border-radius: 20px; font-size: .75rem; font-weight: 600; }
-  .status-online { background: rgba(16,185,129,.15); color: #10b981; border: 1px solid rgba(16,185,129,.3); }
-  .container { max-width: 1400px; margin: 0 auto; padding: 32px; }
-  .stats-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 32px; }
-  .stat-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 20px; }
-  .stat-label { font-size: .75rem; color: var(--muted); text-transform: uppercase; letter-spacing: .5px; margin-bottom: 8px; }
-  .stat-value { font-size: 2rem; font-weight: 700; }
-  .stat-sub { font-size: .8rem; color: var(--muted); margin-top: 4px; }
-  .c-purple { color: var(--accent); } .c-green { color: var(--green); } .c-amber { color: var(--warn); } .c-blue { color: #60a5fa; }
-  .main-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 24px; }
-  @media(max-width:900px){ .main-grid { grid-template-columns: 1fr; } }
-  .panel { background: var(--card); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
-  .panel-header { padding: 16px 20px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
-  .panel-title { font-size: .9rem; font-weight: 600; }
-  .panel-body { padding: 0; max-height: 360px; overflow-y: auto; }
-  .item { padding: 14px 20px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
-  .item:last-child { border-bottom: none; }
-  .item-left { flex: 1; }
-  .item-title { font-size: .88rem; font-weight: 500; margin-bottom: 3px; }
-  .item-sub { font-size: .75rem; color: var(--muted); }
-  .item-right { text-align: right; flex-shrink: 0; }
-  .badge { display: inline-flex; align-items: center; padding: 3px 9px; border-radius: 10px; font-size: .7rem; font-weight: 600; white-space: nowrap; }
-  .badge-pending { background: rgba(245,158,11,.15); color: var(--warn); }
-  .badge-active { background: rgba(16,185,129,.15); color: var(--green); }
-  .badge-completed { background: rgba(96,165,250,.15); color: #60a5fa; }
-  .badge-failed { background: rgba(239,68,68,.15); color: var(--danger); }
-  .badge-hitl { background: rgba(108,99,255,.15); color: var(--accent); }
-  .badge-running { background: rgba(0,212,170,.15); color: var(--accent2); animation: pulse 1.5s infinite; }
-  .hitl-item { padding: 16px 20px; border-bottom: 1px solid var(--border); }
-  .hitl-type { font-size: .7rem; font-weight: 700; text-transform: uppercase; color: var(--accent); margin-bottom: 6px; }
-  .hitl-title { font-size: .88rem; font-weight: 500; margin-bottom: 8px; }
-  .hitl-preview { font-size: .78rem; color: var(--muted); margin-bottom: 12px; background: rgba(0,0,0,.3); padding: 8px; border-radius: 6px; }
-  .hitl-actions { display: flex; gap: 8px; }
-  .btn { padding: 7px 16px; border-radius: 8px; font-size: .8rem; font-weight: 600; cursor: pointer; border: none; }
-  .btn-approve { background: #10b981; color: #fff; }
-  .btn-reject { background: var(--border); color: var(--muted); }
-  .report-item { padding: 14px 20px; border-bottom: 1px solid var(--border); }
-  .report-meta { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
-  .report-agent { font-size: .72rem; font-weight: 700; color: var(--accent2); text-transform: uppercase; }
-  .report-time { font-size: .72rem; color: var(--muted); }
-  .report-title { font-size: .85rem; font-weight: 600; margin-bottom: 4px; }
-  .report-content { font-size: .78rem; color: var(--muted); line-height: 1.5; }
-  .service-row { display: flex; align-items: center; justify-content: space-between; padding: 12px 20px; border-bottom: 1px solid var(--border); }
-  .service-name { font-size: .85rem; }
-  .service-url { font-size: .73rem; color: var(--muted); }
-  .dot { width: 8px; height: 8px; border-radius: 50%; }
-  .dot-green { background: #10b981; box-shadow: 0 0 6px #10b981; }
-  .api-link { display: inline-flex; align-items: center; gap: 6px; font-size: .75rem; color: var(--accent); text-decoration: none; padding: 4px 10px; border: 1px solid rgba(108,99,255,.3); border-radius: 6px; }
-  .model-chip { padding: 6px 14px; background: rgba(108,99,255,.1); border: 1px solid rgba(108,99,255,.2); border-radius: 20px; font-size: .75rem; color: var(--accent); }
-  .models-row { display: flex; flex-wrap: wrap; gap: 10px; padding: 16px 20px; }
-  .toast { position: fixed; bottom: 24px; right: 24px; background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 12px 18px; font-size: .85rem; z-index: 1000; opacity: 0; transition: all .3s; }
-  .toast.show { opacity: 1; }
-  .empty { padding: 32px 20px; text-align: center; color: var(--muted); font-size: .85rem; }
-  .refresh-btn { padding: 6px 12px; background: transparent; border: 1px solid var(--border); border-radius: 8px; color: var(--muted); font-size: .75rem; cursor: pointer; }
-</style>
+}
+</script>
 </head>
 <body>
-<div class="header">
-  <div class="logo"><div class="logo-dot"></div><span>ProHelp AI</span><span style="color:var(--muted);font-size:.8rem;font-weight:400"> — Command Center</span></div>
-  <div class="header-right">
-    <span id="last-updated">Loading...</span>
-    <span class="status-badge status-online" id="api-status">● Connecting...</span>
-    <a href="http://49.12.234.219:8000/docs" target="_blank" class="api-link">API Docs ↗</a>
-    <a href="http://49.12.234.219:5678" target="_blank" class="api-link">n8n ↗</a>
-    <a href="http://49.12.234.219:3000" target="_blank" class="api-link">Chat ↗</a>
+<script>window._PG='';</script>
+<header class="site-header" id="sh"></header>
+
+<main>
+<!-- HERO -->
+<section class="hero">
+<div class="con" style="position:relative;z-index:1">
+  <div class="hero-tag">🌍 International Services Marketplace</div>
+  <h1 class="hero-title">Hire trusted local professionals.<br><em>Get it done today.</em></h1>
+  <p class="hero-sub">Post your task — get offers from verified local professionals in minutes. From cleaning to coding, ProHelp connects you with trusted service providers worldwide.</p>
+  <div class="search-wrap" style="max-width:680px;margin-bottom:20px" id="hero-search">
+    <span style="font-size:1.3rem">🔍</span>
+    <input id="sq" type="text" placeholder="What do you need? e.g. Fix my plumbing, clean apartment..." onkeydown="if(event.key==='Enter')goSearch()">
+    <button class="btn btn-gold" onclick="goSearch()">Find Help</button>
+  </div>
+  <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:44px" id="hero-cats"></div>
+  <div class="hero-stats">
+    <div><div class="stat-num" id="st-p">—</div><div class="stat-lbl">Verified Providers</div></div>
+    <div><div class="stat-num" id="st-t">—</div><div class="stat-lbl">Active Tasks</div></div>
+    <div><div class="stat-num">50+</div><div class="stat-lbl">Countries</div></div>
+    <div><div class="stat-num">4.9★</div><div class="stat-lbl">Avg Rating</div></div>
   </div>
 </div>
-<div class="container">
-  <div class="stats-row">
-    <div class="stat-card"><div class="stat-label">Active Projects</div><div class="stat-value c-purple" id="stat-projects">—</div><div class="stat-sub">Workspaces</div></div>
-    <div class="stat-card"><div class="stat-label">Tasks Today</div><div class="stat-value c-green" id="stat-tasks">—</div><div class="stat-sub">Done / Total</div></div>
-    <div class="stat-card"><div class="stat-label">Pending Approval</div><div class="stat-value c-amber" id="stat-hitl">—</div><div class="stat-sub">HITL queue</div></div>
-    <div class="stat-card"><div class="stat-label">Active Agents</div><div class="stat-value c-blue" id="stat-agents">—</div><div class="stat-sub">Across projects</div></div>
-    <div class="stat-card"><div class="stat-label">Reports</div><div class="stat-value" id="stat-reports">—</div><div class="stat-sub">Submitted</div></div>
+
+<!-- REGISTER PANEL -->
+<section class="sec" style="background:var(--bg2);padding:64px 0;border-bottom:1px solid var(--brd)">
+<div class="con">
+  <div style="text-align:center;margin-bottom:36px">
+    <h2 style="font-size:1.9rem;font-weight:900;margin-bottom:8px">Join ProHelp — It's Free</h2>
+    <p style="color:var(--tx2);font-size:1rem">Choose your role and create an account in 60 seconds</p>
   </div>
-  <div class="main-grid">
-    <div class="panel">
-      <div class="panel-header"><span class="panel-title">🗂 Projects</span><button class="refresh-btn" onclick="loadAll()">&#8635; Refresh</button></div>
-      <div class="panel-body" id="projects-list"><div class="empty">Loading...</div></div>
+
+  <div style="max-width:880px;margin:0 auto">
+    <!-- Role toggle -->
+    <div style="display:flex;background:var(--bg);border:1.5px solid var(--brd);border-radius:14px;padding:4px;max-width:420px;margin:0 auto 32px;gap:4px">
+      <button id="hp-tab-client" onclick="hpSetRole('client')"
+        style="flex:1;padding:11px 0;border:none;border-radius:10px;font-size:.95rem;font-weight:600;cursor:pointer;transition:.2s;background:#2563EB;color:#fff">
+        🏠 I Need Help
+      </button>
+      <button id="hp-tab-provider" onclick="hpSetRole('provider')"
+        style="flex:1;padding:11px 0;border:none;border-radius:10px;font-size:.95rem;font-weight:600;cursor:pointer;transition:.2s;background:transparent;color:var(--tx2)">
+        🔧 I Offer Services
+      </button>
     </div>
-    <div class="panel">
-      <div class="panel-header"><span class="panel-title">⚡ Approval Queue <span id="hitl-count" style="color:var(--warn)"></span></span></div>
-      <div class="panel-body" id="hitl-list"><div class="empty">No pending approvals</div></div>
-    </div>
-    <div class="panel">
-      <div class="panel-header"><span class="panel-title">✅ Recent Tasks</span></div>
-      <div class="panel-body" id="tasks-list"><div class="empty">Loading tasks...</div></div>
-    </div>
-    <div class="panel">
-      <div class="panel-header"><span class="panel-title">📋 Agent Reports</span></div>
-      <div class="panel-body" id="reports-list"><div class="empty">No reports yet</div></div>
-    </div>
-  </div>
-  <div class="main-grid">
-    <div class="panel">
-      <div class="panel-header"><span class="panel-title">🖥 Infrastructure</span></div>
-      <div class="service-row"><div><div class="service-name">Orchestrator API</div><div class="service-url">49.12.234.219:8000</div></div><div class="dot dot-green"></div></div>
-      <div class="service-row"><div><div class="service-name">Chat Interface (Open WebUI)</div><div class="service-url">49.12.234.219:3000</div></div><div class="dot dot-green"></div></div>
-      <div class="service-row"><div><div class="service-name">Workflow Engine (n8n)</div><div class="service-url">49.12.234.219:5678</div></div><div class="dot dot-green"></div></div>
-      <div class="service-row"><div><div class="service-name">LLM Gateway (LiteLLM)</div><div class="service-url">49.12.234.219:4000</div></div><div class="dot dot-green"></div></div>
-      <div class="service-row"><div><div class="service-name">Vector Memory (Qdrant)</div><div class="service-url">49.12.234.219:6333</div></div><div class="dot dot-green"></div></div>
-      <div class="service-row"><div><div class="service-name">Web Search (SearXNG)</div><div class="service-url">49.12.234.219:8888</div></div><div class="dot dot-green"></div></div>
-    </div>
-    <div class="panel">
-      <div class="panel-header"><span class="panel-title">🧠 AI Models + Functions</span></div>
-      <div class="models-row">
-        <div class="model-chip">🔥 kimi-k2</div><div class="model-chip">⚡ deepseek-pro</div>
-        <div class="model-chip">💨 deepseek-flash</div><div class="model-chip">🌐 qwen-multilingual</div>
-        <div class="model-chip">🆓 free-gpt-oss</div><div class="model-chip">🆓 free-nemotron</div>
-      </div>
-      <div style="padding:0 20px 16px;margin-top:8px">
-        <div style="font-size:.75rem;color:var(--muted);margin-bottom:10px">Active Functions:</div>
-        <div style="display:flex;flex-wrap:wrap;gap:6px">
-          <span class="badge badge-active">✓ Chat</span><span class="badge badge-active">✓ Projects</span>
-          <span class="badge badge-active">✓ Agents</span><span class="badge badge-active">✓ Tasks</span>
-          <span class="badge badge-active">✓ Memory</span><span class="badge badge-active">✓ HITL</span>
-          <span class="badge badge-active">✓ Email AI</span><span class="badge badge-active">✓ Research</span>
-          <span class="badge badge-active">✓ Reports</span><span class="badge badge-pending">⏳ n8n Flows</span>
+
+    <!-- Form card -->
+    <div style="background:var(--bg);border:1.5px solid var(--brd);border-radius:18px;padding:32px;box-shadow:0 4px 24px rgba(0,0,0,.06)">
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px" class="hp-grid">
+        <div>
+          <label style="display:block;font-size:.8rem;font-weight:600;color:var(--tx2);margin-bottom:5px">Full Name *</label>
+          <input id="hp-name" class="fi2" placeholder="Your full name" style="width:100%;box-sizing:border-box">
+        </div>
+        <div>
+          <label style="display:block;font-size:.8rem;font-weight:600;color:var(--tx2);margin-bottom:5px">Phone *</label>
+          <input id="hp-phone" class="fi2" placeholder="+356 ..." style="width:100%;box-sizing:border-box">
+        </div>
+        <div>
+          <label style="display:block;font-size:.8rem;font-weight:600;color:var(--tx2);margin-bottom:5px">Email *</label>
+          <input id="hp-email" class="fi2" type="email" placeholder="your@email.com" style="width:100%;box-sizing:border-box">
+        </div>
+        <div>
+          <label style="display:block;font-size:.8rem;font-weight:600;color:var(--tx2);margin-bottom:5px">Password *</label>
+          <input id="hp-pass" class="fi2" type="password" placeholder="At least 6 characters" style="width:100%;box-sizing:border-box">
         </div>
       </div>
+
+      <!-- Provider-only extras -->
+      <div id="hp-prov-extra" style="display:none;margin-top:16px;display:none">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px" class="hp-grid">
+          <div>
+            <label style="display:block;font-size:.8rem;font-weight:600;color:var(--tx2);margin-bottom:5px">Your Specialty *</label>
+            <select id="hp-cat" class="fi2" style="width:100%;box-sizing:border-box"><option value="">Select category</option></select>
+          </div>
+          <div>
+            <label style="display:block;font-size:.8rem;font-weight:600;color:var(--tx2);margin-bottom:5px">Hourly Rate (€)</label>
+            <input id="hp-rate" class="fi2" type="number" min="5" placeholder="e.g. 25" style="width:100%;box-sizing:border-box">
+          </div>
+        </div>
+      </div>
+
+      <div id="hp-msg" style="display:none;margin-top:12px;padding:10px 14px;border-radius:8px;font-size:.875rem;font-weight:600"></div>
+
+      <button id="hp-btn" onclick="hpRegister()"
+        style="margin-top:20px;width:100%;padding:14px;background:#2563EB;color:#fff;border:none;border-radius:10px;font-size:1rem;font-weight:700;cursor:pointer;transition:.15s">
+        Create Free Account →
+      </button>
+
+      <p style="text-align:center;font-size:.8rem;color:var(--tx2);margin-top:12px">
+        Already have an account? <a href="/login.html" style="color:#2563EB;font-weight:600">Log in</a>
+      </p>
     </div>
   </div>
 </div>
-<div class="toast" id="toast"></div>
+</section>
+
+<style>
+@media(max-width:600px){.hp-grid{grid-template-columns:1fr!important}}
+#hp-tab-client,#hp-tab-provider{outline:none}
+#hp-tab-client:hover,#hp-tab-provider:hover{opacity:.88}
+</style>
+
 <script>
-const API='http://49.12.234.219:8000';
-let allProjects=[];
-function showToast(msg,color){const t=document.getElementById('toast');t.textContent=msg;t.style.borderColor=color||'var(--accent)';t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3000);}
-function ago(ts){const d=new Date(ts),now=new Date(),s=Math.floor((now-d)/1000);if(s<60)return s+'s ago';if(s<3600)return Math.floor(s/60)+'m ago';if(s<86400)return Math.floor(s/3600)+'h ago';return d.toLocaleDateString();}
-function statusBadge(s){const map={pending:'badge-pending',in_progress:'badge-running',completed:'badge-completed',failed:'badge-failed',awaiting_user_action:'badge-hitl',active:'badge-active',skipped:'badge-completed'};return`<span class="badge ${map[s]||'badge-pending'}">${(s||'').replace(/_/g,' ')}</span>`;}
-async function apiFetch(path){const r=await fetch(API+path,{headers:{'Accept':'application/json'}});if(!r.ok)throw new Error(r.status);return r.json();}
-async function loadProjects(){try{const data=await apiFetch('/projects');allProjects=data.projects||[];const el=document.getElementById('projects-list');document.getElementById('stat-projects').textContent=allProjects.length;if(!allProjects.length){el.innerHTML='<div class="empty">No projects yet. Create via API.</div>';return;}el.innerHTML=allProjects.map(p=>`<div class="item"><div class="item-left"><div class="item-title">${p.name}</div><div class="item-sub">${p.description||''}\u00b7 ${p.agent_count||0} agents \u00b7 ${p.task_count||0} tasks</div></div><div class="item-right">${statusBadge(p.status)}<div class="item-sub">${ago(p.created_at)}</div></div></div>`).join('');}catch(e){document.getElementById('projects-list').innerHTML='<div class="empty">⚠️ API unreachable — check server</div>';}}
-async function loadTasks(){try{const data=await apiFetch('/tasks');const tasks=data.tasks||[];const el=document.getElementById('tasks-list');const completed=tasks.filter(t=>t.status==='completed').length;document.getElementById('stat-tasks').textContent=completed+'/'+tasks.length;document.getElementById('stat-hitl').textContent=tasks.filter(t=>t.status==='awaiting_user_action').length;if(!tasks.length){el.innerHTML='<div class="empty">No tasks yet</div>';return;}el.innerHTML=tasks.slice(0,15).map(t=>`<div class="item"><div class="item-left"><div class="item-title">${t.title}</div><div class="item-sub">${t.agent_name?'\ud83e\udd16 '+t.agent_name+' \u00b7 ':''}${ago(t.created_at)}</div></div><div class="item-right">${statusBadge(t.status)}</div></div>`).join('');}catch(e){}}
-async function loadHITL(){try{const data=await apiFetch('/tasks?status=awaiting_user_action');const tasks=data.tasks||[];const el=document.getElementById('hitl-list');const count=document.getElementById('hitl-count');if(!tasks.length){el.innerHTML='<div class="empty">✓ No pending approvals</div>';count.textContent='';return;}count.textContent='('+tasks.length+')';el.innerHTML=tasks.map(t=>`<div class="hitl-item"><div class="hitl-type">${t.executor==='human'?'\ud83d\udc64 Human Review':'\ud83e\udd16 AI Draft'} \u00b7 ${t.trigger_type||'manual'}</div><div class="hitl-title">${t.title}</div><div class="hitl-preview">${(t.why_human||t.action||'Awaiting review...').slice(0,150)}</div><div class="hitl-actions"><button class="btn btn-approve" onclick="approveTask('${t.id}',this)">✓ Approve</button><button class="btn btn-reject" onclick="rejectTask(this)">✗ Reject</button></div></div>`).join('');}catch(e){}}
-async function loadReports(){try{let all=[];for(const p of allProjects.slice(0,5)){try{const d=await apiFetch('/reports/'+p.id);all=all.concat((d.reports||[]).map(r=>({...r,pname:p.name})));}catch(e){}}document.getElementById('stat-reports').textContent=all.length;const el=document.getElementById('reports-list');if(!all.length){el.innerHTML='<div class="empty">Agents will post reports here</div>';return;}all.sort((a,b)=>new Date(b.created_at)-new Date(a.created_at));el.innerHTML=all.slice(0,10).map(r=>`<div class="report-item"><div class="report-meta"><span class="report-agent">${r.agent_name||r.pname}</span><span class="report-time">${ago(r.created_at)}</span><span class="badge badge-active" style="font-size:.65rem">${r.report_type}</span></div><div class="report-title">${r.title}</div><div class="report-content">${(r.content||'').slice(0,200)}</div></div>`).join('');}catch(e){}}
-async function loadAgents(){try{let total=0;for(const p of allProjects.slice(0,5)){const d=await apiFetch('/agents/'+p.id);total+=(d.agents||[]).length;}document.getElementById('stat-agents').textContent=total;}catch(e){}}
-async function approveTask(id,btn){btn.disabled=true;btn.textContent='...';showToast('\u2713 Approved','var(--green)');await loadAll();}
-async function rejectTask(btn){btn.disabled=true;btn.textContent='...';showToast('Rejected');await loadAll();}
-async function checkHealth(){try{const h=await apiFetch('/health');const badge=document.getElementById('api-status');badge.textContent=h.status==='healthy'?'\u25cf Online':'\u25cf Degraded';badge.className='status-badge '+(h.status==='healthy'?'status-online':'');}catch(e){document.getElementById('api-status').textContent='\u25cf Offline';document.getElementById('api-status').style.color='var(--danger)';}}
-async function loadAll(){document.getElementById('last-updated').textContent='Refreshing...';await checkHealth();await loadProjects();await Promise.all([loadTasks(),loadReports()]);await Promise.all([loadAgents(),loadHITL()]);document.getElementById('last-updated').textContent='Updated '+new Date().toLocaleTimeString();}
-loadAll();setInterval(loadAll,30000);
+var _hpRole = 'client';
+function hpSetRole(r) {
+  _hpRole = r;
+  var isP = r === 'provider';
+  document.getElementById('hp-tab-client').style.cssText = 'flex:1;padding:11px 0;border:none;border-radius:10px;font-size:.95rem;font-weight:600;cursor:pointer;transition:.2s;background:'+(isP?'transparent':'#2563EB')+';color:'+(isP?'var(--tx2)':'#fff');
+  document.getElementById('hp-tab-provider').style.cssText = 'flex:1;padding:11px 0;border:none;border-radius:10px;font-size:.95rem;font-weight:600;cursor:pointer;transition:.2s;background:'+(isP?'#2563EB':'transparent')+';color:'+(isP?'#fff':'var(--tx2)');
+  document.getElementById('hp-prov-extra').style.display = isP ? 'block' : 'none';
+  document.getElementById('hp-btn').textContent = isP ? 'Register as Provider →' : 'Create Free Account →';
+}
+
+fetch('/market/categories').then(function(r){return r.json();}).then(function(d){
+  if(d.categories){d.categories.forEach(function(cat){
+    document.getElementById('hp-cat').innerHTML += '<option value="'+cat.id+'">'+cat.name+'</option>';
+  });}
+}).catch(function(){});
+
+async function hpRegister() {
+  var name=document.getElementById('hp-name').value.trim();
+  var phone=document.getElementById('hp-phone').value.trim();
+  var email=document.getElementById('hp-email').value.trim();
+  var pass=document.getElementById('hp-pass').value;
+  var msg=document.getElementById('hp-msg');
+
+  if(!name||!email||!pass||!phone){showHpMsg('Please fill in all required fields.','#FEF2F2','#991B1B');return;}
+  if(pass.length<6){showHpMsg('Password must be at least 6 characters.','#FEF2F2','#991B1B');return;}
+
+  var btn=document.getElementById('hp-btn');
+  btn.disabled=true; btn.textContent='Creating account...';
+
+  var body={name:name,email:email,password:pass,phone:phone,role:_hpRole};
+  if(_hpRole==='provider'){
+    body.category=document.getElementById('hp-cat').value;
+    body.hourly_rate=parseFloat(document.getElementById('hp-rate').value)||0;
+  }
+
+  try{
+    var r=await fetch('/market/register',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+    var d=await r.json();
+    if(r.ok){
+      showHpMsg('✅ Account created! Redirecting...','#F0FDF4','#166534');
+      setTimeout(function(){
+        var role=d.role; if(role==='provider'||role==='both') location.href='/dashboard-provider.html'; else location.href='/post-task.html';
+      },1200);
+    } else {
+      var _em=d.detail||'Registration failed.'; if(_em==='Email already registered for this role') _em='This email is already registered as '+_hpRole+'. Try logging in.'; showHpMsg(_em,'#FEF2F2','#991B1B');
+      btn.disabled=false; btn.textContent=_hpRole==='provider'?'Register as Provider →':'Create Free Account →';
+    }
+  }catch(e){
+    showHpMsg('Network error. Please try again.','#FEF2F2','#991B1B');
+    btn.disabled=false; btn.textContent=_hpRole==='provider'?'Register as Provider →':'Create Free Account →';
+  }
+}
+
+function showHpMsg(text,bg,color){
+  var el=document.getElementById('hp-msg');
+  el.style.display='block'; el.style.background=bg; el.style.color=color; el.textContent=text;
+}
 </script>
-</body>
-</html>
+
+
+<!-- HOW IT WORKS -->
+<section class="sec sec-dark">
+<div class="con">
+  <h2 style="text-align:center;font-size:1.8rem;font-weight:900;margin-bottom:8px">How ProHelp Works</h2>
+  <p style="text-align:center;color:var(--tx2);margin-bottom:44px">Three steps. Any task. Any city.</p>
+  <div class="steps-grid">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-title">Post Your Task</div>
+      <p class="step-desc">Describe what you need, set your budget and location. Takes under 2 minutes.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-title">Receive Offers</div>
+      <p class="step-desc">Verified professionals send bids with price and timeline. Compare profiles, reviews, and rates.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-title">Get It Done</div>
+      <p class="step-desc">Choose your provider, complete the task, pay securely. Leave a review to build trust.</p>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- CATEGORIES -->
+<section class="sec">
+<div class="con">
+  <div class="sec-hdr">
+    <div><h2 class="sec-title">Browse by Category</h2><p class="sec-sub">16 service types — from cleaning to coding</p></div>
+  </div>
+  <div class="g-cats" id="cats-grid"></div>
+</div>
+</section>
+
+<!-- LIVE TASKS -->
+<section class="sec sec-dark">
+<div class="con">
+  <div class="sec-hdr">
+    <div><h2 class="sec-title">Latest Tasks</h2><p class="sec-sub">Real jobs posted by clients right now</p></div>
+    <a href="/orders.html"><button class="btn btn-ghost">View All →</button></a>
+  </div>
+  <div id="tasks-feed" class="sp"><div class="spinner"></div></div>
+</div>
+</section>
+
+<!-- TOP PROVIDERS -->
+<section class="sec">
+<div class="con">
+  <div class="sec-hdr">
+    <div><h2 class="sec-title">Top Providers</h2><p class="sec-sub">Trusted professionals ready to take on your task</p></div>
+    <a href="/providers.html"><button class="btn btn-ghost">Browse All →</button></a>
+  </div>
+  <div id="prov-feed" class="sp"><div class="spinner"></div></div>
+</div>
+</section>
+
+<!-- CTA -->
+<section class="sec" style="background:linear-gradient(135deg,rgba(217,119,6,.08),rgba(245,158,11,.04));border-top:1px solid var(--brd);text-align:center;padding:80px 0">
+<div class="con">
+  <h2 style="font-size:2.2rem;font-weight:900;margin-bottom:12px">Ready to get started?</h2>
+  <p style="color:var(--tx2);font-size:1.05rem;margin-bottom:36px;max-width:520px;margin-left:auto;margin-right:auto">Join thousands of clients and professionals. Post your first task free — no subscription needed.</p>
+  <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap">
+    <a href="/post-task.html"><button class="btn btn-gold btn-xl">Post a Task — Free</button></a>
+    <a href="/register.html?role=provider"><button class="btn btn-outline-gold btn-xl">Become a Provider</button></a>
+  </div>
+</div>
+</section>
+</main>
+<div id="fc2"></div>
+<script src="/shared.js"></script>
+<script>
+
+document.getElementById('hero-cats').innerHTML=
+  CATS.slice(0,8).map(c=>`<a href="/orders.html?cat=${c.id}" class="btn btn-ghost btn-sm">${c.icon} ${c.name}</a>`).join('');
+document.getElementById('cats-grid').innerHTML=
+  CATS.map(c=>`<a href="/orders.html?cat=${c.id}" class="cat-card"><div class="cat-icon">${c.icon}</div><div class="cat-name">${c.name}</div><div class="cat-count">${c.sub}</div></a>`).join('');
+
+async function loadHome(){
+  try{
+    const [orders, providers]=await Promise.all([API.get('/orders?limit=6'),API.get('/providers?limit=6')]);
+    document.getElementById('st-p').textContent=providers.length;
+    document.getElementById('st-t').textContent=orders.length;
+    // Tasks
+    const tf=document.getElementById('tasks-feed');
+    if(!orders.length){tf.innerHTML='<div class="empty-state"><div class="empty-icon">📋</div><p>No tasks yet. <a href="/post-task.html" style="color:var(--gold)">Post the first one!</a></p></div>';
+    }else{
+      let h='<div class="g2">';
+      orders.forEach(t=>{
+        h+=`<div class="tk" onclick="location.href='/task.html?id=${t.id}'">
+          <div class="tk-head"><div class="tk-title">${esc(t.title)}</div><div class="tk-price">${fmtPrice(t.budget)}</div></div>
+          <div class="tk-meta"><span class="bdg bdg-blue">${catIcon(t.category)} ${catName(t.category)}</span>
+            <span class="bdg bdg-muted">📍 ${esc(t.location||'Remote')}</span>
+            ${t.applications>0?`<span class="tk-apps">${t.applications} offers</span>`:''}
+            <span class="bdg ${t.status==='open'?'bdg-gr':'bdg-muted'}">${t.status}</span></div>
+          ${t.description?`<p class="tk-desc">${esc(t.description)}</p>`:''}
+          <div class="tk-foot"><div class="tk-user"><div class="av av-xs">${(t.client_name||'C')[0]}</div>${esc(t.client_name||'Client')}</div>
+          <span class="tk-time">${timeAgo(t.created_at)}</span></div></div>`;
+      });
+      tf.innerHTML=h+'</div>';
+    }
+    // Providers
+    const pf=document.getElementById('prov-feed');
+    if(!providers.length){pf.innerHTML='<div class="empty-state"><div class="empty-icon">👤</div><p>No providers yet. <a href="/register.html?role=provider" style="color:var(--gold)">Be the first!</a></p></div>';
+    }else{
+      let h='<div class="g3">';
+      providers.forEach(p=>{
+        h+=`<div class="pc"><div class="pc-head"><div class="av av-md">${(p.name||'P')[0]}</div>
+          <div class="pc-info"><div class="pc-name">${esc(p.name)} ${p.verified?'<span class="verified">✓ Verified</span>':''}</div>
+          <div class="pc-cat">${catIcon(p.category)} ${catName(p.category)}</div></div>
+          <div class="pc-rate">${p.hourly_rate?fmtPrice(p.hourly_rate)+'/h':'Ask'}</div></div>
+          ${p.bio?`<p class="pc-bio">${esc(p.bio)}</p>`:''}
+          <div class="pc-stats"><div class="pc-stat">${starsHtml(p.rating,'sm')} <span>${(p.rating||5).toFixed(1)}</span></div></div>
+          <div class="pc-foot"><span></span><a href="/orders.html"><button class="btn btn-ghost btn-sm">Browse Tasks</button></a></div></div>`;
+      });
+      pf.innerHTML=h+'</div>';
+    }
+  }catch(e){
+    document.getElementById('tasks-feed').innerHTML='<div class="empty-state"><p style="color:var(--rd)">'+esc(e.message)+'</p></div>';
+  }
+}
+function goSearch(){const q=document.getElementById('sq').value.trim();if(q)location.href='/orders.html?q='+encodeURIComponent(q);}
+loadHome();
+
+</script>
+<script src="/chatbot.js"></script>
+
+
+</body></html>
