@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<link rel="icon" type="image/png" href="/assets/prohelp-favicon.png">
+<link rel="apple-touch-icon" href="/assets/prohelp-favicon.png">
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ProHelp — Secure Payment</title>
+<script src="https://js.stripe.com/v3/"></script>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f7f7f8; display: flex; align-items: center; justify-content: center; min-height: 100vh; }
+  .card { background: #fff; border-radius: 12px; padding: 36px; max-width: 440px; width: 100%; box-shadow: 0 2px 16px rgba(0,0,0,.08); }
+  h1 { font-size: 1.4rem; margin-bottom: 6px; }
+  .subtitle { color: #666; font-size: .9rem; margin-bottom: 28px; }
+  .breakdown { background: #f7f7f8; border-radius: 8px; padding: 16px; margin-bottom: 24px; }
+  .row { display: flex; justify-content: space-between; font-size: .9rem; padding: 4px 0; }
+  .row.total { font-weight: 700; font-size: 1rem; border-top: 1px solid #ddd; margin-top: 8px; padding-top: 10px; }
+  .row.fee { color: #888; font-size: .82rem; }
+  #payment-element { margin-bottom: 20px; }
+  button { width: 100%; padding: 14px; background: #5469d4; color: #fff; border: none; border-radius: 8px; font-size: 1rem; font-weight: 600; cursor: pointer; }
+  button:disabled { opacity: .6; cursor: not-allowed; }
+  #message { margin-top: 14px; padding: 12px; border-radius: 8px; font-size: .88rem; display: none; }
+  #message.error { background: #fff0f0; color: #c0392b; display: block; }
+  #message.success { background: #f0fff4; color: #27ae60; display: block; }
+  .lock { font-size: .78rem; color: #888; text-align: center; margin-top: 14px; }
+</style>
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-PROHELP001"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("js",new Date());gtag("config","G-PROHELP001");</script>
+</head>
+<body>
+<div class="card">
+  <h1>Secure Payment</h1>
+  <p class="subtitle" id="order-title">Loading order…</p>
+
+  <div class="breakdown">
+    <div class="row"><span>Service fee</span><span id="amount-display">—</span></div>
+    <div class="row fee"><span>Platform fee (15%)</span><span id="fee-display">—</span></div>
+    <div class="row total"><span>You pay</span><span id="total-display">—</span></div>
+    <div class="row fee"><span>Provider receives</span><span id="provider-display">—</span></div>
+  </div>
+
+  <div id="payment-element"></div>
+  <button id="pay-btn" disabled>Pay now</button>
+  <div id="message"></div>
+  <p class="lock">🔒 Payments secured by Stripe. Funds held until job is complete.</p>
+</div>
+
+<script>
+const params = new URLSearchParams(location.search);
+const orderId = params.get('order_id');
+const applicationId = params.get('application_id');
+
+let stripe, elements;
+
+async function init() {
+  if (!orderId || !applicationId) {
+    showMsg('Missing order_id or application_id in URL', 'error');
+    return;
+  }
+
+  // 1. Get publishable key + create PaymentIntent
+  let data;
+  try {
+    const res = await fetch('/market/payment/create', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ order_id: parseInt(orderId), application_id: parseInt(applicationId) }),
+    });
+    data = await res.json();
+    if (!res.ok) { showMsg(data.detail || 'Failed to create payment', 'error'); return; }
+  } catch (e) {
+    showMsg('Network error: ' + e.message, 'error');
+    return;
+  }
+
+  document.getElementById('order-title').textContent = `Order #${orderId}`;
+  document.getElementById('amount-display').textContent = `€${data.amount_eur}`;
+  document.getElementById('fee-display').textContent = `€${data.fee_eur}`;
+  document.getElementById('total-display').textContent = `€${data.amount_eur}`;
+  document.getElementById('provider-display').textContent = `€${data.provider_receives_eur}`;
+
+  // 2. Mount Stripe Elements
+  stripe = Stripe(data.publishable_key);
+  elements = stripe.elements({ clientSecret: data.client_secret });
+  const paymentElement = elements.create('payment');
+  paymentElement.mount('#payment-element');
+  paymentElement.on('ready', () => {
+    document.getElementById('pay-btn').disabled = false;
+  });
+
+  document.getElementById('pay-btn').addEventListener('click', handlePay);
+}
+
+async function handlePay() {
+  const btn = document.getElementById('pay-btn');
+  btn.disabled = true;
+  btn.textContent = 'Processing…';
+
+  const { error } = await stripe.confirmPayment({
+    elements,
+    confirmParams: {
+      return_url: `${location.origin}/marketplace/dashboard-client.html?payment=success&order_id=${orderId}`,
+    },
+  });
+
+  if (error) {
+    showMsg(error.message, 'error');
+    btn.disabled = false;
+    btn.textContent = 'Pay now';
+  }
+  // On success Stripe redirects to return_url automatically
+}
+
+function showMsg(text, type) {
+  const el = document.getElementById('message');
+  el.textContent = text;
+  el.className = type;
+}
+
+init();
+</script>
+<script src="/chatbot.js"></script>
+
+
+</body>
+</html>
