@@ -465,7 +465,6 @@ input[type="number"], input[type="tel"], textarea, select {
   border: 1.5px solid var(--border);
   border-radius: var(--r);
   font-size: 0.9375rem;
-  font-family: var(--font);
   color: var(--text);
   outline: none;
   transition: border-color var(--t-base) var(--ease), box-shadow var(--t-base) var(--ease);
@@ -875,17 +874,162 @@ footer, .footer {
 
 
 /* === Frontend Agent — Cycle 26 === */
-.submit-button:active .loading-state {
-  animation: spin 0.8s linear infinite;
+
+
+
+
+
+/* ── Header layout classes (renderHeader) ─────────────────────── */
+.hi {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: var(--max-w);
+  margin: 0 auto;
+  padding: 0 24px;
+  gap: var(--sp-6);
 }
 
-@keyframes spin {
-  0% {
-    transform: rotate(0deg);
-    color: var(--gold);
-  }
-  100% {
-    transform: rotate(360deg);
-    color: var(--gold);
-  }
+.site-header nav.nav {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-1);
+}
+
+.site-header nav.nav a {
+  color: var(--text-2);
+  font-size: 0.875rem;
+  font-weight: var(--fw-medium);
+  text-decoration: none;
+  padding: 6px 12px;
+  border-radius: var(--r-sm);
+  transition: color var(--t-fast), background var(--t-fast);
+}
+.site-header nav.nav a:hover  { color: var(--text); background: var(--bg-3); }
+.site-header nav.nav a.on     { color: var(--gold-dark) !important; font-weight: var(--fw-semi); }
+
+.nav-act {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Hamburger */
+.mnb {
+  display: none;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  line-height: 1;
+  cursor: pointer;
+  padding: 4px 8px;
+  color: var(--text);
+  border-radius: var(--r-sm);
+}
+.mnb:hover { background: var(--bg-3); }
+
+/* Mobile overlay menu */
+.mob-menu {
+  display: none;
+  flex-direction: column;
+  position: absolute;
+  top: var(--nav-h);
+  left: 0;
+  right: 0;
+  background: #fff;
+  border-bottom: 1px solid var(--border);
+  padding: 12px 24px 16px;
+  z-index: 199;
+  gap: 2px;
+  box-shadow: 0 8px 24px rgba(0,0,0,.06);
+}
+.mob-menu.open { display: flex; }
+.mob-menu a, .mob-menu button {
+  padding: 10px 14px;
+  border-radius: var(--r-sm);
+  color: var(--text-2);
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: var(--fw-medium);
+  background: none;
+  border: none;
+  text-align: left;
+  cursor: pointer;
+  width: 100%;
+  transition: background var(--t-fast), color var(--t-fast);
+}
+.mob-menu a:hover, .mob-menu button:hover { background: var(--bg-3); color: var(--text); }
+
+/* Logo wordmark */
+.logo-wordmark {
+  font-size: 1.25rem;
+  font-weight: var(--fw-extrabold);
+  color: var(--text);
+  letter-spacing: -0.03em;
+  text-decoration: none;
+}
+.logo-wordmark--light { color: #fff !important; }
+
+@media (max-width: 768px) {
+  .site-header nav.nav { display: none; }
+  .nav-act .btn-ghost   { display: none; }
+  .mnb                  { display: flex; }
+  .hi { padding: 0 16px; }
+}
+
+/* ── Helpful-tips accordion ─────────────────────────────────── */
+.accordion-item { border: 1px solid var(--border); border-radius: var(--r); margin-bottom: 0.5rem; overflow: hidden; }
+.accordion-header { background: var(--surface); color: var(--text-1); padding: 0.75rem 1rem; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-weight: 600; }
+.accordion-header:hover { filter: brightness(1.1); }
+.accordion-body { padding: 0.75rem 1rem; color: var(--text-2); font-size: 0.9rem; display: none; }
+.accordion-item.open .accordion-body { display: block; }
+
+
+/* === Frontend Agent — Cycle 28 === */
+.helpful-tips {
+  margin-top: 20px;
+}
+
+.helpful-tips__accordion {
+  border: 1px solid var(--bg);
+  border-radius: 8px;
+  margin-bottom: 15px;
+  background-color: var(--bg);
+}
+
+.helpful-tips__header {
+  background-color: var(--bg);
+  color: var(--gold);
+  padding: 12px;
+  border-bottom: 1px solid var(--bg);
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.helpful-tips__header:hover {
+  background-color: var(--gold);
+  color: var(--bg);
+}
+
+.helpful-tips__content {
+  padding: 12px;
+  border: 1px solid var(--bg);
+  border-radius: 8px;
+  display: none;
+}
+
+.helpful-tips__content.active {
+  display: block;
+}
+
+/* Style for the task description field (for visual context) */
+.task-description-field {
+  margin-bottom: 15px;
+  padding: 10px;
+  border: 1px solid var(--bg);
+  border-radius: 8px;
+  background-color: var(--bg);
 }
