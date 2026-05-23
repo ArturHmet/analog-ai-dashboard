@@ -872,3 +872,20 @@ footer, .footer {
   color: #0F0F0F;
   transition: background-color 0.15s ease;
 }
+
+
+/* === Frontend Agent — Cycle 26 === */
+.submit-button:active .loading-state {
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+    color: var(--gold);
+  }
+  100% {
+    transform: rotate(360deg);
+    color: var(--gold);
+  }
+}
