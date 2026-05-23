@@ -223,7 +223,6 @@ header {
   border-radius: var(--r);
   font-size: 0.875rem;
   font-weight: var(--fw-semi);
-  font-family: var(--font);
   border: 1.5px solid transparent;
   transition: all var(--t-base) var(--ease);
   white-space: nowrap;
@@ -328,7 +327,6 @@ header {
   outline: none;
   font-size: 0.9375rem;
   color: var(--text);
-  font-family: var(--font);
 }
 .search-bar input::placeholder { color: var(--text-3); }
 .search-bar button { border-radius: var(--r-full); padding: 10px 22px; }
