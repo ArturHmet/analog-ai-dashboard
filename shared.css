@@ -848,3 +848,29 @@ footer, .footer {
   .site-header, .sidebar, footer, .btn, #ph-chat-btn, #ph-chat-box { display: none !important; }
   .card, .pc, .task-card { box-shadow: none; border: 1px solid #ddd; }
 }
+
+
+.prohelp-quick-task-button {
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  background: var(--primary);
+  color: #0F0F0F;
+  font-weight: 600;
+  font-size: 1rem;
+  padding: 0.875rem 1.5rem;
+  border-radius: var(--r);
+  border: none;
+  cursor: pointer;
+  z-index: 900;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  text-decoration: none;
+  display: inline-block;
+}
+
+
+.register-hover:hover {
+  background-color: var(--gold2);
+  color: #0F0F0F;
+  transition: background-color 0.15s ease;
+}
