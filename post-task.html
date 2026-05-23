@@ -21,6 +21,8 @@
 <link rel="stylesheet" href="/shared.css"><!-- Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-PROHELP001"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("js",new Date());gtag("config","G-PROHELP001");</script>
+<script src="/translations.js"></script>
+<script src="/i18n.js"></script>
 </head>
 <body>
 <script>window._PG='post';</script>
@@ -28,8 +30,8 @@
 
 <div class="page-hdr">
 <div class="con">
-  <div class="page-bc"><a href="/">Home</a><span>/</span><span>Post a Task</span></div>
-  <h1 class="page-title">Post a Task</h1>
+  <div class="page-bc"><a href="/">Home</a><span>/</span><span data-i18n="nav_post">Post a Task</span></div>
+  <h1 class="page-title" data-i18n="nav_post">Post a Task</h1>
   <p class="page-sub">Describe what you need — get offers from professionals in minutes</p>
 </div></div>
 <main class="con" style="padding:36px 0 80px">
@@ -43,7 +45,7 @@
     </div>
     <div class="fi"><label class="fl">Category *</label>
       <select id="tc5" class="fi2" onchange="updateBudgetHint(this.value)"><option value="">Select a category</option></select></div>
-    <div class="fi"><label class="fl">Description</label>
+    <div class="fi"><label class="fl" data-i18n="post_lbl_desc">Description</label>
       <textarea id="td3" class="fi2" rows="5" placeholder="Details: what needs to be done, when, any special requirements, access instructions..."></textarea></div>
     <div class="frow">
       <div class="fi"><label class="fl">Your budget (€) *</label>
@@ -58,20 +60,22 @@
       </div>
     </div>
 
-<div class="helpful-tips">
-  <div class="accordion-item">
-    <div class="accordion-header" onclick="this.parentElement.classList.toggle('open')">📌 Be specific about your task <span>▾</span></div>
-    <div class="accordion-body"><ul><li>Describe exact work needed</li><li>Mention preferred timeline</li><li>Note special requirements</li></ul></div>
+<section class="helpful-tips">
+  <h4 style="color:var(--gold);margin-bottom:10px;">💡 Helpful Tips</h4>
+  <div class="helpful-tips__accordion">
+    <div class="helpful-tips__header" onclick="this.nextElementSibling.classList.toggle('active')">📌 Be specific about your needs <span>▾</span></div>
+    <div class="helpful-tips__content"><ul><li>Describe the exact work needed</li><li>Mention your preferred timeline</li><li>Note any special requirements</li></ul></div>
   </div>
-  <div class="accordion-item">
-    <div class="accordion-header" onclick="this.parentElement.classList.toggle('open')">💰 Set a realistic budget <span>▾</span></div>
-    <div class="accordion-body"><ul><li>Check category average rates</li><li>Budget hints update by category automatically</li><li>Providers filter by budget range</li></ul></div>
+  <div class="helpful-tips__accordion">
+    <div class="helpful-tips__header" onclick="this.nextElementSibling.classList.toggle('active')">💰 Include details about budget <span>▾</span></div>
+    <div class="helpful-tips__content"><ul><li>Check category average rates shown above</li><li>Budget hints update automatically by category</li></ul></div>
   </div>
-  <div class="accordion-item">
-    <div class="accordion-header" onclick="this.parentElement.classList.toggle('open')">📍 Include your location <span>▾</span></div>
-    <div class="accordion-body"><ul><li>Malta district helps match local providers</li><li>Providers within 5km respond 2× faster</li></ul></div>
+  <div class="helpful-tips__accordion">
+    <div class="helpful-tips__header" onclick="this.nextElementSibling.classList.toggle('active')">📅 State your desired timeframe <span>▾</span></div>
+    <div class="helpful-tips__content"><ul><li>Urgent jobs get 3x more responses</li><li>Flexible timeline attracts better offers</li></ul></div>
   </div>
-</div>
+</section>
+
     <div id="not-logged" class="alert alert-warn" style="display:none">
       <span>⚠</span>
       <span><a href="/register.html?role=client" style="color:var(--gold)">Create a free account</a> or <a href="/login.html" style="color:var(--gold)">log in</a> to post your task.</span>
