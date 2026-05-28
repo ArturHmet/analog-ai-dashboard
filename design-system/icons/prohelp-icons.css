@@ -1,0 +1,32 @@
+.ph-icon {
+  display: inline-block;
+  width: 1.5rem;
+  height: 1.5rem;
+  stroke: var(--ph-icon-color, #D97706);
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  fill: none;
+}
+
+/* Size variants */
+.ph-icon--sm { width: 1rem; height: 1rem; }
+.ph-icon--md { width: 1.5rem; height: 1.5rem; }
+.ph-icon--lg { width: 2rem; height: 2rem; }
+.ph-icon--xl { width: 3rem; height: 3rem; }
+
+/* Colour variants */
+.ph-icon--gold    { --ph-icon-color: #D97706; }
+.ph-icon--gold-lt { --ph-icon-color: #F59E0B; }
+.ph-icon--white   { --ph-icon-color: #FFFFFF; }
+.ph-icon--muted   { --ph-icon-color: #9CA3AF; }
+
+/* Service category shortcuts */
+.ph-icon--plumber     { --ph-icon-color: #D97706; }
+.ph-icon--electrician { --ph-icon-color: #F59E0B; }
+.ph-icon--cleaner     { --ph-icon-color: #D97706; }
+.ph-icon--tutor       { --ph-icon-color: #D97706; }
+.ph-icon--chef        { --ph-icon-color: #D97706; }
+.ph-icon--mover       { --ph-icon-color: #D97706; }
+.ph-icon--gardener    { --ph-icon-color: #D97706; }
+.ph-icon--nanny       { --ph-icon-color: #D97706; }
