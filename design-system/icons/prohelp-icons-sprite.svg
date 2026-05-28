@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none">
+  <!-- ProHelp Category Icon Sprite v1.0 -->
+  <!-- Usage: <svg><use href="#icon-plumber"/></svg> -->
+  <!-- Stroke: apply via CSS or parent SVG stroke attribute -->
+  <symbol id="icon-plumber" viewBox="0 0 24 24">
+<!-- Wrench -->
+  <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+  </symbol>
+  <symbol id="icon-electrician" viewBox="0 0 24 24">
+<!-- Zap / Lightning -->
+  <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+  </symbol>
+  <symbol id="icon-cleaner" viewBox="0 0 24 24">
+<!-- Sparkles -->
+  <path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/>
+  <path d="M20 3v4"/>
+  <path d="M22 5h-4"/>
+  <path d="M4 17v2"/>
+  <path d="M5 18H3"/>
+  </symbol>
+  <symbol id="icon-tutor" viewBox="0 0 24 24">
+<!-- Graduation Cap -->
+  <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
+  <path d="M6 12v5c3 3 9 3 12 0v-5"/>
+  </symbol>
+  <symbol id="icon-chef" viewBox="0 0 24 24">
+<!-- Chef Hat -->
+  <path d="M17 21a1 1 0 0 0 1-1v-5.35c0-.457.316-.844.727-1.041a4 4 0 0 0-2.134-7.589 5 5 0 0 0-9.186 0A4 4 0 0 0 6.273 13.61c.411.197.727.584.727 1.04V20a1 1 0 0 0 1 1z"/>
+  <path d="M6 21h12"/>
+  </symbol>
+  <symbol id="icon-mover" viewBox="0 0 24 24">
+<!-- Package / Box -->
+  <path d="M16.5 9.4 7.55 4.24"/>
+  <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+  <polyline points="3.29 7 12 12 20.71 7"/>
+  <line x1="12" y1="22" x2="12" y2="12"/>
+  </symbol>
+  <symbol id="icon-gardener" viewBox="0 0 24 24">
+<!-- Seedling / Plant -->
+  <path d="M7 20h10"/>
+  <path d="M10 20c5.5-2.5.8-6.4 3-10"/>
+  <path d="M9.5 9.4c1.1.8 1.8 2.2 2.3 3.7-2 .4-3.5.4-4.8-.3-1.2-.6-2.3-1.9-3-4.2 2.8-.5 4.4 0 5.5.8z"/>
+  <path d="M14.1 6a7 7 0 0 1 1.35 9.4 4 4 0 0 0-6.03-4.88"/>
+  </symbol>
+  <symbol id="icon-nanny" viewBox="0 0 24 24">
+<!-- Heart + small person (care) -->
+  <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7z"/>
+  </symbol>
+</svg>
