@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 32" width="24" height="32" fill="currentColor" aria-hidden="true">
+
+  <!-- Pipe horizontal -->
+  <rect x="1" y="13" width="14" height="5" rx="2.5" fill="currentColor"/>
+  <!-- Pipe vertical -->
+  <rect x="11" y="5" width="5" height="12" rx="2.5" fill="currentColor"/>
+  <!-- Cap top -->
+  <rect x="9" y="3" width="9" height="4" rx="2" fill="currentColor"/>
+  <!-- Drip drop -->
+  <path d="M4 18 C4 18 2.5 21.5 2.5 23.5 C2.5 25.4 3.1 27 4 27 C4.9 27 5.5 25.4 5.5 23.5 C5.5 21.5 4 18 4 18Z" fill="#D97706"/>
+  <!-- Pipe end flange left -->
+  <rect x="0" y="12" width="3" height="7" rx="1.5" fill="#D97706"/>
+</svg>
