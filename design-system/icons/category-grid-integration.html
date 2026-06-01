@@ -1,0 +1,128 @@
+<!--
+  ProHelp Category Selector Grid — P3e integration example
+  Drop this <use> pattern inside post-task.html wherever the category
+  selector grid renders.  The sprite is inlined at the top of the page
+  (or included via a fetch/import).
+-->
+
+<!-- 1. Inline sprite at the very top of <body> (once per page) -->
+<!-- {% include "icons.svg" %}   ← server-side include          -->
+<!-- OR load dynamically:
+<script>
+  fetch('/static/icons/icons.svg')
+    .then(r => r.text())
+    .then(svg => {
+      const div = document.createElement('div');
+      div.innerHTML = svg;
+      document.body.insertBefore(div, document.body.firstChild);
+    });
+</script>
+-->
+
+<!-- 2. Category selector grid markup -->
+<section class="category-grid" aria-label="Select a service category">
+
+  <!-- Repeat for each category -->
+  <button class="category-card" data-category="cleaning" type="button">
+    <svg class="category-icon" aria-hidden="true" focusable="false">
+      <use href="#icon-cleaning"/>
+    </svg>
+    <span class="category-label">Cleaning</span>
+  </button>
+
+  <button class="category-card" data-category="plumbing" type="button">
+    <svg class="category-icon" aria-hidden="true" focusable="false">
+      <use href="#icon-plumbing"/>
+    </svg>
+    <span class="category-label">Plumbing</span>
+  </button>
+
+  <button class="category-card" data-category="electrical" type="button">
+    <svg class="category-icon" aria-hidden="true" focusable="false">
+      <use href="#icon-electrical"/>
+    </svg>
+    <span class="category-label">Electrical</span>
+  </button>
+
+  <button class="category-card" data-category="tutoring" type="button">
+    <svg class="category-icon" aria-hidden="true" focusable="false">
+      <use href="#icon-tutoring"/>
+    </svg>
+    <span class="category-label">Tutoring</span>
+  </button>
+
+  <button class="category-card" data-category="moving" type="button">
+    <svg class="category-icon" aria-hidden="true" focusable="false">
+      <use href="#icon-moving"/>
+    </svg>
+    <span class="category-label">Moving</span>
+  </button>
+
+  <button class="category-card" data-category="beauty" type="button">
+    <svg class="category-icon" aria-hidden="true" focusable="false">
+      <use href="#icon-beauty"/>
+    </svg>
+    <span class="category-label">Beauty</span>
+  </button>
+
+  <button class="category-card" data-category="repairs" type="button">
+    <svg class="category-icon" aria-hidden="true" focusable="false">
+      <use href="#icon-repairs"/>
+    </svg>
+    <span class="category-label">Repairs</span>
+  </button>
+
+  <button class="category-card" data-category="gardening" type="button">
+    <svg class="category-icon" aria-hidden="true" focusable="false">
+      <use href="#icon-gardening"/>
+    </svg>
+    <span class="category-label">Gardening</span>
+  </button>
+
+</section>
+
+<!-- 3. Minimal CSS for the grid (adapt to your design system tokens) -->
+<style>
+  /* Icon size matches the 24×32 viewBox aspect ratio */
+  .category-icon {
+    width: 24px;
+    height: 32px;
+    display: block;
+    margin: 0 auto 8px;
+    color: var(--text, #e5e7eb);   /* currentColor inherits this */
+  }
+
+  .category-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 16px 12px;
+    background: var(--card, #1c1917);
+    border: 1px solid var(--border, #292524);
+    border-radius: var(--r, 12px);
+    cursor: pointer;
+    transition: border-color 0.15s, background 0.15s;
+  }
+
+  .category-card:hover,
+  .category-card[aria-pressed="true"] {
+    border-color: #D97706;         /* gold highlight on select */
+    background: rgba(217, 119, 6, 0.08);
+  }
+
+  .category-label {
+    font-size: 0.8rem;
+    color: var(--text-muted, #a8a29e);
+    white-space: nowrap;
+  }
+
+  .category-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+  }
+
+  @media (max-width: 480px) {
+    .category-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
