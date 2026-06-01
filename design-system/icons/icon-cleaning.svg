@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 32" width="24" height="32" fill="currentColor" aria-hidden="true">
+
+  <!-- Spray bottle body -->
+  <rect x="7" y="11" width="11" height="17" rx="2" fill="currentColor"/>
+  <!-- Neck -->
+  <rect x="9" y="7" width="5" height="5" rx="1" fill="currentColor"/>
+  <!-- Trigger arm -->
+  <path d="M14 10 L19 10 L19 15 L14 15" fill="currentColor" rx="1"/>
+  <!-- Nozzle -->
+  <rect x="18" y="9" width="4" height="2.5" rx="1.2" fill="#D97706"/>
+  <!-- Spray droplets -->
+  <circle cx="23" cy="7.5" r="1" fill="#D97706"/>
+  <circle cx="23.5" cy="10" r="0.8" fill="#D97706"/>
+  <circle cx="23.2" cy="12.3" r="0.6" fill="#D97706"/>
+  <!-- Label stripe -->
+  <rect x="8" y="19" width="9" height="2.5" rx="1.2" fill="#D97706"/>
+</svg>
