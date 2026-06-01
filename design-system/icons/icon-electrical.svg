@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 32" width="24" height="32" fill="currentColor" aria-hidden="true">
+
+  <!-- Lightning bolt outer -->
+  <path d="M15 2 L6 18 L12 18 L9 30 L18 13 L12.5 13 Z" fill="currentColor"/>
+  <!-- Lightning bolt inner glow -->
+  <path d="M14 5.5 L7.5 17 L12.5 17 L10.5 26.5 L16 14.5 L11 14.5 Z" fill="#D97706"/>
+</svg>
