@@ -1,162 +1,116 @@
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-     style="display:none" aria-hidden="true">
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none" aria-hidden="true">
+  <symbol id="icon-cleaning" viewBox="0 0 24 24">
 
-  <!--
-    ProHelp Category Icon Sprite — P3e
-    viewBox : 0 0 24 32
-    Base    : fill="currentColor"  (dark & light background compatible)
-    Accent  : fill="#D97706"  (gold)
-    Icons   : Cleaning · Plumbing · Electrical · Tutoring
-              Moving · Beauty · Repairs · Gardening
-  -->
-
-  <!-- ── CLEANING ─────────────────────────────────────────── -->
-  <symbol id="icon-cleaning" viewBox="0 0 24 32">
-    <!-- bucket handle -->
-    <path d="M9 10 Q9 6 12 6 Q15 6 15 10"
-          fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
-    <!-- bucket rim -->
-    <rect x="5" y="10" width="14" height="2.5" rx="1.25" fill="currentColor"/>
-    <!-- bucket body (trapezoid) -->
-    <path d="M6 12.5 L5.2 28 Q5 30 7 30 L17 30 Q19 30 18.8 28 L18 12.5 Z"
-          fill="currentColor"/>
-    <!-- bubbles – gold accent -->
-    <circle cx="10" cy="19" r="1.6" fill="#D97706"/>
-    <circle cx="14.5" cy="16.5" r="1.1" fill="#D97706"/>
-    <circle cx="13" cy="24" r="1.3" fill="#D97706"/>
+  <!-- Spray bottle body -->
+  <rect x="7" y="8" width="10" height="13" rx="2" fill="currentColor"/>
+  <!-- Neck -->
+  <rect x="9" y="5" width="4" height="4" rx="1" fill="currentColor"/>
+  <!-- Trigger -->
+  <path d="M13 6.5 L18 6.5 L18 10.5 L13 10.5" fill="currentColor"/>
+  <!-- Nozzle tip -->
+  <rect x="17.5" y="6" width="4.5" height="2" rx="1" fill="#D97706"/>
+  <!-- Spray droplets -->
+  <circle cx="22" cy="5" r="0.9" fill="#D97706"/>
+  <circle cx="23" cy="7.5" r="0.7" fill="#D97706"/>
+  <circle cx="22.5" cy="10" r="0.5" fill="#D97706"/>
+  <!-- Label stripe -->
+  <rect x="8" y="14" width="8" height="2" rx="1" fill="#D97706"/>
   </symbol>
 
-  <!-- ── PLUMBING ─────────────────────────────────────────── -->
-  <symbol id="icon-plumbing" viewBox="0 0 24 32">
-    <!-- wrench body -->
-    <path d="M17.5 2 C20.8 2 22.5 5 21.5 8.2 L20.8 9 L19.8 8
-             C17.8 9.2 17 11 18 13 L7.5 23.5
-             C6.5 25.5 7 28 9 29.2 C11 30.4 13.2 29.5 13.5 27.5
-             C12.5 28 11 27.5 10.5 26 C10 24.5 11 23 12.5 23
-             L18.5 14 C17 12.5 16.5 10 17.5 8 L16.5 7
-             C15 5 15.5 2 17.5 2 Z"
-          fill="currentColor"/>
-    <!-- water-drop accent (gold) -->
-    <path d="M20 18 C20 18 17.2 22.5 17.2 24.2
-             C17.2 25.8 18.4 27 20 27
-             C21.6 27 22.8 25.8 22.8 24.2
-             C22.8 22.5 20 18 20 18 Z"
-          fill="#D97706"/>
+  <symbol id="icon-plumbing" viewBox="0 0 24 24">
+
+  <!-- Wrench body -->
+  <path d="M3 20 L13 8" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" fill="none"/>
+  <!-- Wrench open head C-shape top -->
+  <path d="M12 7 C12 4 15 3 17.5 4.5 C15.5 4.5 14 6 14 8 C14 10 15.5 11.5 17.5 11.5 C15 13 12 12 12 9 Z" fill="currentColor"/>
+  <!-- Head solid block -->
+  <path d="M13 7.5 L19 5 L21 9 L15 12 Z" fill="currentColor"/>
+  <!-- Pipe drop accent -->
+  <path d="M5 19 C5 19 3.5 22 3.5 23.5 C3.5 24.9 4.1 26 5 26 C5.9 26 6.5 24.9 6.5 23.5 C6.5 22 5 19 5 19Z" fill="#D97706"/>
   </symbol>
 
-  <!-- ── ELECTRICAL ───────────────────────────────────────── -->
-  <symbol id="icon-electrical" viewBox="0 0 24 32">
-    <!-- plug body -->
-    <rect x="7" y="2" width="10" height="11" rx="2" fill="currentColor"/>
-    <!-- lightning bolt (gold) on face -->
-    <path d="M14 3.5 L11 9 H13.2 L10.5 14 L16.5 7 H14 Z" fill="#D97706"/>
-    <!-- prongs -->
-    <rect x="9.5" y="13" width="2" height="5" rx="1" fill="currentColor"/>
-    <rect x="12.5" y="13" width="2" height="5" rx="1" fill="currentColor"/>
-    <!-- socket plate -->
-    <rect x="5" y="18" width="14" height="11" rx="2" fill="currentColor" opacity="0.35"/>
-    <!-- socket holes (gold) -->
-    <rect x="8"  y="21" width="3" height="5" rx="1" fill="#D97706"/>
-    <rect x="13" y="21" width="3" height="5" rx="1" fill="#D97706"/>
+  <symbol id="icon-electrical" viewBox="0 0 24 24">
+
+  <!-- Lightning bolt outer -->
+  <path d="M14 1 L5 14 L11 14 L10 23 L19 10 L13 10 Z" fill="currentColor"/>
+  <!-- Lightning bolt gold inner -->
+  <path d="M13 4 L6.5 13 L12 13 L11 21 L17 11 L12 11 Z" fill="#D97706"/>
   </symbol>
 
-  <!-- ── TUTORING ─────────────────────────────────────────── -->
-  <symbol id="icon-tutoring" viewBox="0 0 24 32">
-    <!-- graduation cap top (gold) -->
-    <polygon points="12,2 2,7 12,11 22,7" fill="#D97706"/>
-    <!-- tassel -->
-    <rect x="19.5" y="7" width="1.5" height="5" rx="0.75" fill="currentColor"/>
-    <circle cx="20.25" cy="12.5" r="1.5" fill="currentColor"/>
-    <!-- open book -->
-    <path d="M3 15 L3 29 Q3 30.5 4.5 30.5
-             C7.5 30.5 10.5 29 12 27.5
-             C13.5 29 16.5 30.5 19.5 30.5
-             Q21 30.5 21 29 L21 15
-             Q21 13.5 19.5 13.5
-             C16.5 13.5 13.5 15 12 16.5
-             C10.5 15 7.5 13.5 4.5 13.5
-             Q3 13.5 3 15 Z"
-          fill="currentColor"/>
-    <!-- spine (gold) -->
-    <line x1="12" y1="16.5" x2="12" y2="27.5"
-          stroke="#D97706" stroke-width="1.5"/>
-    <!-- page lines -->
-    <line x1="5" y1="19" x2="11" y2="18" stroke="currentColor" stroke-width="1" opacity="0.45"/>
-    <line x1="5" y1="22" x2="11" y2="21" stroke="currentColor" stroke-width="1" opacity="0.45"/>
-    <line x1="13" y1="18" x2="19" y2="19" stroke="currentColor" stroke-width="1" opacity="0.45"/>
-    <line x1="13" y1="21" x2="19" y2="22" stroke="currentColor" stroke-width="1" opacity="0.45"/>
+  <symbol id="icon-tutoring" viewBox="0 0 24 24">
+
+  <!-- Open book left page -->
+  <path d="M12 5 C10 4 7 4 4 5 L4 20 C7 19 10 19 12 20 Z" fill="currentColor"/>
+  <!-- Open book right page -->
+  <path d="M12 5 C14 4 17 4 20 5 L20 20 C17 19 14 19 12 20 Z" fill="currentColor"/>
+  <!-- Spine -->
+  <rect x="11.5" y="5" width="1" height="15" fill="#D97706"/>
+  <!-- Lines left page -->
+  <line x1="5.5" y1="9" x2="10.5" y2="8.5" stroke="#D97706" stroke-width="1" stroke-linecap="round"/>
+  <line x1="5.5" y1="12" x2="10.5" y2="11.5" stroke="#D97706" stroke-width="1" stroke-linecap="round"/>
+  <line x1="5.5" y1="15" x2="10.5" y2="14.5" stroke="#D97706" stroke-width="1" stroke-linecap="round"/>
   </symbol>
 
-  <!-- ── MOVING ───────────────────────────────────────────── -->
-  <symbol id="icon-moving" viewBox="0 0 24 32">
-    <!-- left flap -->
-    <path d="M3 12 L6.5 7 H12 V12 Z" fill="currentColor" opacity="0.65"/>
-    <!-- right flap -->
-    <path d="M21 12 L17.5 7 H12 V12 Z" fill="currentColor" opacity="0.5"/>
-    <!-- box body -->
-    <rect x="3" y="12" width="18" height="14" rx="1.5" fill="currentColor"/>
-    <!-- packing tape (gold) -->
-    <rect x="3" y="17" width="18" height="3" fill="#D97706"/>
-    <!-- up-arrow indicator on flap (gold) -->
-    <path d="M11 10 L12 7.5 L13 10" fill="#D97706"/>
-    <!-- wheels (gold) -->
-    <circle cx="8"  cy="27.5" r="2.2" fill="#D97706"/>
-    <circle cx="16" cy="27.5" r="2.2" fill="#D97706"/>
+  <symbol id="icon-moving" viewBox="0 0 24 24">
+
+  <!-- Box body -->
+  <rect x="2" y="10" width="20" height="13" rx="2" fill="currentColor"/>
+  <!-- Top flap left -->
+  <path d="M2 10 L2 5 L12 7 L12 10 Z" fill="currentColor"/>
+  <!-- Top flap right -->
+  <path d="M22 10 L22 5 L12 7 L12 10 Z" fill="currentColor"/>
+  <!-- Tape vertical -->
+  <rect x="11" y="7" width="2" height="16" fill="#D97706"/>
+  <!-- Tape horizontal -->
+  <rect x="2" y="15" width="20" height="2" fill="#D97706"/>
   </symbol>
 
-  <!-- ── BEAUTY ───────────────────────────────────────────── -->
-  <symbol id="icon-beauty" viewBox="0 0 24 32">
-    <!-- top blade -->
-    <path d="M4 5 C5.5 4 8 5.5 12 13 L15.5 10 C11 4 6.5 2.5 4 5 Z"
-          fill="currentColor"/>
-    <!-- bottom blade -->
-    <path d="M4 21 C5.5 22 8 20.5 12 13 L15.5 16 C11 22 6.5 23.5 4 21 Z"
-          fill="currentColor"/>
-    <!-- handle rings -->
-    <circle cx="5" cy="5"  r="3.5" fill="none" stroke="currentColor" stroke-width="2"/>
-    <circle cx="5" cy="21" r="3.5" fill="none" stroke="currentColor" stroke-width="2"/>
-    <!-- pivot (gold) -->
-    <circle cx="12" cy="13" r="2.2" fill="#D97706"/>
-    <!-- comb teeth extending right -->
-    <line x1="15.5" y1="10" x2="22" y2="7"  stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
-    <line x1="15.5" y1="11.5" x2="22" y2="11" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
-    <line x1="15.5" y1="14.5" x2="22" y2="15" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
-    <line x1="15.5" y1="16" x2="22" y2="19" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
-    <!-- sparkle (gold) -->
-    <path d="M20 25 L20.6 27.4 L23 28 L20.6 28.6 L20 31 L19.4 28.6 L17 28 L19.4 27.4 Z"
-          fill="#D97706"/>
+  <symbol id="icon-beauty" viewBox="0 0 24 24">
+
+  <!-- Scissors ring left -->
+  <circle cx="7" cy="6" r="4" fill="currentColor"/>
+  <circle cx="7" cy="6" r="2.2" fill="#D97706"/>
+  <circle cx="7" cy="6" r="1" fill="currentColor"/>
+  <!-- Scissors ring right -->
+  <circle cx="17" cy="6" r="4" fill="currentColor"/>
+  <circle cx="17" cy="6" r="2.2" fill="#D97706"/>
+  <circle cx="17" cy="6" r="1" fill="currentColor"/>
+  <!-- Blade 1 -->
+  <path d="M9.5 8.5 L15.5 19" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+  <!-- Blade 2 -->
+  <path d="M14.5 8.5 L8.5 19" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+  <!-- Pivot -->
+  <circle cx="12" cy="14" r="1.8" fill="#D97706"/>
+  <!-- Lower handle wedge -->
+  <path d="M15.5 19 L14 24 L10 24 L8.5 19 L12 21 Z" fill="currentColor"/>
   </symbol>
 
-  <!-- ── REPAIRS ─────────────────────────────────────────── -->
-  <symbol id="icon-repairs" viewBox="0 0 24 32">
-    <!-- hammer handle -->
-    <rect x="4.5" y="11" width="3" height="18" rx="1.5" fill="currentColor"
-          transform="rotate(-18 6 20)"/>
-    <!-- hammer head body -->
-    <rect x="8" y="3" width="13" height="8" rx="2" fill="currentColor"/>
-    <!-- striking face (gold) -->
-    <rect x="18" y="3" width="3" height="8" rx="1" fill="#D97706"/>
-    <!-- hex bolt (gold) -->
-    <polygon points="12,22 14.6,23.5 14.6,26.5 12,28 9.4,26.5 9.4,23.5"
-             fill="currentColor" opacity="0.55"/>
-    <polygon points="12,23.5 13.6,24.4 13.6,26.4 12,27.3 10.4,26.4 10.4,24.4"
-             fill="#D97706"/>
+  <symbol id="icon-repairs" viewBox="0 0 24 24">
+
+  <!-- Hammer head -->
+  <rect x="7" y="2" width="14" height="7" rx="2" fill="currentColor"/>
+  <!-- Claw left -->
+  <path d="M7 3.5 L3 2" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/>
+  <path d="M7 8 L3 9.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/>
+  <!-- Face accent -->
+  <rect x="17" y="2" width="4" height="7" rx="0 2 2 0" fill="#D97706"/>
+  <!-- Handle -->
+  <rect x="12" y="8" width="3.5" height="16" rx="1.75" fill="currentColor"/>
+  <!-- Grip -->
+  <rect x="11.75" y="18" width="4" height="5" rx="1.75" fill="#D97706"/>
   </symbol>
 
-  <!-- ── GARDENING ────────────────────────────────────────── -->
-  <symbol id="icon-gardening" viewBox="0 0 24 32">
-    <!-- shovel blade -->
-    <path d="M12 2 C7.5 2 4.5 5.5 4.5 10 C4.5 14 7 17 10.5 17.5
-             L10.5 24 L13.5 24 L13.5 17.5
-             C17 17 19.5 14 19.5 10 C19.5 5.5 16.5 2 12 2 Z"
-          fill="currentColor"/>
-    <!-- leaf accent (gold) -->
-    <path d="M12 4.5 C10 6.5 9 9.5 10.5 12 C11.5 10 13 8 14 10.5 C15 8 14 5 12 4.5 Z"
-          fill="#D97706"/>
-    <!-- handle collar (gold) -->
-    <rect x="10.5" y="24" width="3" height="2.5" rx="1" fill="#D97706"/>
-    <!-- handle grip -->
-    <rect x="11" y="26.5" width="2" height="5" rx="1" fill="currentColor"/>
-  </symbol>
+  <symbol id="icon-gardening" viewBox="0 0 24 24">
 
+  <!-- Leaf -->
+  <path d="M12 1 C17 3 21 8 21 14 C21 19 17 23 12 24 C7 23 3 19 3 14 C3 8 7 3 12 1 Z" fill="currentColor"/>
+  <!-- Center vein -->
+  <line x1="12" y1="3" x2="12" y2="22" stroke="#D97706" stroke-width="1.5" stroke-linecap="round"/>
+  <!-- Left veins -->
+  <path d="M12 8 Q8 10 5 12" stroke="#D97706" stroke-width="0.9" fill="none" stroke-linecap="round"/>
+  <path d="M12 13 Q7 15 5 18" stroke="#D97706" stroke-width="0.9" fill="none" stroke-linecap="round"/>
+  <!-- Right veins -->
+  <path d="M12 8 Q16 10 19 12" stroke="#D97706" stroke-width="0.9" fill="none" stroke-linecap="round"/>
+  <path d="M12 13 Q17 15 19 18" stroke="#D97706" stroke-width="0.9" fill="none" stroke-linecap="round"/>
+  </symbol>
 </svg>
