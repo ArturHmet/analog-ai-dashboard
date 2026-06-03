@@ -1,20 +1,13 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 32" width="24" height="32" fill="currentColor" aria-hidden="true">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
 
-  <!-- Mortarboard base (brim) -->
-  <ellipse cx="12" cy="12" rx="10" ry="2.5" fill="currentColor"/>
-  <!-- Cap top -->
-  <rect x="5" y="7" width="14" height="6" rx="2" fill="currentColor"/>
-  <!-- Top flat part -->
-  <rect x="4" y="5" width="16" height="3" rx="1" fill="currentColor"/>
-  <!-- Tassel string -->
-  <line x1="20" y1="12" x2="20" y2="20" stroke="#D97706" stroke-width="1.5" stroke-linecap="round"/>
-  <!-- Tassel end -->
-  <circle cx="20" cy="21" r="2" fill="#D97706"/>
-  <!-- Diploma roll below -->
-  <rect x="6" y="20" width="12" height="9" rx="2" fill="currentColor"/>
-  <!-- Ribbon band -->
-  <rect x="6" y="23.5" width="12" height="2.5" rx="0" fill="#D97706"/>
-  <!-- Roll end caps -->
-  <ellipse cx="6" cy="24.5" rx="1.5" ry="4.5" fill="currentColor"/>
-  <ellipse cx="18" cy="24.5" rx="1.5" ry="4.5" fill="currentColor"/>
+  <!-- Open book left page -->
+  <path d="M12 5 C10 4 7 4 4 5 L4 20 C7 19 10 19 12 20 Z" fill="currentColor"/>
+  <!-- Open book right page -->
+  <path d="M12 5 C14 4 17 4 20 5 L20 20 C17 19 14 19 12 20 Z" fill="currentColor"/>
+  <!-- Spine -->
+  <rect x="11.5" y="5" width="1" height="15" fill="#D97706"/>
+  <!-- Lines left page -->
+  <line x1="5.5" y1="9" x2="10.5" y2="8.5" stroke="#D97706" stroke-width="1" stroke-linecap="round"/>
+  <line x1="5.5" y1="12" x2="10.5" y2="11.5" stroke="#D97706" stroke-width="1" stroke-linecap="round"/>
+  <line x1="5.5" y1="15" x2="10.5" y2="14.5" stroke="#D97706" stroke-width="1" stroke-linecap="round"/>
 </svg>
