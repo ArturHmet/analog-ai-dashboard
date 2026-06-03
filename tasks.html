@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Browse Tasks — ProHelp</title>
+<meta name="description" content="Browse open tasks on ProHelp and offer your services to local clients. Find cleaning, plumbing, electrical, tutoring, moving, and more jobs near you.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://prohelp.work/tasks">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://prohelp.work/tasks">
+<meta property="og:title" content="Browse Tasks — Find Local Jobs | ProHelp">
+<meta property="og:description" content="Browse open tasks on ProHelp and offer your services to local clients. Find cleaning, plumbing, electrical, tutoring, moving, and more jobs near you.">
+<meta property="og:image" content="https://prohelp.work/og-image.jpg">
+<meta property="og:site_name" content="ProHelp">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Browse Tasks — Find Local Jobs | ProHelp">
+<meta name="twitter:description" content="Browse open tasks on ProHelp and offer your services to local clients.">
+<meta name="twitter:image" content="https://prohelp.work/og-image.jpg">
+<link rel="icon" type="image/png" href="/assets/prohelp-favicon.png">
+<link rel="apple-touch-icon" href="/assets/prohelp-favicon.png">
+<link rel="stylesheet" href="/shared.css">
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-PROHELP001"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("js",new Date());gtag("config","G-PROHELP001");</script>
+<script src="/translations.js"></script>
+<script src="/i18n.js"></script>
+<style>
+/* ── Tasks browse page styles ── */
+.tasks-toolbar{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:28px}
+.tasks-toolbar input,.tasks-toolbar select{background:var(--card,#1a1a2e);border:1px solid var(--bdr,rgba(255,255,255,.12));color:var(--tx,#f3f4f6);border-radius:8px;padding:9px 14px;font-size:.875rem;outline:none;transition:border-color .2s}
+.tasks-toolbar input:focus,.tasks-toolbar select:focus{border-color:var(--gold,#D97706)}
+.tasks-toolbar input{flex:1;min-width:200px}
+.tasks-toolbar select{min-width:160px}
+.sort-select{min-width:140px}
+
+.tasks-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:20px}
+
+.task-card{background:var(--card,#1a1a2e);border:1px solid var(--bdr,rgba(255,255,255,.1));border-radius:12px;padding:20px;display:flex;flex-direction:column;gap:14px;transition:border-color .2s,transform .15s;cursor:pointer}
+.task-card:hover{border-color:var(--gold,#D97706);transform:translateY(-2px)}
+
+.task-card__header{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.task-card__title{font-size:1rem;font-weight:700;color:var(--tx,#f3f4f6);line-height:1.35;flex:1}
+.task-card__budget{background:linear-gradient(135deg,rgba(217,119,6,.18),rgba(217,119,6,.08));color:var(--gold,#D97706);font-weight:800;font-size:1rem;padding:4px 10px;border-radius:6px;white-space:nowrap;border:1px solid rgba(217,119,6,.3)}
+
+.task-card__desc{font-size:.85rem;color:var(--tx2,#9ca3af);line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+
+.task-card__meta{display:flex;flex-wrap:wrap;gap:8px}
+.meta-chip{display:inline-flex;align-items:center;gap:5px;font-size:.78rem;color:var(--tx2,#9ca3af);background:rgba(255,255,255,.05);border-radius:20px;padding:3px 10px}
+.meta-chip.cat{color:var(--gold,#D97706);background:rgba(217,119,6,.1)}
+
+.task-card__footer{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:auto;padding-top:12px;border-top:1px solid var(--bdr,rgba(255,255,255,.08))}
+.task-card__apps{font-size:.8rem;color:var(--tx2,#9ca3af)}
+.task-card__apps strong{color:var(--tx,#f3f4f6)}
+
+.btn-apply{background:var(--gold,#D97706);color:#000;font-weight:700;font-size:.82rem;padding:7px 16px;border-radius:8px;border:none;cursor:pointer;transition:opacity .2s;white-space:nowrap}
+.btn-apply:hover{opacity:.88}
+
+.tasks-count{font-size:.875rem;color:var(--tx2,#9ca3af);margin-bottom:18px}
+.tasks-count strong{color:var(--tx,#f3f4f6)}
+
+.empty-state{text-align:center;padding:64px 24px;color:var(--tx2,#9ca3af)}
+.empty-state h3{font-size:1.2rem;font-weight:700;color:var(--tx,#f3f4f6);margin-bottom:8px}
+
+.skeleton{animation:pulse 1.6s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.sk-card{background:var(--card,#1a1a2e);border:1px solid var(--bdr,rgba(255,255,255,.1));border-radius:12px;padding:20px;height:200px}
+
+.load-more-wrap{text-align:center;margin-top:32px}
+.btn-load-more{background:transparent;border:1px solid var(--bdr,rgba(255,255,255,.2));color:var(--tx,#f3f4f6);padding:10px 28px;border-radius:8px;cursor:pointer;font-size:.875rem;font-weight:600;transition:border-color .2s,color .2s}
+.btn-load-more:hover{border-color:var(--gold,#D97706);color:var(--gold,#D97706)}
+
+@media(max-width:640px){
+  .tasks-toolbar{flex-direction:column;align-items:stretch}
+  .tasks-toolbar input,.tasks-toolbar select,.sort-select{width:100%;min-width:unset}
+  .tasks-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<script>window._PG='tasks';</script>
+<header class="site-header" id="sh"></header>
+
+<div class="page-hdr">
+<div class="con">
+  <div class="page-bc"><a href="/">Home</a><span>/</span><span>Browse Tasks</span></div>
+  <h1 class="page-title">Browse Open Tasks</h1>
+  <p class="page-sub">Find local jobs that match your skills — apply in seconds</p>
+</div>
+</div>
+
+<main class="con" style="padding:36px 0 80px">
+
+  <!-- Toolbar: search + category filter + sort -->
+  <div class="tasks-toolbar">
+    <input id="search-input" type="search" placeholder="🔍  Search tasks..." oninput="filterTasks()">
+    <select id="cat-filter" onchange="filterTasks()">
+      <option value="">All categories</option>
+    </select>
+    <select id="sort-select" class="sort-select" onchange="filterTasks()">
+      <option value="newest">Newest first</option>
+      <option value="budget_high">Highest budget</option>
+      <option value="budget_low">Lowest budget</option>
+      <option value="applications">Fewest applications</option>
+    </select>
+  </div>
+
+  <div id="tasks-count" class="tasks-count" style="display:none"></div>
+
+  <!-- Skeleton loaders -->
+  <div id="skeleton-grid" class="tasks-grid">
+    <div class="sk-card skeleton"></div>
+    <div class="sk-card skeleton"></div>
+    <div class="sk-card skeleton"></div>
+    <div class="sk-card skeleton"></div>
+    <div class="sk-card skeleton"></div>
+    <div class="sk-card skeleton"></div>
+  </div>
+
+  <!-- Task cards container -->
+  <div id="tasks-grid" class="tasks-grid" style="display:none"></div>
+
+  <!-- Empty state -->
+  <div id="empty-state" class="empty-state" style="display:none">
+    <div style="font-size:3rem;margin-bottom:16px">🔍</div>
+    <h3>No tasks found</h3>
+    <p>Try adjusting your search or filter — or check back soon for new tasks</p>
+  </div>
+
+  <div class="load-more-wrap" id="load-more-wrap" style="display:none">
+    <button class="btn-load-more" onclick="loadMore()">Load more tasks</button>
+  </div>
+</main>
+
+<div id="fc2"></div>
+<script src="/shared.js"></script>
+<script>
+const API_BASE = 'http://195.201.171.95:8000';
+const PAGE_SIZE = 12;
+let allTasks = [];
+let visibleCount = PAGE_SIZE;
+
+// Category icon map (matches design-system icons)
+const CAT_ICONS = {
+  'cleaning':    '🧹',
+  'plumbing':    '🔧',
+  'electrical':  '⚡',
+  'tutoring':    '📚',
+  'moving':      '📦',
+  'beauty':      '💅',
+  'repairs':     '🔨',
+  'gardening':   '🌱',
+};
+
+function catIcon(cat='') {
+  return CAT_ICONS[cat.toLowerCase()] || '🛠';
+}
+
+function timeAgo(dateStr) {
+  const diff = Date.now() - new Date(dateStr).getTime();
+  const mins = Math.floor(diff/60000);
+  if (mins < 60) return `${mins}m ago`;
+  const hrs = Math.floor(mins/60);
+  if (hrs < 24) return `${hrs}h ago`;
+  const days = Math.floor(hrs/24);
+  if (days < 7) return `${days}d ago`;
+  return new Date(dateStr).toLocaleDateString('en-GB', {day:'numeric',month:'short'});
+}
+
+function buildCard(task) {
+  const icon = catIcon(task.category);
+  const cat  = task.category || 'General';
+  const loc  = task.location || 'Malta';
+  const apps = task.applications ?? 0;
+  const desc = task.description ? `<p class="task-card__desc">${escHtml(task.description)}</p>` : '';
+
+  return `
+  <div class="task-card" onclick="goToTask(${task.id})">
+    <div class="task-card__header">
+      <span class="task-card__title">${escHtml(task.title)}</span>
+      <span class="task-card__budget">€${Math.round(task.budget)}</span>
+    </div>
+    ${desc}
+    <div class="task-card__meta">
+      <span class="meta-chip cat">${icon} ${escHtml(cat)}</span>
+      <span class="meta-chip">📍 ${escHtml(loc)}</span>
+      <span class="meta-chip">🕐 ${timeAgo(task.created_at)}</span>
+    </div>
+    <div class="task-card__footer">
+      <span class="task-card__apps"><strong>${apps}</strong> ${apps===1?'offer':'offers'}</span>
+      <button class="btn-apply" onclick="applyNow(event,${task.id})">Apply →</button>
+    </div>
+  </div>`;
+}
+
+function escHtml(s) {
+  return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function goToTask(id) {
+  window.location.href = `/task.html?id=${id}`;
+}
+
+function applyNow(e, id) {
+  e.stopPropagation();
+  const u = typeof Auth !== 'undefined' ? Auth.get() : null;
+  if (!u) {
+    window.location.href = `/register.html?role=provider&next=/task.html?id=${id}`;
+    return;
+  }
+  window.location.href = `/task.html?id=${id}`;
+}
+
+function getFiltered() {
+  const q    = document.getElementById('search-input').value.toLowerCase().trim();
+  const cat  = document.getElementById('cat-filter').value.toLowerCase();
+  const sort = document.getElementById('sort-select').value;
+
+  let tasks = allTasks.filter(t => {
+    const matchQ   = !q || t.title.toLowerCase().includes(q) || (t.description||'').toLowerCase().includes(q) || (t.location||'').toLowerCase().includes(q);
+    const matchCat = !cat || (t.category||'').toLowerCase() === cat;
+    return matchQ && matchCat;
+  });
+
+  if (sort === 'budget_high')    tasks.sort((a,b) => b.budget - a.budget);
+  else if (sort === 'budget_low') tasks.sort((a,b) => a.budget - b.budget);
+  else if (sort === 'applications') tasks.sort((a,b) => (a.applications||0) - (b.applications||0));
+  else tasks.sort((a,b) => new Date(b.created_at) - new Date(a.created_at));
+
+  return tasks;
+}
+
+function renderCount(total, shown) {
+  const el = document.getElementById('tasks-count');
+  el.style.display = 'block';
+  el.innerHTML = `Showing <strong>${shown}</strong> of <strong>${total}</strong> open tasks`;
+}
+
+function filterTasks() {
+  visibleCount = PAGE_SIZE;
+  renderTasks();
+}
+
+function renderTasks() {
+  const filtered = getFiltered();
+  const toShow   = filtered.slice(0, visibleCount);
+  const grid     = document.getElementById('tasks-grid');
+  const empty    = document.getElementById('empty-state');
+  const lm       = document.getElementById('load-more-wrap');
+
+  if (filtered.length === 0) {
+    grid.style.display  = 'none';
+    empty.style.display = 'block';
+    lm.style.display    = 'none';
+    renderCount(0, 0);
+    return;
+  }
+
+  grid.style.display  = 'grid';
+  empty.style.display = 'none';
+  grid.innerHTML = toShow.map(buildCard).join('');
+  renderCount(filtered.length, toShow.length);
+  lm.style.display = toShow.length < filtered.length ? 'block' : 'none';
+}
+
+function loadMore() {
+  visibleCount += PAGE_SIZE;
+  renderTasks();
+}
+
+function populateCategoryFilter(tasks) {
+  const cats = [...new Set(tasks.map(t => (t.category||'').toLowerCase()).filter(Boolean))].sort();
+  const sel  = document.getElementById('cat-filter');
+  cats.forEach(c => {
+    const opt = document.createElement('option');
+    opt.value = c;
+    opt.textContent = `${catIcon(c)} ${c.charAt(0).toUpperCase()+c.slice(1)}`;
+    sel.appendChild(opt);
+  });
+}
+
+async function loadTasks() {
+  try {
+    const res = await fetch(`${API_BASE}/market/orders`);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const data = await res.json();
+    // Filter to open tasks only for public browse
+    allTasks = (Array.isArray(data) ? data : data.items || data.orders || [])
+      .filter(t => !t.status || t.status === 'open');
+
+    document.getElementById('skeleton-grid').style.display = 'none';
+    document.getElementById('tasks-grid').style.display = 'grid';
+
+    populateCategoryFilter(allTasks);
+    renderTasks();
+  } catch(err) {
+    document.getElementById('skeleton-grid').style.display = 'none';
+    document.getElementById('empty-state').style.display = 'block';
+    document.getElementById('empty-state').innerHTML = `
+      <div style="font-size:3rem;margin-bottom:16px">⚠️</div>
+      <h3>Could not load tasks</h3>
+      <p>Please try refreshing the page. If the issue persists, check back shortly.</p>
+    `;
+    console.error('Tasks load error:', err);
+  }
+}
+
+loadTasks();
+</script>
+</body>
+</html>
