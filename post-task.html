@@ -23,6 +23,9 @@
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("js",new Date());gtag("config","G-PROHELP001");</script>
 <script src="/translations.js"></script>
 <script src="/i18n.js"></script>
+  <!-- Shynet Analytics -->
+  <script src="https://prohelp.work/analytics/ingress/eac84eb2-3a1f-4b6c-9254-9531766a8f8b/script.js" defer></script>
+  <noscript><img src="https://prohelp.work/analytics/ingress/eac84eb2-3a1f-4b6c-9254-9531766a8f8b/pixel.gif" style="position:absolute;left:-9999px" alt="" /></noscript>
 </head>
 <body>
 <script>window._PG='post';</script>
@@ -44,7 +47,19 @@
       <div class="fi-hint">Be specific — good titles get 3x more offers</div>
     </div>
     <div class="fi"><label class="fl">Category *</label>
-      <select id="tc5" class="fi2" onchange="updateBudgetHint(this.value)"><option value="">Select a category</option></select></div>
+      <!-- P3e icon grid — hidden select keeps form/budget logic intact -->
+      <select id="tc5" style="display:none" aria-hidden="true"><option value="">Select a category</option></select>
+      <div class="cat-grid" id="cat-grid" role="group" aria-label="Select a category"></div>
+    </div>
+    <style>
+    .cat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:6px 0 4px}
+    @media(max-width:520px){.cat-grid{grid-template-columns:repeat(2,1fr)}}
+    .cat-card{display:flex;flex-direction:column;align-items:center;gap:6px;padding:12px 8px;background:var(--bg-2,#1f2937);border:1.5px solid var(--border,#374151);border-radius:10px;cursor:pointer;transition:all 140ms ease;color:var(--tx2,#9ca3af);font-size:.72rem;font-weight:600;text-align:center;line-height:1.2}
+    .cat-card:hover{border-color:#D97706;background:rgba(217,119,6,.1);color:#D97706;transform:translateY(-2px)}
+    .cat-card.selected{border-color:#D97706;background:rgba(217,119,6,.12);color:#D97706;box-shadow:0 0 0 2px rgba(217,119,6,.25)}
+    .cat-card svg{width:28px;height:28px;transition:transform 140ms ease}
+    .cat-card:hover svg,.cat-card.selected svg{transform:scale(1.12)}
+    </style>
     <div class="fi"><label class="fl" data-i18n="post_lbl_desc">Description</label>
       <textarea id="td3" class="fi2" rows="5" placeholder="Details: what needs to be done, when, any special requirements, access instructions..."></textarea></div>
     <div class="frow">
@@ -108,7 +123,21 @@
 <script src="/shared.js"></script>
 <script>
 
-CATS.forEach(c=>{document.getElementById('tc5').innerHTML+=`<option value="${c.id}">${c.icon} ${c.name}</option>`;});
+CATS.forEach(c=>{
+  document.getElementById('tc5').innerHTML+=`<option value="${c.id}">${c.name}</option>`;
+  const card=document.createElement('button');
+  card.type='button';
+  card.className='cat-card';
+  card.dataset.cat=c.id;
+  card.innerHTML=`<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><use href="/icons/icons.svg#icon-${c.id}"/></svg><span>${c.name}</span>`;
+  card.onclick=()=>{
+    document.querySelectorAll('.cat-card').forEach(el=>el.classList.remove('selected'));
+    card.classList.add('selected');
+    const sel=document.getElementById('tc5');sel.value=c.id;
+    updateBudgetHint(c.id);
+  };
+  document.getElementById('cat-grid').appendChild(card);
+});
 if(!Auth.get())document.getElementById('not-logged').style.display='flex';
 // make layout single-column on mobile
 if(window.innerWidth<768){document.getElementById('pt-layout').style.gridTemplateColumns='1fr';}
